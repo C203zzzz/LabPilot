@@ -1,0 +1,876 @@
+/* ============================================================
+   工作台密度层 + AI 对话体验
+   对话范式对齐 Claude / ChatGPT：
+   · 单列居中阅读栏（800px）
+   · 助手消息：头像 + 平铺正文（无卡片边框）
+   · 用户消息：右对齐柔和气泡
+   · 底部浮动圆角输入卡片：focus 光环 + 圆形发送钮
+   ============================================================ */
+
+.workbench-shell {
+  --ui-body: .9375rem;
+  --ui-label: .8125rem;
+  --ui-meta: .75rem;
+  --conversation-width: 800px;
+}
+
+/* ---------- 对话工作区骨架：自带滚动栏，输入卡片常驻底部 ---------- */
+@media (min-width: 761px) {
+  .workbench-shell .conversation-workspace {
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+    min-height: 0;
+    max-width: 1440px;
+    padding: 20px 28px 0;
+    overflow: hidden;
+  }
+  .workbench-shell .conversation-workspace > :is(.task-header, .task-tabs, .advanced-tools, .workspace-composer-host, .operation-progress) {
+    flex-shrink: 0;
+  }
+  .workbench-shell .conversation-workspace .task-header {
+    margin-bottom: 0;
+    padding-bottom: 14px;
+  }
+  .workbench-shell .conversation-workspace .task-tabs { margin: 12px 0 10px; }
+  .workbench-shell .conversation-workspace .advanced-tools { margin: 0 0 8px; }
+  .workbench-shell .workspace-content {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
+  }
+}
+
+.conversation-workspace { animation: none; }
+
+.workspace-composer-host {
+  position: relative;
+  z-index: 5;
+  padding: 10px 0 16px;
+}
+
+/* ---------- 采购对话消息流 ---------- */
+.intake-conversation {
+  max-width: var(--conversation-width);
+  margin: 0 auto;
+  padding: 8px 0 20px;
+  border: 0;
+}
+
+.intake-conversation.composer-only {
+  margin: 0;
+  padding: 0;
+}
+
+.intake-conversation h2 {
+  margin: 4px 0 14px;
+  color: var(--muted);
+  font-size: var(--ui-meta);
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.intake-history {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 560px;
+  padding: 4px 2px 10px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-color: var(--line-strong) transparent;
+}
+
+@media (min-width: 761px) {
+  .workbench-shell .intake-history {
+    max-height: none;
+    overflow: visible;
+  }
+}
+
+/* 消息入场：上浮 + 淡入，一次到位 */
+.intake-message {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: 12px;
+  max-width: 100%;
+  padding: 10px 0;
+}
+
+.intake-message.message-arrived {
+  animation: message-in .26s var(--ease) both;
+}
+
+@keyframes message-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 助手头像：深墨圆角方块 + 白色烧瓶 */
+.msg-avatar {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  border-radius: 9px;
+  color: #fff;
+  background: linear-gradient(150deg, #1b2a42, #0d1521);
+  box-shadow: var(--sh-1);
+  flex: 0 0 auto;
+}
+
+/* 助手消息：平铺正文，无气泡 */
+.intake-message.assistant > p,
+.intake-message.assistant > .msg-body > p {
+  grid-column: 2;
+  margin: 3px 0 0;
+  color: var(--ink);
+  font-size: var(--ui-body);
+  line-height: 1.85;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.intake-message.assistant > p + p {
+  margin-top: 10px;
+  color: var(--muted);
+}
+
+/* 用户消息：右对齐柔和气泡，不带头像列 */
+.intake-message.user {
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: end;
+}
+
+.intake-message.user > p {
+  max-width: min(72ch, 82%);
+  margin: 0;
+  padding: 10px 16px;
+  border: 1px solid var(--accent-line);
+  border-radius: 16px 16px 4px 16px;
+  color: var(--ink);
+  background: var(--accent-soft);
+  font-size: var(--ui-body);
+  line-height: 1.7;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* 正在回复：三点打字指示 */
+.intake-message.message-waiting {
+  align-items: center;
+  color: var(--muted);
+  font-size: var(--ui-label);
+}
+
+.intake-message.message-waiting > span:last-child { grid-column: 2; }
+
+.reply-dots {
+  grid-column: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 22px;
+}
+
+.reply-dots i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: reply-dot 1s ease-in-out infinite;
+}
+
+.reply-dots i:nth-child(2) { animation-delay: .14s; }
+.reply-dots i:nth-child(3) { animation-delay: .28s; }
+
+@keyframes reply-dot {
+  0%, 60%, 100% { opacity: .3; transform: translateY(0); }
+  30% { opacity: 1; transform: translateY(-3px); }
+}
+
+.history-earlier {
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin: 4px auto 8px;
+  padding: 7px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--accent);
+  background: var(--paper);
+  font-size: var(--ui-meta);
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color .18s ease, background .18s ease;
+}
+
+.history-earlier:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.intake-summary {
+  max-width: var(--conversation-width);
+  margin: 14px auto 0;
+  font-size: var(--ui-label);
+}
+
+.intake-summary > summary {
+  padding-block: 8px;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.intake-summary > summary:hover { color: var(--accent); }
+
+.intake-facts { margin: 16px 0; }
+
+.intake-question {
+  display: block;
+  margin: 18px 0 10px;
+  color: var(--ink);
+  font-size: var(--ui-body);
+  font-weight: 700;
+}
+
+.decision-lead { max-width: var(--conversation-width); }
+
+/* ---------- 底部输入卡片（对话页 composer） ---------- */
+.task-chat-composer {
+  width: min(var(--conversation-width), 100%);
+  max-width: var(--conversation-width);
+  margin-inline: auto;
+  padding: 12px 14px 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: 20px;
+  background: var(--paper);
+  box-shadow: var(--sh-2);
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.task-chat-composer:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(47, 95, 224, .12), var(--sh-2);
+}
+
+.task-chat-composer .intake-question {
+  margin: 0 0 6px;
+  color: var(--muted);
+  font-size: var(--ui-meta);
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+.task-chat-composer textarea {
+  display: block;
+  width: 100%;
+  min-height: 44px;
+  max-height: 144px;
+  padding: 6px 4px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--ink);
+  font-size: var(--ui-body);
+  line-height: 1.65;
+  resize: none;
+}
+
+.task-chat-composer textarea::placeholder { color: var(--muted-2); }
+
+.composer-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.composer-send-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.composer-toolbar .action-ghost {
+  min-height: 36px;
+  font-weight: 600;
+}
+
+.composer-key-hint {
+  color: var(--muted-2);
+  font-size: var(--ui-meta);
+  white-space: nowrap;
+}
+
+.composer-context {
+  display: block;
+  margin-top: 6px;
+  color: var(--muted-2);
+  font-size: var(--ui-meta);
+}
+
+/* 圆形发送钮 — 对话页的视觉锚点 */
+.composer-send-button {
+  display: inline-grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  color: #fff;
+  background: var(--accent);
+  box-shadow: 0 4px 12px rgba(47, 95, 224, .3);
+  cursor: pointer;
+  transition: background .18s ease, transform .18s var(--ease), box-shadow .18s ease;
+}
+
+.composer-send-button:hover:not(:disabled) {
+  background: var(--accent-hover);
+  transform: translateY(-1px) scale(1.05);
+}
+
+.composer-send-button:active:not(:disabled) { transform: scale(.94); }
+
+.composer-send-button:disabled {
+  background: var(--line-strong);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+/* ---------- 助手页（AgentPanel）消息流 ---------- */
+.chat-messages {
+  display: flex;
+  flex-direction: column;
+  max-width: var(--conversation-width);
+}
+
+.chat-messages .agent-message,
+.chat-messages .user-message {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: 12px;
+  width: 100%;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+  animation: message-in .26s var(--ease) both;
+}
+
+.chat-messages .agent-message::before,
+.chat-messages .user-message::after { content: none; }
+
+.chat-messages .agent-message > strong,
+.chat-messages .agent-message > p {
+  grid-column: 2;
+}
+
+.chat-messages .agent-message > strong {
+  margin-top: 3px;
+  color: var(--ink);
+  font-size: .78rem;
+}
+
+.chat-messages .agent-message > p {
+  margin: 8px 0 0;
+  font-size: var(--ui-body);
+  line-height: 1.85;
+}
+
+.chat-messages .user-message {
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: end;
+  text-align: left;
+}
+
+.chat-messages .user-message > strong {
+  color: var(--muted-2);
+  font-size: .7rem;
+}
+
+.chat-messages .user-message > p {
+  max-width: min(72ch, 82%);
+  margin: 6px 0 0;
+  padding: 10px 16px;
+  border: 1px solid var(--accent-line);
+  border-radius: 16px 16px 4px 16px;
+  color: var(--ink);
+  background: var(--accent-soft);
+  font-size: var(--ui-body);
+  line-height: 1.7;
+}
+
+/* 助手页首条说明消息同样走头像网格 */
+.conversation-panel > .agent-message {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: 12px;
+  width: 100%;
+  max-width: var(--conversation-width);
+}
+
+.conversation-panel > .agent-message::before { content: none; }
+.conversation-panel > .agent-message .message-author,
+.conversation-panel > .agent-message .message-copy,
+.conversation-panel > .agent-message .evidence-chips { grid-column: 2; }
+
+.conversation-panel > .user-message {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: end;
+  width: 100%;
+  max-width: var(--conversation-width);
+  text-align: left;
+}
+
+.conversation-panel > .user-message::after { content: none; }
+
+.conversation-panel > .user-message .message-author {
+  justify-self: end;
+  color: var(--muted-2);
+}
+
+.conversation-panel > .user-message > p {
+  max-width: min(72ch, 82%);
+  margin: 6px 0 0;
+  padding: 10px 16px;
+  border: 1px solid var(--accent-line);
+  border-radius: 16px 16px 4px 16px;
+  color: var(--ink);
+  background: var(--accent-soft);
+}
+
+/* ---------- 助手页输入条：同款圆角卡片 ---------- */
+.agent-composer {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  max-width: var(--conversation-width);
+  margin-top: 18px;
+  padding: 8px 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: 20px;
+  background: var(--paper);
+  box-shadow: var(--sh-2);
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.agent-composer:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(47, 95, 224, .12), var(--sh-2);
+}
+
+.agent-composer > button {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  color: var(--muted);
+  background: transparent;
+  transition: color .18s ease, background .18s ease;
+}
+
+.agent-composer > button:hover { color: var(--accent); background: var(--accent-soft); }
+
+.agent-composer > button[type='submit'] {
+  width: auto;
+  min-width: 78px;
+  height: 38px;
+  padding: 0 16px;
+  display: inline-flex;
+  gap: 8px;
+  border-radius: 12px;
+  color: #fff;
+  background: var(--accent);
+}
+
+.agent-composer > button[type='submit']:hover:not(:disabled) {
+  color: #fff;
+  background: var(--accent-hover);
+}
+
+.agent-composer > button:disabled {
+  color: var(--muted-2);
+  background: var(--canvas-raised);
+}
+
+.agent-composer textarea {
+  width: 100%;
+  min-height: 40px;
+  max-height: 130px;
+  padding: 8px 4px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--ink);
+  font-size: var(--ui-body);
+  line-height: 1.6;
+  resize: none;
+}
+
+.agent-composer small {
+  grid-column: 1 / -1;
+  padding: 4px 8px 2px;
+  color: var(--muted-2);
+  border-top: 0;
+  font-size: var(--ui-meta);
+  line-height: 1.5;
+}
+
+/* ---------- 助手页上下文面板微调 ---------- */
+.context-panel .status-tag {
+  border-color: var(--sidebar-line);
+}
+
+/* ---------- 其余工作台密度修正 ---------- */
+.workbench-shell .module-panel { padding: clamp(18px, 2.6vw, 28px); }
+.workbench-shell .module-title { gap: 18px; margin-bottom: 18px; padding-bottom: 14px; }
+.workbench-shell .module-title > .action-button { flex-shrink: 0; }
+.workbench-shell .module-actions { gap: 8px; }
+
+.workbench-shell .analysis-candidates article {
+  grid-template-columns: 44px minmax(0, 1fr);
+  gap: 14px;
+}
+
+.workbench-shell .analysis-fields > div {
+  grid-template-columns: minmax(0, 1fr) 190px;
+  gap: 6px 16px;
+  padding: 14px 0;
+}
+
+.workbench-shell .analysis-fields > div > div:first-child { grid-row: span 2; }
+.workbench-shell .analysis-fields > div > .status-tag { justify-self: end; }
+.workbench-shell .analysis-fields > div > .module-actions { grid-column: 2; justify-content: flex-end; gap: 4px; }
+.workbench-shell .analysis-fields .action-button { min-height: 32px; padding: 4px 8px; font-size: .72rem; font-weight: 600; }
+
+/* ---------- 资料/分析页的文字层次 ---------- */
+/* 分组小标题（“产品型号与配置”“尺寸、电源与安装”…）是这一屏的骨架，放大加粗与正文拉开对比。 */
+.workbench-shell .analysis-fields > div > div:first-child > strong {
+  font-size: 1.02rem;
+  font-weight: 800;
+  letter-spacing: .01em;
+  line-height: 1.35;
+}
+
+/* 未结构化原文：一行一条，明确标注不计入已确认参数。 */
+.workbench-shell .unparsed-values {
+  margin-top: 8px;
+  padding: 10px 12px;
+  border: 1px dashed var(--line-strong, var(--line));
+  border-radius: var(--r-sm);
+  background: var(--canvas-raised, transparent);
+}
+
+.workbench-shell .unparsed-values > span {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--muted);
+  font-size: .74rem;
+  font-weight: 600;
+}
+
+.workbench-shell .unparsed-values dl {
+  display: grid;
+  gap: 2px;
+  margin: 0;
+}
+
+.workbench-shell .unparsed-values dl > div {
+  display: grid;
+  grid-template-columns: minmax(0, 14em) minmax(0, 1fr);
+  gap: 4px 10px;
+  padding: 2px 0;
+}
+
+.workbench-shell .unparsed-values dt {
+  color: var(--muted);
+  font-size: .78rem;
+  overflow-wrap: anywhere;
+}
+
+.workbench-shell .unparsed-values dd {
+  margin: 0;
+  color: var(--body);
+  font-size: .82rem;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+
+.workbench-shell .unparsed-values small {
+  display: block;
+  margin-top: 8px;
+  color: var(--muted-2);
+  font-size: .72rem;
+}
+
+/* 合并后的证据入口：「查看原始资料 · 第 1 页」+「7 处」。 */
+.workbench-shell .analysis-fields small a {
+  font-weight: 600;
+}
+
+.workbench-shell .evidence-count {
+  margin-left: 6px;
+  padding: 1px 6px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: .68rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 原始正文默认折叠：不再让整段带 `|` 的表格文本铺在页面上。 */
+.workbench-shell .raw-evidence {
+  margin-top: 8px;
+  padding: 4px 0;
+}
+
+.workbench-shell .raw-evidence summary {
+  min-height: 32px;
+  padding: 4px 0;
+  color: var(--muted);
+  font-size: .76rem;
+  cursor: pointer;
+}
+
+.workbench-shell .raw-evidence summary:hover { color: var(--accent); }
+.workbench-shell .raw-evidence > p { color: var(--muted); font-size: .74rem; }
+
+.workbench-shell .raw-evidence blockquote {
+  margin: 8px 0;
+  padding: 10px 12px;
+  border-left: 2px solid var(--line-strong);
+  color: var(--muted);
+  font-size: .74rem;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  max-height: 320px;
+  overflow: auto;
+}
+
+/* 只展开用户在需求里点名的型号时，说清为什么少了几个。 */
+.workbench-shell .analysis-focus-note {
+  color: var(--muted);
+  font-size: .78rem;
+}
+
+.workbench-shell .analysis-other-models ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin: 8px 0 0;
+  padding-left: 18px;
+  color: var(--body);
+  font-size: .8rem;
+}
+
+/* ---------- 资料卡片的关键信息行：几页、识别了几页 ---------- */
+.workbench-shell .file-main .file-progress {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 12px;
+  margin: 8px 0 2px;
+  color: var(--body);
+}
+
+.workbench-shell .file-main .file-progress strong {
+  color: var(--ink);
+  font-size: 1rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .01em;
+}
+
+.workbench-shell .file-main .file-progress span {
+  color: var(--muted);
+  font-size: .8rem;
+  font-weight: 600;
+}
+
+.workbench-shell .comparison-scroll :is(th, td) { font-size: .78rem; }
+.workbench-shell .comparison-scroll :is(small, a) { font-size: .72rem; }
+
+/* ---------- 价格 / 核价 / 来源卡片区块 ---------- */
+
+/* Q9：材料与报价的基准摘要是一块「型号 + 用途 + 报价 + 数量 + 配置」加一个确认按钮，
+   不是一排等宽的行内片段。原来 .baseline-quick 是 flex-wrap（index.css:4004），标题、
+   两段正文和按钮会挤在同一行、基线还各不相同，按钮被甩到第二行左端。改成两列网格：
+   摘要成一栏、按钮靠右并与摘要顶对齐。 */
+.workbench-shell .baseline-quick {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 6px 24px;
+  margin: 12px 0 18px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--canvas-raised);
+}
+
+.workbench-shell .baseline-quick-facts { display: grid; min-width: 0; gap: 4px; }
+.workbench-shell .baseline-quick-facts > h3 { margin: 0; color: var(--ink); font-size: .98rem; }
+.workbench-shell .baseline-quick-line { margin: 0; color: var(--ink); }
+.workbench-shell .baseline-quick-boundary { margin: 0; color: var(--muted); font-size: .8rem; }
+.workbench-shell .baseline-quick > .module-actions { justify-content: flex-end; }
+
+/* Q9（层次）：摘要块和「核对并确认比较基准」是两块不同的东西——上面是确认前的事实，
+   展开的那块才是可改的表单。给展开区一条左边线，避免表单字段看起来挂在摘要下面。 */
+.workbench-shell .baseline-review[open] > form {
+  margin-top: 10px;
+  padding: 4px 0 4px 16px;
+  border-left: 2px solid var(--line-strong);
+}
+
+/* Q10：核价页的启动/停止按钮和「刷新结果」并排放在模块标题行里，用户不用滑到底。 */
+.workbench-shell .module-title-actions { display: flex; flex-shrink: 0; align-items: center; gap: 8px; }
+
+/* Q8：材料与报价面板折叠、内容少的时候，被 .module-panel 的 min-height:380px
+   （index.css:1737）撑出两百多像素的空白。实测（任务 task-<run-13>，只有模块标题
+   加一行折叠的「核对并确认比较基准」）：带这条规则面板 380px、正文底下空 212px；
+   去掉后面板 197px、空 29px（就是卡片自己的下内边距）。价格/核价面板的高度由内容决定。 */
+.workbench-shell .procurement-panel.module-panel { min-height: 0; }
+
+/* Q11：本轮检索进展。阶段清单是后端 stage_timings 已经记下来的阶段，当前阶段高亮；
+   下面是两条检索线的状态、额度用量与已用时。没有百分比——后端没有可靠的阶段分母。 */
+.workbench-shell .research-progress {
+  margin: 16px 0;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--paper);
+}
+
+.workbench-shell .research-progress-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.workbench-shell .research-progress-heading > strong { color: var(--ink); font-size: .92rem; }
+.workbench-shell .research-progress-heading > span { color: var(--muted); font-size: .78rem; white-space: nowrap; }
+.workbench-shell .research-progress-lede { margin: 6px 0 0; color: var(--muted); font-size: .8rem; line-height: 1.6; }
+
+.workbench-shell .research-progress-stages {
+  display: grid;
+  gap: 6px;
+  margin: 12px 0;
+  padding: 0;
+  list-style: none;
+}
+
+.workbench-shell .research-progress-stage {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding-left: 18px;
+  color: var(--muted);
+  font-size: .8rem;
+}
+
+.workbench-shell .research-progress-stage::before {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: .5em;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--line-strong);
+}
+
+.workbench-shell .research-progress-stage.stage-active { color: var(--ink); font-weight: 650; }
+.workbench-shell .research-progress-stage.stage-active::before { background: var(--accent); }
+
+.workbench-shell .research-progress-lanes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 12px 0;
+}
+
+.workbench-shell .research-progress-lanes dt { color: var(--muted); font-size: .76rem; font-weight: 700; }
+.workbench-shell .research-progress-lanes dd { margin: 3px 0 0; color: var(--ink); font-size: .86rem; }
+
+.workbench-shell .research-progress progress { width: 100%; height: 7px; }
+
+.workbench-shell .research-progress-counts { margin: 6px 0 0; color: var(--muted); font-size: .78rem; line-height: 1.6; }
+
+/* Q13：来源按权威性分组，标题和说明把「非官方」写在明面上。 */
+.workbench-shell .source-group { margin-top: 18px; }
+.workbench-shell .source-group > h4 { margin: 0 0 4px; color: var(--ink); font-size: .9rem; }
+.workbench-shell .source-group-note { margin: 0 0 4px; max-width: 70ch; color: var(--muted); font-size: .78rem; line-height: 1.6; }
+.workbench-shell .source-body-details > summary { padding-block: 6px; font-size: .78rem; font-weight: 600; }
+
+@media (max-width: 760px) {
+  .workbench-shell .baseline-quick { grid-template-columns: minmax(0, 1fr); }
+  .workbench-shell .baseline-quick > .module-actions { justify-content: flex-start; }
+  .workbench-shell .research-progress-lanes { grid-template-columns: minmax(0, 1fr); }
+  .workbench-shell .module-title-actions { flex-wrap: wrap; }
+}
+
+/* ---------- 响应式 ---------- */
+@media (min-width: 761px) and (max-width: 1100px) {
+  .workbench-shell .composer-toolbar { flex-wrap: wrap; gap: 4px; }
+  .workbench-shell .analysis-fields > div { grid-template-columns: minmax(0, 1fr); }
+  .workbench-shell .analysis-fields > div > .status-tag { justify-self: start; }
+  .workbench-shell .analysis-fields > div > .module-actions { grid-column: 1; justify-content: flex-start; }
+}
+
+@media (max-width: 760px) {
+  .workbench-shell .composer-key-hint { display: none; }
+  .workbench-shell .task-chat-composer { width: 100%; border-radius: 16px; }
+  .workbench-shell .conversation-workspace { padding-bottom: 0; }
+  .workbench-shell .workspace-composer-host {
+    position: sticky;
+    bottom: 0;
+    z-index: 15;
+    padding: 8px 0 10px;
+    background: linear-gradient(to top, var(--canvas) 70%, transparent);
+  }
+  .intake-message.user > p,
+  .chat-messages .user-message > p { max-width: 92%; }
+  .agent-composer { border-radius: 16px; }
+  .agent-composer > button[type='submit'] { min-width: 64px; padding: 0 12px; }
+  .agent-composer textarea { font-size: 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intake-message,
+  .chat-messages .agent-message,
+  .chat-messages .user-message,
+  .reply-dots i {
+    animation: none;
+  }
+  .composer-send-button { transition: none; }
+}
+
+/* 「本小时还剩多少次模型调用」（components/ModelBudgetNotice.jsx）。
+   额度是整台部署按小时共享的，用户过去是跑到一半才被挡住——这一条要一直在上传／
+   开跑之前看得见，所以用低对比度的常驻行，接近上限时才转成提醒色。 */
+.model-budget-notice {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 14px;
+  align-items: baseline;
+  margin: 0 0 10px;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--ui-meta, #6b7280);
+}
+.model-budget-meter { font-variant-numeric: tabular-nums; }
+.model-budget-notice.is-low { color: #a1541a; }
+.model-budget-notice.is-low .model-budget-meter { font-weight: 600; }

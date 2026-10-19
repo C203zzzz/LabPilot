@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "laboratory-instrument-selection"
+version = "0.1.0"
+description = "Evidence-grounded laboratory instrument selection workbench"
+requires-python = ">=3.11"
+dependencies = ["fastapi>=0.100", "uvicorn>=0.20"]
+
+[project.optional-dependencies]
+parsing = ["docling>=2.0", "onnxruntime>=1.20", "pypdf>=5", "pymupdf>=1.24", "pdfplumber>=0.11", "pillow>=10", "openpyxl>=3.1"]
+test = ["pytest>=8", "httpx>=0.24"]
+browser = ["playwright>=1.50,<2"]
+# Optional TLS-impersonating transport for WAF-protected hosts. Off unless
+# LAB_IMPERSONATE_HTTP=1 and the package is importable, so the default install
+# and the deploy path are unchanged.
+impersonate = ["curl_cffi>=0.7"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.setuptools.packages.find]
+include = ["backend*"]
