@@ -7,7 +7,7 @@ name = "laboratory-instrument-selection"
 version = "0.1.0"
 description = "Evidence-grounded laboratory instrument selection workbench"
 requires-python = ">=3.11"
-dependencies = ["fastapi>=0.100", "uvicorn>=0.20"]
+dependencies = ["fastapi>=0.100", "uvicorn>=0.20", "python-multipart>=0.0.9"]
 
 [project.optional-dependencies]
 parsing = ["docling>=2.0", "onnxruntime>=1.20", "rapidocr>=3", "pypdf>=5", "pymupdf>=1.24", "pdfplumber>=0.11", "pillow>=10", "openpyxl>=3.1"]
