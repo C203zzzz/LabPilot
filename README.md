@@ -2,7 +2,7 @@
 
 **LabPilot 是一个本地部署的实验室仪器选型与采购比价工作台：每一条进入比较的价格，都能点回公开的原始单据。**
 
-![Python](https://img.shields.io/badge/python-3.11%2B-3776AB) ![Node](https://img.shields.io/badge/node-22.6%2B-339933) ![License](https://img.shields.io/badge/license-MIT-3DA639)
+[![tests](https://github.com/C203zzzz/LabPilot/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/C203zzzz/LabPilot/actions/workflows/tests.yml) ![Python](https://img.shields.io/badge/python-3.11%2B-3776AB) ![Node](https://img.shields.io/badge/node-22.6%2B-339933) ![License](https://img.shields.io/badge/license-MIT-3DA639)
 
 ![LabPilot 演示](docs/media/demo.gif)
 
