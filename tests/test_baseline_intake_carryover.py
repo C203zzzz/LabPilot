@@ -89,7 +89,7 @@ def test_conditions_the_supplier_never_stated_still_save_and_read_as_unstated(tm
     section = next(item for item in service.report('t', run['id'])['sections'] if item['key'] == 'baseline')
     shown = {item['label']: item['text'] for item in section['items']}
     # 口径（2026-09 修 8c）：空白的销售字段要能分清"我们没问"和"问了、对方说没有"。
-    # 这一单里保修与交货**从采集阶段就没有问过**（facts 里就没有），本轮也没有收到任何
+    # 这一轮里保修与交货**从采集阶段就没有问过**（facts 里就没有），本轮也没有收到任何
     # 销售回复，所以报告如实写"没有向销售询问这一项"，不再用含糊的"销售尚未说明"——
     # 那句话在"销售明确答过资料中未提供"的场合会撒谎。三态各自的判据见
     # ``procurement_research.missing_information_state``。

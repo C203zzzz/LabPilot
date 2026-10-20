@@ -96,14 +96,12 @@ def test_mock_multimodal_result_is_persisted_as_pending_review(tmp_path: Path):
 
 
 def test_fixed_ls50hd_jpg_is_a_real_visual_regression_input(tmp_path: Path):
-    source = Path(r"C:\fixtures\ls50hd-visual-regression.jpg")
+    # The acceptance sample lives outside the repository; when it is absent the
+    # expectations below still record what the fixed input produced (sha256 and
+    # the three field values seen by the visual adapter).
+    source = Path("storage/originals/3176cf3cf9657ac761219093e5ace94223d56351d57118aa0f9e5eb9057ba8f2.jpg")
     if not source.is_file():
-        # The checked-out acceptance storage keeps the same immutable fixture
-        # when the original external desktop path is unavailable.
-        source = Path("storage/originals/3176cf3cf9657ac761219093e5ace94223d56351d57118aa0f9e5eb9057ba8f2.jpg")
-    if not source.is_file():
-        import pytest
-        pytest.skip("固定 JPG 仅存在于指定验收环境")
+        pytest.skip("固定 JPG 是本地验收资料，不随仓库发布")
     record = DocumentIngestionService(tmp_path / "storage").ingest_file(source)
     updated = MultimodalOCRService(tmp_path / "storage", MockMultimodalOCRAdapter()).extract(record)
 

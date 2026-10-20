@@ -112,7 +112,7 @@ def procurement_router(repo, search):
             except DeepSeekError as exc:
                 # 额度用尽这件事三个出口说同一句话（研究车道缺口、问答接口、这里）。
                 # 原来这一句**完全没提额度**，用户只看到"服务暂不可用"，不知道自己
-                # 是被用量上限挡住的、也不知道等多久能再试（见本单报告）。
+                # 是被用量上限挡住的、也不知道等多久能再试。
                 from backend.infrastructure.deepseek import BUDGET_EXCEEDED_MESSAGE
                 if exc.code == 'provider_budget_exceeded':
                     raise HTTPException(429, detail='本次回答尚未保存。' + BUDGET_EXCEEDED_MESSAGE) from exc

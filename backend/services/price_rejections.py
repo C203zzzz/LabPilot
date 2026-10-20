@@ -555,7 +555,7 @@ def price_source_trace_summary(trace) -> list[dict]:
 #:
 #: 前端核价页那张表（``frontend/src/pages/ResearchResults.jsx`` 的 ``rejectionLabels``）
 #: 是同一套词的另一个副本；``tests/test_report_frontend_consistency.py`` 逐条比对两处，
-#: 因为「前端有一句、报告没有」正是这一单要修的那类缺陷——同一批事实两个说法。
+#: 因为「前端有一句、报告没有」正是这次要修的那类缺陷——同一批事实两个说法。
 #: 报告侧的取值走 :func:`rejection_label`，**永远不回落成代号本身**：认不出的代号
 #: 对采购人员是内部话（同 ``procurement_research.failure_kind_text`` 的取舍）。
 REJECTION_REASON_LABELS = {

@@ -231,7 +231,7 @@ export function sameBrandAsBaseline(candidate = {}, baseline = {}) {
 //    上目前只有结构化的 ``shortfall``（``{comparable, percent, side, ...}``）。
 //    所以这里**只印 ``item.shortfall_text``**，后端没给就留空——**不自己按 percent
 //    拼一句话**（同一句文案的唯一来源是后端 ``research_planning.shortfall_text``）。
-//    这是后端的一处缺口，已在交付报告里点名，不在本单里动后端。
+//    这是后端的一处缺口，这次不动后端。
 
 /** 品牌未从原文里结构化提取出来时的字面（后端报告侧同一口径：``品牌未解析``）。 */
 export const BRAND_UNRESOLVED = '品牌未解析'

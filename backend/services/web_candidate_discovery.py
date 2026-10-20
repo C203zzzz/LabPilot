@@ -23,8 +23,8 @@ class WebCandidateDiscoveryService:
         if not usable:
             return []
         # 地址本身不合法的来源不能进这张表：`normalize_url` 对解析不了的串抛
-        # ``ValueError``，而列表推导里一个坏地址会让**整轮候选发现**抛错（同一类
-        # 问题见本单报告；下面引用那一处的 ``try/except`` 早就有了，这里漏了）。
+        # ``ValueError``，而列表推导里一个坏地址会让**整轮候选发现**抛错（下面
+        # 引用那一处的 ``try/except`` 早就有了，这里漏了）。
         source_map = {}
         for source in usable:
             try:

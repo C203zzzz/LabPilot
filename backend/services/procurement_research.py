@@ -440,8 +440,8 @@ def missing_information_state(run, field, label=''):
     """这一项为什么是空的：没问，还是问了、对方说没有。
 
     采购员要能分清这两件事——"没问"意味着还得继续追，"问了说没有"意味着这条路
-    到头了。所以报告里每一个空着的销售字段都要能回答这个问题（盲测 B01 第 8c 条：
-    5 项销售明确答过「资料中未提供」，报告里只写「销售尚未说明」）。
+    到头了。所以报告里每一个空着的销售字段都要能回答这个问题（真实验收里有 5 项
+    销售明确答过「资料中未提供」，报告原先只写「销售尚未说明」）。
     """
     revision = run.get('supplier_revision') or {}
     if field in {str(name) for name in (revision.get('not_provided') or [])}:
@@ -1813,7 +1813,7 @@ def baseline_field_text(baseline, run, key, label=''):
     """比较基准里一项销售口述字段该写什么。
 
     有值就写值，并标出它是**这一轮销售回复补充**的（补进去的内容要和原有内容分得开，
-    盲测第 8a 条：7 个补充字段在报告里看不出来是哪来的）。没值就写清是"没问"还是
+    否则 7 个补充字段在报告里看不出来是哪来的）。没值就写清是"没问"还是
     "问了、对方说资料里没有"——这两件事对采购员是两种处境。
     """
     value = baseline.get(key)
@@ -1851,7 +1851,7 @@ def baseline_section(run):
 def supplier_revision_section(run):
     """「销售回复更新」：这次回复**具体补了什么、依据在哪、哪些项对方说没有**。
 
-    盲测第 8 条：补全之后报告里只多出一个 items=0 的空节，7 个字段的改动与它们的
+    真实一轮里补全之后报告只多出一个 items=0 的空节，7 个字段的改动与它们的
     依据（原句 + 位置）一条都没进报告。这一节把 ``supplier_revision`` 原样摊开，
     逐项写清字段、值、依据；答复与"资料中未提供"各列一项。
     """
@@ -2610,7 +2610,7 @@ class ProcurementResearch:
     def education_platform_budget(self, run):
         """这个通道还剩几次请求；上一条老运行记录没有这一项时补上初值。
 
-        旧记录（这一单之前开的 run）没有 ``education_platform`` 计数位。不补的
+        旧记录（加这个通道之前开的 run）没有 ``education_platform`` 计数位。不补的
         话 ``run['limits'][key]`` 会 KeyError，而那是别人的研究记录，不该因为
         我们多了一个通道就报错。
         """
@@ -4855,7 +4855,7 @@ class ProcurementResearch:
                 raise
             except Exception as exc:
                 # 通用通道这一条没走通，**记缺口继续**，不能把它当限流停止信号：
-                # 实测（2026-09-26，本单 ac4 实测）有一条高校竞价网项目在 CCGP 站内
+                # 实测（2026-09-26）有一条高校竞价网项目在 CCGP 站内
                 # 一条公告都没有，退回通用通道时抛 ``ValueError``，于是官方复核那一步
                 # 把**整批剩下的线索**全部放弃——其中就有同一批里本来能在 CCGP 找到
                 # 成交公告的那条。停手保护的是"别反复打同一个站点"，而这里已经换过
@@ -6124,15 +6124,10 @@ class ProcurementResearch:
                      or comparison_basis(b.get('parameters'))['comparison_basis']) == NO_CONFIRMED_PARAMETER
         sections = [baseline_section(run), {'key': 'prices', 'title': '成交项目核价', 'summary': price_evidence_summary(run),
                 'items': self.price_report_section(run, price_gap_labels)},
-            # 合并说明（211 并 master@3f0e9059）：这一节两边各改写了一遍——``master`` 侧
-            # （210 那单）把条目抽成 ``alternative_report_item``、补了「零候选」那句与
-            # ``reference_candidates`` 线索；本单（211）没动这一节，所以整节取 ``master`` 侧。
-            # 「证据缺口」那一行两边**都**改了：``master`` 侧改用 ``report_blockers(run)``
-            # （``_human_gap`` ＋ ``humanize_gap_text``），本单改用 ``gap_action_summary(run)``
-            # ＋ ``display_gaps``（``reconcile_tender_body_gaps`` ＋ ``sanitize_gap_text``）。
-            # 取本单那行：两行都走 ``humanize_gap_text``，本单多一层旧版阶段注记的清理与
-            # 「这一轮做过什么」的账；``master`` 的 ``report_blockers`` 仍用在总述的 blockers 上，
-            # 没被丢掉。**这一处是语义合并，已报主管道确认。**
+            # 「同档替代核查」把条目抽成 ``alternative_report_item``，零候选时补一句
+            # 专门的引导语；「证据缺口」那行由 ``gap_action_summary(run)`` ＋
+            # ``display_gaps`` 生成——两者都先过 ``humanize_gap_text``，再清掉旧版
+            # 阶段注记与「这一轮做过什么」的账。总述里的 blockers 仍走 ``report_blockers``。
             {'key': 'alternatives', 'title': '同档替代核查', 'summary': (
                 # 零候选单独一句。有候选时那两句（"只按价格与来源比" / "达到 70% 已核验
                 # 相似度的候选可进入比较"）在零候选时都兑现不了：前者让读者以为下面本该
@@ -6196,8 +6191,7 @@ class ProcurementResearch:
                 # 幂等的：第二次读时文本已经一样，什么都不写。
                 changed = self.refresh_price_section(report, run, price_gap_labels)
                 changed = self.refresh_republished_section(report, run) or changed
-                # 这一排取并集：``master`` 侧的「读到旧报告时补一次上传资料提示」与
-                # 本单的四节重刷，改的是同一排调用不是二选一。
+                # 这一排取并集：补一次上传资料提示与四节重刷，改的是同一排调用。
                 changed = self.refresh_document_notice(report, run) or changed
                 changed = self.refresh_price_rejection_section(report, run) or changed
                 changed = self.refresh_gap_section(report) or changed
@@ -6290,7 +6284,7 @@ class ProcurementResearch:
             if run.get('supplier_revision'):
                 report['supplier_revision'] = run['supplier_revision']
                 # 逐项写出这次回复补了什么、依据在哪、哪些项对方说资料里没有；
-                # 只写一句引导语、items=0，等于让读者自己去猜（盲测 B01 第 8 条）。
+                # 只写一句引导语、items=0，等于让读者自己去猜。
                 revised = supplier_revision_section(run)
                 if revised:
                     sections.append(revised)

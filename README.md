@@ -69,7 +69,7 @@ npm run dev
 
 仓库自带一份只读的本地成交价库 `data/xlyg_prices.sqlite3`：11,697 单直购订单、12,675 行明细，来自公开的采购公示页面，clone 下来就能读。换路径用 `LAB_XLYG_DB`。库不在时价格接口返回 503，界面提示"本地价库未启用"，不会静默少一路数据。
 
-`.[parsing]` 装的是一整套本机解析栈：PyMuPDF、pdfplumber、Docling、RapidOCR、onnxruntime。不装也能启动，但扫描件只能读到部分文字，报告里会写明"本机没有可用的本地识别组件，需恢复组件或提供可读原件"，不会把没读出来的算成解析成功。
+`.[parsing]` 装的是一整套本机解析栈：PyMuPDF、pdfplumber、Docling、RapidOCR、onnxruntime。不装也能启动，但扫描件只能读到部分文字，报告里会写明"本机没有可用的本地识别组件，需恢复组件或提供可读原件"。
 
 ## 关键设计
 
@@ -114,7 +114,7 @@ npm run dev
 - **解析**：PyMuPDF、pdfplumber、Docling、OpenPyXL、OCR 适配层
 - **测试**：pytest（后端）、Node test runner（前端）
 
-当前规模：73 个 API 路径、18 张数据表。
+当前规模：74 个 API 路径、18 张数据表。
 
 ```text
 backend/     API、领域服务、检索与价格判据、存储

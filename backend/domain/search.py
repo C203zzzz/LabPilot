@@ -171,7 +171,7 @@ class SourceRecord:
     quantity: float | None = None
 
     def __post_init__(self):
-        # 只校验本单新增的线索对齐字段；不触碰任何既有字段的既有行为。
+        # 只校验本次新增的线索对齐字段；不触碰任何既有字段的既有行为。
         for name in ("supplier", "buyer", "project_id"):
             object.__setattr__(self, name, _normalize_lead_identifier(getattr(self, name), name))
         if self.quantity is not None:

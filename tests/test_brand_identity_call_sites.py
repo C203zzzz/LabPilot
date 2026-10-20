@@ -185,7 +185,7 @@ def test_the_substring_call_site_keeps_the_counterexample_out():
               'body_text': '版权所有 © 长沙高新开发区湘仪天平仪器设备有限公司'}
     assert product_configuration._own_brand_page(source, '湖南湘仪') is False
     # 同一个页面在"目标品牌就写湘仪"时是既有行为（``湘仪`` 是那家公司登记名的子串），
-    # 那不是本单引入的，本单也没有收窄它。
+    # 那不是这次引入的，这次也没有收窄它。
     assert product_configuration._own_brand_page(source, '湘仪') is True
 
 

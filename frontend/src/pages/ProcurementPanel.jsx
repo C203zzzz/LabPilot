@@ -162,7 +162,7 @@ export default function ProcurementPanel({ taskState, openTab, mode = 'material'
     {documentConflict && <InlineNotice title="比较基准要按产品资料更新">{documentConflict}</InlineNotice>}
     {/* 「本小时还剩多少次模型调用」放在这块面板的标题下方：材料与报价、核价、替代品
         三张面板共用同一个组件，用户在上传资料、点"查找已成交项目"之前就能看到，
-        而不是传到一半／跑到一半被额度挡住（见本单报告）。 */}
+        而不是传到一半／跑到一半被额度挡住。 */}
     <ModelBudgetNotice refreshKey={reload} />
     {mode === 'material' && (!run || editing) && draft.model && <section className="baseline-quick" aria-label="确认前摘要">
       <div className="baseline-quick-facts">

@@ -102,7 +102,7 @@
 ``republished_prices()``／``_unusable_non_local``／``PRICE_SOURCE_TYPES`` 一个字
 不动，``is_marketplace_or_aggregator`` 函数本身也不动（价格还在用它）。
 
-来源标签照旧分两档，本单没碰它的判定：能不能把一页认成"品牌方自己发的"，靠的是
+来源标签照旧分两档，这次没碰它的判定：能不能把一页认成"品牌方自己发的"，靠的是
 下面的版权行＋公司名判据（``_COPYRIGHT``／``_COMPANY``）。第三方平台页只会记成
 ``PRODUCT_SOURCE``，不会被印成「厂家资料」。
 

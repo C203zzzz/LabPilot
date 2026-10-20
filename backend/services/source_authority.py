@@ -100,14 +100,13 @@ MARKETPLACE_HOST_MARKERS = ('amazon.', 'alibaba.', 'made-in-china.', 'labx.', 'f
 #: 入库与否只改一件事：这三个域名下与目标型号有关的页面今后拿不到
 #: publisher/publication tier，也就进不了价格通道。全库作用面同样有界。
 #: ``easyjcx.com``（竞采星 / 全国高校竞价网）与 ``gdedulscg.cn``（广东教采云零散采购
-#: 竞价平台）是**的合规决定**，不是技术决定。依据是两站页脚都有
+#: 竞价平台）不做直连数据源，是**合规决定**，不是技术决定。依据是两站页脚都有
 #: **禁止性条款**：教采云写着「未经本平台授权，严禁以任何形式转载或使用本平台数据，
-#: 一经发现，依法追究法律责任」（摘录页脚原文、），竞采星
+#: 一经发现，依法追究法律责任」（摘录页脚原文），竞采星
 #: 属同一类条款。按同一标准，两站**都不做直连数据源**——教采云已从
-#: 教育采购平台通道整站摘除（，``gdedulscg`` 在 backend/tests/scripts/frontend
-#: 里 0 命中），竞采星从未接入（明确"本单不给接入方案"）。
-#: 用户的原话是：「不用（拉黑），就把他们当作聚合站处理，借助他们获取项目名称来获取公告」
-#: ——所以处置**不是拉黑、不是丢弃**：它们的页面照旧**可以被搜到**（用来发现项目名称/编号），
+#: 教育采购平台通道整站摘除（``gdedulscg`` 在 backend/tests/scripts/frontend
+#: 里 0 命中），竞采星从未接入。
+#: 处置**不是拉黑、不是丢弃**：它们的页面照旧**可以被搜到**（用来发现项目名称/编号），
 #: 拿到的线索回官方复核，价格一律从官方公告正文读。这与 ``aggregator_leads`` 的既有
 #: 设计同一条：聚合站 URL 根本没机会变成 ``run['sources']`` 里的一条价格来源。
 #: 登记的后果**有界**，只有两件事，且都只落在两个域名自己的页面上：
@@ -117,10 +116,10 @@ MARKETPLACE_HOST_MARKERS = ('amazon.', 'alibaba.', 'made-in-china.', 'labx.', 'f
 #: 于是排序位次下移——**但不丢弃**，页面仍然会出现在搜索结果里。
 #: 不改变的是：搜索引擎照常返回它们（这正是"借助他们获取项目名称"的前提），
 #: ``is_marketplace_or_aggregator`` 的**子串匹配**也不碰别的主机——实测本机
-#: ``data/app.sqlite3``（17 张表全部字符串字段）扫出 618 个不同的 http host，
+#: 来源清单里 618 个不同的 http host 逐个扫过，
 #: 新的两个 marker 各自命中 0 个 host、命中非目标域名 0 个（无子串碰撞）；
 #: ``gdegp.gds.edu.cn``（含 8093 小零易购）与 ``.gov.cn``/``.edu.cn`` 官方站不受影响。
-#: 线索发现端（真去抓这两站、解析项目名称/编号再回官方查）**本单没有实现**，
+#: 线索发现端（真去抓这两站、解析项目名称/编号再回官方查）**尚未实现**，
 #: ``run['aggregator_lead_discovery']`` 的默认开关也没有打开。
 AGGREGATOR_HOST_MARKERS = ('wikipedia.', 'pdfcoffee.', 'manualslib.',
                            '120shop.cn', 'bidcenter.com.cn', 'qianlima.com',
@@ -128,7 +127,7 @@ AGGREGATOR_HOST_MARKERS = ('wikipedia.', 'pdfcoffee.', 'manualslib.',
                            'caizhaowang.com', 'dlnyzb.com', 'shihuantong.com',
                            'shuidi.cn', 'easyjcx.com', 'gdedulscg.cn',
                            # chinamae（原"中国招标与采购网"系的医疗器械/招标聚合站）：
-                           # 列表页是静态 HTML、能拿到**干净的项目名**，所以本单把它接成了
+                           # 列表页是静态 HTML、能拿到**干净的项目名**，所以把它接成了
                            # 发现渠道（``AGGREGATOR_CHINAMAE``）。它的详情页在服务端把 7 个
                            # 字段打成 ``******``，载体本身绝不该被当成官方
                            # 公告，所以照样登记在这里——它同 120shop/采招网一样受两条有界后果。
