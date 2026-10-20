@@ -139,7 +139,7 @@ def requirement_notes(facts, parameters, document_facts=()):
     「上传资料 · …」并带出处，查不到的**不再以产品事实的口吻陈述一个数值**——
     标成「本轮要求 · …」，并写明这个数来自比较基准、本轮资料与公开来源都没有
     给出该型号可直接核对的对应值。原来那三条只有一句「需求已记录：100.0」，
-    evidence 全空，读起来却像是产品参数（``docs/DRAFT-e2e-blind.md`` §4.4）。
+    evidence 全空，读起来却像是产品参数。
     """
     rows = list(facts) + list(document_facts)
     notes = []
@@ -211,7 +211,7 @@ def model_spelling_pattern(model):
 
     中间允许空格/连字符/下划线（``XQ-20`` / ``XQ 20`` / ``XQ20`` 都算），后面允许最多
     ``MODEL_SUFFIX_LIMIT`` 个字母（配置版本后缀）。**这只用于"把原文里的写法列出来"**：
-    判据（``contains_model`` / ``_target_pattern``，见 ``docs/203``）一个字都没有放宽或
+    判据（``contains_model`` / ``_target_pattern``）一个字都没有放宽或
     收紧，报告也不会因为认出后缀就把带后缀的那台当成别的机器。
     """
     core = re.sub(r'[\s\-_]+', '', str(model or ''))

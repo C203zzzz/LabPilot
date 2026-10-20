@@ -54,7 +54,7 @@ class DocumentImage:
     ocr_text: str = ""
     structured_fields: dict[str, Any] = field(default_factory=dict)
     # 视觉调用失败时的技术细节：异常类名、稳定错误码、脱敏后的原文与出错行。
-    # 它只给排查用（与 ``run['failures']`` 同形，见 docs/209 §5）；给用户看的话
+    # 它只给排查用（与 ``run['failures']`` 同形）；给用户看的话
     # 走 ``gaps``，两处分开写。成功时保持 ``None``；旧记录没有这个键也能反序列化。
     failure: dict[str, Any] | None = None
 

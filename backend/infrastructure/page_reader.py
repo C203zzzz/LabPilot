@@ -191,7 +191,7 @@ class PublicPageReader:
                 # 用的是与 HTTP 那一遍同一个**常规浏览器标识**——版本号只在
                 # ``PublicWebSearchProvider._request_headers`` 一处维护，这里不写死
                 # 版本；需要换标识时用 ``LAB_BROWSER_USER_AGENT`` 覆盖。
-                # 这不是反爬绕过：页面只要是验证码页，下面的 ``quality()`` 照旧
+                # 这不是反爬绕过：页面只要是验证码页，下面的 ``quality`` 照旧
                 # 判成 ``verification_required`` 并让这次读取失败。
                 profile = self.http.for_referer(referer)._request_headers(url)
                 rendered_headers = {'Accept-Language': profile['Accept-Language']}
@@ -259,7 +259,7 @@ class PublicPageReader:
                                      'elapsed_seconds': round(time.monotonic()-start, 3)}
                 if rendered_unparseable:
                     # 畸形 ``href`` 现在被跳过了。不记下来就等于把"这一页原本有一条
-                    # 读不出来的下载地址"整件事抹掉（``output/lane-crash``）。
+                    # 读不出来的下载地址"整件事抹掉。
                     rendered_metadata['unparseable_downloads'] = rendered_unparseable[:10]
                 return PageResult(payload, 'text/html; charset=utf-8', body, rendered_metadata)
             finally:

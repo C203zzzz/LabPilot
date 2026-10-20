@@ -106,7 +106,7 @@ class SearchQuery:
     limit: int = 10
     purpose: str = "general"
     target_source_types: tuple[SourceType, ...] = ()
-    # 线索对齐字段（docs/76 对话 1）。全部可选且带默认值，老调用点不传也能构造。
+    # 线索对齐字段（对话 1）。全部可选且带默认值，老调用点不传也能构造。
     # 日期统一为零填充 ISO YYYY-MM-DD 字符串，可直接拼进 CCGP 的
     # start_time/end_time。注意本对象用 supplier_name，SourceRecord 用 supplier。
     buyer_name: str | None = None
@@ -161,7 +161,7 @@ class SourceRecord:
     price_unit: str | None = None
     price_quote: str | None = None
     retrieved_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    # 线索对齐字段（docs/76 对话 1）。全部可选且带默认值，并且刻意放在字段表
+    # 线索对齐字段（对话 1）。全部可选且带默认值，并且刻意放在字段表
     # 末尾：official_search.py 用位置参数构造本对象
     # （url, title, source_type, authority_score, authority_reason, snippet），
     # 插在中间会让那些调用点错位。注意本对象用 supplier，SearchQuery 用 supplier_name。

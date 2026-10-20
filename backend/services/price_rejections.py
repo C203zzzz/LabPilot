@@ -362,12 +362,12 @@ def near_miss_rejections(sources, target, limit=12):
     return found
 
 
-#: The price lane's source whitelist, owned here so ``prices()`` and its trace
+#: The price lane's source whitelist, owned here so ``prices`` and its trace
 #: can never disagree. See ``procurement_research.prices``.
 PRICE_SOURCE_TYPES = ('manufacturer_website', 'manufacturer_download', 'tender_document')
 
 #: One code per way a fetched-looking source is dropped *before* any price
-#: predicate sees it. ``prices()`` used to drop all of them silently, which made
+#: predicate sees it. ``prices`` used to drop all of them silently, which made
 #: "this announcement was never read" indistinguishable from "this announcement
 #: priced nothing".
 SKIP_BODY_NOT_FETCHED = 'body_not_fetched'
@@ -461,7 +461,7 @@ def model_match_signal(text, model) -> str | None:
     (``Cary 6000i`` against ``Cary 60``, ``X1300A2`` against ``1300A2``) is a
     different instrument and stays ``None``. Relaxing the gate itself saves
     **zero** of the 135 in-whitelist bodies it drops, and the loose test admits
-    exactly 3 bodies corpus-wide, all 3 wrong (``output/q2_relax_probe.txt``) --
+    exactly 3 bodies corpus-wide, all 3 wrong --
     so the gate stays as it is, and ``tests/test_model_match_signal.py`` pins the
     sibling pairs a loose test would merge.
     """

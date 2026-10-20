@@ -652,7 +652,7 @@ _TABLE_EXCERPT_SEPARATOR = re.compile(r'[；;|]+')
 def excerpt_in_table_row(excerpt, body, model):
     """把"跨列拼接的表格行引文"映射回正文里那一行的逐字原文；做不到就 ``None``。
 
-    实测（``docs/待归档-改后效果评测.md`` §5.2 第 2 条，
+    实测（公告
     ``http://www.ccgp.gov.cn/cggg/zygg/cjgg/202608/t20260801_10000002.htm``）：
     一份列式成交表的正文把每一列各自用 ``；`` 串起来——
 

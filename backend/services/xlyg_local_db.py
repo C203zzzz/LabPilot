@@ -35,7 +35,7 @@ PLATFORM_KEY = 'xlyg'
 
 SCHEMA_PATH = Path(__file__).with_name('xlyg_schema.sql')
 
-#: 探测／抓取用的品类词。词表从 ``docs/45`` §2 的 10 个入选品类出发，再加同义/上位词。
+#: 探测／抓取用的品类词。词表从最初 10 个入选品类出发，再加同义/上位词。
 PROBE_KEYWORDS = (
     '离心机', '台式离心机', '高速离心机', '冷冻离心机',
     '纯水机', '超纯水机',
@@ -59,7 +59,7 @@ PROBE_KEYWORDS = (
     '超低温冰箱',
 )
 #: 第二轮补的词：第一轮实抓 1481 行、离 1,500 差 19 行，补这几个词既补行数也补
-#: 类别覆盖。先按 84 个月窗口探过量（见 ``output/xlyg-db/summary_candidates.txt``），
+#: 类别覆盖。先按 84 个月窗口探过量（见 ），
 #: 粘度计 0 条、浊度计 3 条且全为终止单，没进词表。
 PROBE_KEYWORDS = PROBE_KEYWORDS + (
     '酶标仪', '超净工作台', '通风柜', '冷冻干燥机', '真空泵',
@@ -130,7 +130,7 @@ _PAGES = re.compile(r'ANP_checkInput\([^,]*,\s*(\d+)\s*\)')
 #: ⚠️ **别拿 ``ANP_checkInput(bid,mv)`` 里的 ``mv`` 当总页数**。实测：同一个查询的分页
 #: 控件印着「总页数：64」，而 ``ANP_checkInput`` 的 ``mv`` 是 **6**，两个数对不上（``mv``
 #: 到底代表什么我没验证到）。所以页数只认控件文字，``_PAGES`` 只在文字缺失时兜底
-#: （实测那条分支从没走到过）。``docs/129`` 用 ``ANP_checkInput(...,78)`` 估过"78 页 ×
+#: （实测那条分支从没走到过）。用 ``ANP_checkInput(...,78)`` 估过"78 页 ×
 #: 15 条"，它自己标了"推断值"；要确切值就读控件文字。
 _TOTALS = re.compile(
     r'记录总数：\s*(?:<[^>]*>\s*)*(\d+)(?:.*?总页数：\s*(?:<[^>]*>\s*)*(\d+))?', re.S)
@@ -179,7 +179,7 @@ def parse_list_page(html):
     """列表页 → ``(rows, total_pages)``。
 
     每行六列：订单编号／项目名称／采购单位／成交单位／成交时间／状态。
-    ``codeType`` 与 ``code2`` 就在行属性里（见 ``docs/141``）。
+    ``codeType`` 与 ``code2`` 就在行属性里。
 
     页数优先取分页控件印着的「总页数」；没有才退回 ``ANP_checkInput`` 的 ``mv``
     ——那个数**不是**总页数（见 ``_TOTALS`` 的注释），只是最后的兜底。
@@ -609,7 +609,7 @@ def build(orders, details, *, window, built_at=None, keywords=PROBE_KEYWORDS):
             item_records.append(item)
             funnel['goods_rows_raw'] += 1
         # 抓到价格的那条也要落订单表——否则 /orders/{no} 只查得到失败的单，
-        # 成功的单反而"不存在"（第一版就踩了这个坑，测试里钉住）。
+        # 成功的单反而"不存在"（测试里钉住）。
         order_records.append(record)
 
     return {'funnel': funnel, 'orders': order_records, 'items': item_records, 'gaps': gaps,

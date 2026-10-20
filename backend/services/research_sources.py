@@ -13,7 +13,7 @@ from backend.services.source_authority import STRUCTURAL_FIELDS, is_tender  # no
 #: refused as if it carried a login. Measured on ``gdegp.gds.edu.cn``: its result
 #: list links to its own ``:8090`` / ``:8093`` sections, and reading such an href
 #: raised ``ValueError`` instead of whatever the connection really did
-#: (``docs/129`` recorded it as a product defect).
+#: (recorded it as a product defect).
 #:
 #: What keeps this a boundary rather than an open door: credentials are refused
 #: by their own test (an ``@`` anywhere in the authority, or a parsed
@@ -65,12 +65,12 @@ def network_url(url):
 #: 字符、且 NFKC 归一化后冒出 ``/ ? # @ :`` 之一时抛 ``ValueError``
 #: （``urllib/parse.py`` 的 ``_checknetloc``，防 IDN 同形字攻击）；IPv6 括号没闭合
 #: 也抛 ``ValueError``；``idna`` 编解码失败抛 ``UnicodeError``（``ValueError`` 的子类）。
-#: 逐条枚举见 ``output/lane-crash/repro-03-malformed-urls.txt``。
+#: 逐条枚举见 。
 #:
 #: 实测的触发串不是构造的，是政府采购公告正文里的一句中文被裸 URL 正则整段吞进主机名：
 #: ``http://www.china-tender.com.cn）进行免费注册，……技术支持电话：400-680-8126。``
 #: —— 句末的全角冒号 NFKC 归一化后变成 ``:``，于是 ``urlsplit`` 抛错，
-#: 整条价格车道与替代品车道在那一轮双双 ``failed``（``output/lane-crash``）。
+#: 整条价格车道与替代品车道在那一轮双双 ``failed``。
 #:
 #: 这几类异常在这一条链上只有一个语义：**这个串不是可用的网址**。所以一律按
 #: ``public_url`` 的 fail-closed 处理——跳过这一条链接，绝不让它升级成
@@ -254,7 +254,7 @@ def attachment_leads(source, model=None, skipped=None):
         # ``http://www.china-tender.com.cn）进行免费注册，……电话：400-680-8126。``），
         # 而句末的全角冒号 NFKC 后是 ``:``，``urljoin`` 于是抛 ValueError。
         # 兜底必须在 ``urljoin`` 之前——过去那个 ``try/except`` 包在 ``public_url``
-        # 外面、晚了一行，所以永远轮不到（``output/lane-crash/repro-02``）。
+        # 外面、晚了一行，所以永远轮不到。
         url = parse_web_url(raw_url, source.get('url') or '')
         if url is None:
             if skipped is not None:
@@ -904,7 +904,7 @@ def has_amount_evidence(text):
        模型也不被调用，价格明细直接归零。
     3. **列式表，表头是裸的价格列名**（``… | 数量 | 单价``），数据行是独占单元格
        的裸整数（``… | 1 | 1239000``）。单位写在表外或标题里，列名就是「单价」
-       两个字——``docs/待归档-改后效果评测.md`` §5.3 的实测形态
+       两个字——线上实测形态
        （``task-<run-12>`` 的 ``one real notice page``：整表只有一列价格，
        列名裸「单价」，金额裸整数 ``1239000``）。第 2 类要求表头里出现货币单位，
        第 3 类不要求，但要求数字**独占单元格**且 ≥4 位，把页码、数量、日期、

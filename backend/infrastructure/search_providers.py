@@ -34,7 +34,7 @@ FATAL_CHANNEL_QUARANTINE_MARKER = 'channel quarantined'
 #: this moment, so a retry cannot change the answer.
 #:
 #: Measured 2026-09-25 against the two channels that failed every task of
-#: ``docs/109``: ``api.tavily.com/search`` answers 432 with the body
+#: : ``api.tavily.com/search`` answers 432 with the body
 #: ``This request exceeds your plan's set usage limit``, and the deployment the
 #: acceptance run pointed ``deepseek_web`` at answers 400 with
 #: ``'function' is a required property, expected an object - 'tools.0'``.
@@ -465,7 +465,7 @@ def _member_names(path_name: str) -> bool:
 #: notice the attachment belongs to.
 CCGP_DOWNLOAD_HOST = "download.ccgp.gov.cn"
 #: That host refuses a request whose ``Referer`` is empty. Measured on the seven
-#: 403s of ``docs/111``: with no ``Referer`` the same URL answered 403 (edge
+#: 403s of : with no ``Referer`` the same URL answered 403 (edge
 #: ``Server: nginx``) on one attempt and 200 on the next,
 #: while every attempt carrying a ccgp.gov.cn ``Referer`` answered 200 with
 #: ``Server: openresty`` and the real ``Content-Disposition``. A notice URL is
@@ -508,13 +508,13 @@ def ccgp_exempt_from_impersonation(url: str) -> bool:
 #:
 #: ``legacy-renegotiation`` 不是"绕过访问控制"，是**这个站点只接受这种握手**：
 #: ``www.jxemall.com``（江西省政府采购电子卖场）的公告接口在 OpenSSL 3.x 下会直接
-#: 握手失败——实测（2026-09-25，默认 ``ssl.create_default_context()``、无凭据、
+#: 握手失败——实测（2026-09-25，默认 ``ssl.create_default_context``、无凭据、
 #: 只读一个公开接口）：
 #:
 #: * ``[SSL: UNSAFE_LEGACY_RENEGOTIATION_DISABLED] unsafe legacy renegotiation disabled``
 #:   ——JSON body 与表单编码两种写法都是这一条（``_probe/p7_jiangxi_tls.py``）；
 #: * 加上 ``OP_LEGACY_SERVER_CONNECT``、清掉 ``OP_NO_RENEGOTIATION`` 之后，同一个
-#:   公开接口正常返回（``docs/132``/``docs/133`` 也是这么记的）。
+#:   公开接口正常返回（/也是这么记的）。
 #:
 #: 所以这是**站点的握手姿态**，由平台配置声明、只对这个请求生效；请求本身一条守卫
 #: 都没少（``network_url`` 公网地址校验、重定向逐跳校验、16MB 上限），也不带任何凭据。
@@ -1339,7 +1339,7 @@ class BaiduSearchProvider(PublicWebSearchProvider):
 
     The aggregator leads carry a brand, a model, a supplier and a category, and
     no original source -- not publishing the source is the sites' own design
-    (``docs/43`` §1.1). Those fields are the search keys: this adapter takes one
+    . Those fields are the search keys: this adapter takes one
     keyword combination, returns the result list with real URLs, and the upper
     layer keeps the ``.gov.cn`` / ``.edu.cn`` hits. It is a retrieval channel,
     not a new source -- no per-site adaptation lives here, and no aggregator
@@ -1366,7 +1366,7 @@ class BaiduSearchProvider(PublicWebSearchProvider):
     #: Values Baidu serves instead of a result list when it wants a human.
     _CHALLENGE_MARKERS = ("百度安全验证", "wappass.baidu.com")
     #: The headers a real Chrome navigation to ``www.baidu.com/s`` carries on top
-    #: of the base profile. ``docs/166`` §1.1 recipe P3 measured exactly these
+    #: of the base profile.  recipe P3 measured exactly these
     #: three on a 1,024,249 B result page. ``Accept`` is overridden rather than
     #: added because the base value is the generic fetch profile, and
     #: ``Referer`` / ``Upgrade-Insecure-Requests`` are absent from it entirely.
@@ -1374,7 +1374,7 @@ class BaiduSearchProvider(PublicWebSearchProvider):
     #: back -- frequency is. Re-measured 2026-09-26 with this provider: the bare
     #: base profile read a real 10-row result page after the IP had been quiet
     #: for hours, and the same run with these headers was challenged on its
-    #: ninth request (``output/baidu-bocha/baidu-before-fix.json``,
+    #: ninth request (,
     #: ``baidu-after-fix.json``). They are kept because they make the request
     #: look like the navigation it is imitating, at no measured cost.
     _BROWSER_HEADERS = {
@@ -1503,12 +1503,12 @@ _ccgp_pace_lock = threading.Lock()
 _ccgp_last_request = 0.0
 #: The body-read clock. Separate from ``_ccgp_last_request`` on purpose: that
 #: one belongs to the search subdomain, which is the host that actually blocks
-#: this project (``docs/89`` §2.0: two direct list requests, ten minutes apart,
+#: this project (: two direct list requests, ten minutes apart,
 #: both answered with the site's own "频繁访问" page). Announcement articles
 #: live on a different hostname with a different tolerance, and pacing them off
 #: the search clock made every body read pay the search floor: measured
 #: 2026-09-24, eight bodies took 42.34s where the network alone was 0.1-0.4s
-#: each (``output/body-pace/round-baseline.json``).
+#: each .
 _ccgp_body_pace_lock = threading.Lock()
 _ccgp_body_last_request = 0.0
 #: A rate-limit page is a stop signal, not a retry hint. The site says so in
@@ -1524,7 +1524,7 @@ CCGP_RATE_LIMIT_COOLDOWN = 300.0
 CCGP_HOST_SUFFIX = "ccgp.gov.cn"
 #: The one host the 6s floor still guards.
 #:
-#: The block ``docs/89`` measured was on the *search* subdomain: two list
+#: The block measured was on the *search* subdomain: two list
 #: requests, ten minutes apart, both returned the rate-limit page, while three
 #: article fetches on ``www.ccgp.gov.cn`` succeeded 3/3 in the same window. The
 #: 6s floor answers the first measurement and is left exactly as it was;
@@ -1535,7 +1535,7 @@ CCGP_SEARCH_HOST_SUFFIX = "search.ccgp.gov.cn"
 #: Measured against ``www.ccgp.gov.cn`` (2026-09-24, 20:29-20:31): eight
 #: articles at a 0.5s start-to-start interval returned 200 8/8, and eight more
 #: at 4-way concurrency returned 200 8/8 -- no "频繁访问" page, no 403, no reset
-#: (``output/body-pace/runs/``). 0.5s is the tightest interval actually run, so
+#: . 0.5s is the tightest interval actually run, so
 #: the shipped value is twice it: that measurement is a 60-request window on one
 #: evening and does not license shipping its edge.
 CCGP_BODY_MIN_INTERVAL = 1.0
@@ -1545,7 +1545,7 @@ CCGP_BODY_MIN_INTERVAL = 1.0
 #: no caller may exceed it.
 CCGP_BODY_FETCH_WORKERS = 3
 #: The site's own words, as bytes so a payload can be screened without decoding
-#: it (``docs/89`` §2.0 read them out of a live 2920 B rate-limit page).
+#: it ( read them out of a live 2920 B rate-limit page).
 _CCGP_RATE_LIMIT_BYTES = (
     "频繁访问".encode("utf-8"), "您的访问过于频繁".encode("utf-8"),
     "频繁访问".encode("gb18030"), "您的访问过于频繁".encode("gb18030"),
@@ -1586,7 +1586,7 @@ def _ccgp_form_date(value) -> str:
     """Format one window bound the way the site's own form sends it.
 
     Accepts a zero-padded ISO string (the ``SearchQuery.window_start`` /
-    ``window_end`` convention, ``docs/80`` §2.2) or a ``date`` / ``datetime``.
+    ``window_end`` convention, ) or a ``date`` / ``datetime``.
     """
     if isinstance(value, str):
         try:
@@ -1610,7 +1610,7 @@ def ccgp_window_segments(window_start: str | None = None, window_end: str | None
     Rules, all of which the callers depend on:
 
     * ``window_start`` / ``window_end`` are zero-padded ``YYYY-MM-DD`` strings
-      (``docs/80`` §2.2); anything else raises ``ValueError`` rather than being
+      ; anything else raises ``ValueError`` rather than being
       coerced, because a silently mis-parsed bound moves the whole window.
     * A missing end means "up to today"; a missing start means "as far back as
       this adapter walks". Both mean a bounded request, never an open one.
@@ -1631,7 +1631,7 @@ def ccgp_window_segments(window_start: str | None = None, window_end: str | None
             return None
         text = str(value).strip()
         # Zero padding is not cosmetic: these strings are compared
-        # lexicographically downstream (``docs/80`` §2.2), and ``strptime``
+        # lexicographically downstream , and ``strptime``
         # alone would quietly accept ``2024-1-1``.
         if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", text):
             raise ValueError(f"window_{side} must be a zero-padded ISO date (YYYY-MM-DD)")
@@ -1695,7 +1695,7 @@ class CCGPSearchProvider(PublicWebSearchProvider):
     Pacing is split by host, not by page type, because that is what the two
     measurements describe. ``search.ccgp.gov.cn`` keeps the original 6s floor
     (``min_interval``) on its own module-level clock: that host answered the
-    very first request with a rate-limit page (``docs/89`` §2.0) and the floor
+    very first request with a rate-limit page  and the floor
     is the answer to it. Article bodies -- ``www.ccgp.gov.cn/cggg/...`` -- are
     paced by ``body_min_interval`` on a second, independent clock, because that
     host was measured to tolerate far more (see ``CCGP_BODY_MIN_INTERVAL``).
@@ -1720,7 +1720,7 @@ class CCGPSearchProvider(PublicWebSearchProvider):
     #: that was really sent rather than the one that was preferred.
     last_engine_query: str = ""
     #: The site's other two form filters. They have no ``SearchQuery`` field yet
-    #: (``docs/80``), so they are channel configuration; an empty value keeps the
+    #: , so they are channel configuration; an empty value keeps the
     #: parameter out of the URL entirely.
     agent_name: str = ""
     display_zone: str = ""
@@ -1756,7 +1756,7 @@ class CCGPSearchProvider(PublicWebSearchProvider):
         window 2025-01-01..2025-12-31): empty keyword **2 rows**, keyword set to
         the project id **1 row** -- the body index does not hold the identifier
         as one token, so ANDing it drops one of the two announcements the exact
-        filter had already found. ``docs/76`` §1 #2/#3 measured the same two
+        filter had already found.  #2/#3 measured the same two
         filters without a keyword for the same reason.
 
         A query with no exact filter returns nothing here, so an ordinary
@@ -1887,7 +1887,7 @@ class CCGPSearchProvider(PublicWebSearchProvider):
         The four form filters are all optional and all off by default. Measured
         on the live site: ``projectId`` matches one project exactly and returns
         only its announcements, and ``buyerName`` + one ``kw`` is an AND pair
-        (``docs/76`` §1 #3/#4) -- that pair is what the alignment chain asks
+        ( #3/#4) -- that pair is what the alignment chain asks
         with, because a brand word beats a model string on this index
         (``1300A2`` full-text returned 2 unrelated projects where ``知楚``
         returned the announcements carrying the brand).
@@ -1925,7 +1925,7 @@ class CCGPSearchProvider(PublicWebSearchProvider):
     def _query_filters(self, query: SearchQuery) -> dict[str, str]:
         """The site-form filters this query carries.
 
-        ``buyer_name`` / ``project_id`` come from the query (``docs/80`` §6);
+        ``buyer_name`` / ``project_id`` come from the query ;
         ``agent_name`` / ``display_zone`` are channel configuration until the
         model grows those fields. CCGP has no supplier parameter, so
         ``supplier_name`` cannot travel here -- it belongs in ``kw``, where the

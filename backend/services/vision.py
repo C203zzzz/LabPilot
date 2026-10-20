@@ -85,7 +85,7 @@ def _config_error(setting: str, raw: object, problem: str) -> VisionAdapterError
     """构造一个点名设置项、原值和合法范围的配置错误。
 
     对外只留一条路：说清"哪一项、写的什么、允许什么"，不退回默认值——退回会把
-    "装错了"变成"照默认跑"，见 ``docs/209`` §3。
+    "装错了"变成"照默认跑"，见 。
     """
 
     return VisionAdapterError(

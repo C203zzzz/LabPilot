@@ -24,10 +24,10 @@ def rebuild(repo, task_id: str) -> dict:
             chunks.append(DocumentChunk(f"{doc['id']}:text:1", doc["id"], doc["extracted_text"], EvidenceSource.USER_DOCUMENT,
                 location="text:1", source_url=doc.get("source_uri")))
     # M04 stores both snippets and body_text; only fetched body_text is evidence.
-    # 落盘层的号码掩码（``docs/154`` §4 第 14 行）：RAG 表存的是 ``search_runs`` 正文的
+    # 落盘层的号码掩码：RAG 表存的是 ``search_runs`` 正文的
     # **另一份副本**，所以落库前也要过同一道掩码。这里是"重建 RAG"的入口，因此修复
     # 之前写进 ``search_runs`` 的旧正文在这一步也会被掩掉，不会再抄一份脏的进 RAG 表。
-    # 上面那些用户自己上传的文档不掩：那不是公开网页正文，不在 ``docs/154`` 的范围里。
+    # 上面那些用户自己上传的文档不掩：那不是公开网页正文，不在掩码范围里。
     for run in repo.list("search_runs", task_id):
         for source in run.get("sources", []):
             if source.get("body_status") != "fetched" or not (source.get("body_text") or "").strip():

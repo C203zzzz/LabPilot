@@ -217,7 +217,7 @@ def empty_result_warnings(empty_channels, failed_channels) -> list[str]:
     * ``empty_results_all_channels:<通道名>``——传进来且跑通的通道**全部**为空，
       这才真是"整轮没有结果"；
     * ``search_channel_failed:<通道名>``——有通道抛异常。失败与"确实没有结果"是两件事
-      （``docs/209`` §3：一次通道失败不许放大成整条链路失败，也不许说成"没有查到"）。
+      （：一次通道失败不许放大成整条链路失败，也不许说成"没有查到"）。
       它刻意**不用** ``provider_failed:`` 前缀：那个前缀在研究链路会被整条过滤掉
       （丢给排查用的 ``failures``），对外就会连"某通道这次没跑通"都不剩。
     """
@@ -313,7 +313,7 @@ class OfficialSearchService:
             rel_score = relevance_score(hardened_query, result)
             if lead_profile is None:
                 return auth_score * 0.6 + rel_score * 0.4
-            # 「线索吻合度」必须进排序：否则 docs/76 §9 的杭锦旗那类公告
+            # 「线索吻合度」必须进排序：否则杭锦旗那类公告
             # （.gov.cn、authority_score=85、与目标型号无关）会靠权威分排到前面。
             # 这一层只看标题/摘要/URL——正文这时候还没抓。
             field_match = lead_text_match(lead_profile, f"{result.title} {result.snippet} {result.url}")
@@ -355,7 +355,7 @@ class OfficialSearchService:
             sources.append(s)
         if not raw:
             # 说清是哪个通道：内部是"某一个通道这一次没有结果"，对外就不能说成
-            # "整轮检索没有结果"（``docs/209`` §3）。通道抛异常时另写失败句。
+            # "整轮检索没有结果"。通道抛异常时另写失败句。
             warnings.extend(empty_result_warnings(empty_channels, failed_channels))
         if sources and all(s.source_type not in (SourceType.MANUFACTURER_WEBSITE, SourceType.MANUFACTURER_DOWNLOAD, SourceType.TENDER_DOCUMENT) for s in sources):
             warnings.append("no_official_source")
@@ -448,7 +448,7 @@ class OfficialSearchService:
             if fetch_error is not None:
                 raise fetch_error
             raise IOError("no body fetch provider")
-        # 落盘层的号码掩码（``docs/154`` §4 第 13 行）：这是一条**独立车道**
+        # 落盘层的号码掩码：这是一条**独立车道**
         # （``POST /tasks/{id}/search`` → ``search_runs`` 表），正文不进
         # ``procurement_research.fetch_source``，所以共享掩码必须在这里也接一次，
         # 否则同一个洞里只堵了一半。掩在返回之前：下游的 ``price_quote``／
@@ -471,7 +471,7 @@ def queries_from_candidate(candidate, purpose: str = "official") -> list[SearchQ
     return [SearchQuery(text=f'"{text}" {suffix}', candidate_id=getattr(candidate,"id",None), brand=brand, model=model, purpose=purpose)]
 
 
-#: CCGP 的时间窗超过约 366 天会**静默返回 0 条**（docs/76 §1 事实 #5），
+#: CCGP 的时间窗超过约 366 天会**静默返回 0 条**（实测），
 #: 所以窗口一律切到 366 天以内，而不是交给通道的固定一年窗口。
 MAX_PLAN_WINDOW_DAYS = 366
 #: 宽窗口最多保留最近 3 段，避免查询式数量失控。
@@ -516,7 +516,7 @@ def _lead_windows(lead) -> tuple[tuple[str, str], ...]:
 
 
 def _lead_plan_steps(lead) -> list[dict]:
-    """按精度从高到低排的查询式（不含量时间窗），对应 docs/76 §2 对话 3 第 1 条。
+    """按精度从高到低排的查询式（不含量时间窗），对应  对话 3 第 1 条。
 
     ``project_id`` 精确 → ``buyer_name`` + 品类词 → ``buyer_name`` + 型号 →
     ``supplier_name`` → ``buyer_name`` 单独 → 型号 + 品类词（兜底）。
@@ -542,7 +542,7 @@ def _lead_plan_steps(lead) -> list[dict]:
     if lead.buyer and lead.model:
         add(lead.model, buyer_name=lead.buyer, model=lead.model)
     if lead.supplier:
-        # CCGP 表单没有供应商字段（docs/80 §6），所以供应商名只能当 kw 用；
+        # CCGP 表单没有供应商字段，所以供应商名只能当 kw 用；
         # 结构化字段同时带上，将来通道支持时不必再改这里。
         add(lead.supplier, supplier_name=lead.supplier)
     if lead.buyer:
@@ -590,7 +590,7 @@ def queries_from_lead(lead, limit: int = 10) -> list[SearchQuery]:
     return queries
 
 
-#: 百度一页 20 条（`rn=20`），与 docs/88 §4 的实测形态一致。
+#: 百度一页 20 条（`rn=20`），与实测的页面形态一致。
 BAIDU_QUERY_LIMIT = 20
 #: 百度是"定位官方原文"的兜底，不是第二套召回：最多两条视角（买方视角 + 供应商视角）。
 BAIDU_MAX_QUERIES = 2
@@ -600,9 +600,9 @@ def _baidu_keyword_combos(lead) -> list[str]:
     """线索字段拼成的百度关键词组合，最多 ``BAIDU_MAX_QUERIES`` 条。
 
     至少两个线索字段才拼——只给一个"生物安全柜"这样的品类词是泛搜，不是定位原文。
-    串尾带"中标"，因为这条通道的用途就是找**已经成交**的那篇公告（docs/88 §4②实测
+    串尾带"中标"，因为这条通道的用途就是找**已经成交**的那篇公告（②实测
     `库车市农业农村局 知楚 生物安全柜 中标` → 19 行、其中 gov/edu 15 条；
-    docs/88 §4 同时记着字母数字型号在两个索引上都不如中文词有效）。
+     同时记着字母数字型号在两个索引上都不如中文词有效）。
     """
     combos: list[str] = []
 
@@ -625,7 +625,7 @@ def baidu_queries_from_lead(lead, limit: int = BAIDU_QUERY_LIMIT) -> list[Search
 
     结果 URL 只是**候选公告**：调用方必须按主机筛 `.gov.cn` / `.edu.cn` 再交给闸门，
     不许把 SERP 摘要当证据、更不许绕过 `lead_alignment` 直接进结论。
-    百度没有时间窗参数，所以这些查询**不带窗口**——结论里也不许假装有（`docs/80` §2.2
+    百度没有时间窗参数，所以这些查询**不带窗口**——结论里也不许假装有（
     只允许零填充 ISO；宁可为空也不能编一个）。
     """
     profile = coerce_lead(lead)

@@ -19,7 +19,7 @@ from backend.schemas.search import source_to_dict
 from backend.services.official_search import OfficialSearchService
 #: ``NOT_REQUESTED`` 是"按需查价下用户还没点"这一档的结论码（它与"本该查却没走到"
 #: 分开，见 ``alternative_price_lookup``）。放在模块级 import 是因为两条路都要读它：
-#: ``alternatives()`` 批量写这一档、``lookup_candidate_price()`` 判断"这是不是缓存"。
+#: ``alternatives`` 批量写这一档、``lookup_candidate_price`` 判断"这是不是缓存"。
 from backend.services.alternative_price_lookup import NOT_ATTEMPTED, NOT_REQUESTED
 from backend.services.procurement_rules import (NO_CONFIRMED_PARAMETER, brand_identity, comparison_basis, contains_model,
                                                 evaluate_parameter, format_money, identity, supported, validate_price)
@@ -32,9 +32,9 @@ from backend.services.source_authority import host_of, is_local_authority_host, 
 #: 一轮研究（两条车道共享）的请求／模型调用上限。**不可配**，改动即改产品行为。
 #:
 #: 原值 ``search 40 / fetch 72 / model 24`` 是在真跑里被撞满过的两道墙：
-#: ``docs/209`` 真站一轮 ``search`` **40/40** 打满、"核查其他品牌"被控流停掉、替代品
-#: 车道停在 ``pending``；``docs/210`` 的 ``extract6`` 一轮 ``fetch`` 撞 **72/72**，
-#: 只剩"附件读取额度已用完"的缺口文字。负责人 2026-09-28 拍板「先保功能、后收紧
+#: 真站一轮 ``search`` **40/40** 打满、"核查其他品牌"被控流停掉、替代品
+#: 车道停在 ``pending``；的 ``extract6`` 一轮 ``fetch`` 撞 **72/72**，
+#: 只剩"附件读取额度已用完"的缺口文字。「先保功能、后收紧
 #: 成本」，2026-09-29 按此把三道都翻倍（``search 80 / fetch 160 / model 48``）。
 #: ``model`` 那道原先没单独撞过，是因为全局小时额度（默认 20）先卡住了它。
 RESEARCH_LIMITS = {'search': 80, 'fetch': 160, 'model': 48}
@@ -59,7 +59,7 @@ PARALLEL_ALTERNATIVES_RESERVE = {'search': 8, 'fetch': 12, 'model': 6}
 
 #: 相似品发现那一次模型调用能看到的正文篇数，以及每篇截断到多少字符。
 #:
-#: 这两个数字原来写死在 ``alternatives()`` 的调用行里（``sources[:8]``、
+#: 这两个数字原来写死在 ``alternatives`` 的调用行里（``sources[:8]``、
 #: ``body_text[:14000]``），提成常量只是给它们一个名字，**值一个字没改**。
 #: 窗口的组成由 ``research_planning.discovery_sources`` 的两级排序决定
 #: （非公告页面排在公告前面）——那才是"同类产品页不被采购公告挤出去"的修复点。
@@ -70,7 +70,7 @@ DISCOVERY_WINDOW_CHARS = 14000
 #: 状态，不是研究结论，不该跟着 run 进报告。
 LANE_RESERVE_FLAG = '_lane_reserve_for_alternatives'
 
-#: 两条车道**同时**跑的总开关（负责人 2026-09-26 要求：「后端代码改成同时跑成交金额
+#: 两条车道**同时**跑的总开关（「后端代码改成同时跑成交金额
 #: 检索和相似品查找两个模块」）。置 False 就退回从前的串行执行，判据一个字不差。
 LANES_TOGETHER = True
 
@@ -80,17 +80,17 @@ LANES_TOGETHER = True
 LANES_TOGETHER_STAGE = '核查同款价格与同档替代'
 
 #: 两段式"先展示候选、按需查价"的总开关（负责人 2026-09-26 的口径，设计见
-#: ``docs/HANDOVER-alt-two-stage.md``）。
+#: ）。
 #:
-#: **默认开**（负责人 2026-09-29 拍板：终版就是开关打开——"先不执行相似品的查价，
-#: 让用户点击按钮后再启动查价"）。开着的时候 ``alternatives()`` 不再对候选批量查价，
+#: **默认开**（终版就是开关打开——"先不执行相似品的查价，
+#: 让用户点击按钮后再启动查价"）。开着的时候 ``alternatives`` 不再对候选批量查价，
 #: 只把每个候选写成 ``price_lookup.status = 'not_requested'``；
 #: 价格要等用户点了某一个候选的按钮、走
 #: ``POST /api/v1/tasks/{task_id}/research-runs/{run_id}/alternatives/{candidate_id}/price``
 #: （服务侧是 ``ProcurementResearch.lookup_candidate_price``）才去查。
 #:
 #: 名字按设计清单原样取（``ALTERNATIVE_PRICE_ON_DEMAND``），不套本仓 ``LAB_`` 前缀：
-#: 那是负责人拍板写在接口设计里的开关名，改名会让部署脚本和设计文档对不上。
+#: 那是写在接口设计里的开关名，改名会让部署脚本和设计文档对不上。
 ON_DEMAND_ENV = 'ALTERNATIVE_PRICE_ON_DEMAND'
 
 #: 打开开关的字面值。与 ``search_providers`` 里 ``LAB_BROWSER_READING == '1'``
@@ -137,7 +137,7 @@ def alternative_price_on_demand(environ=None):
 #:
 #: ``url`` 为空时的退化规则（2026-09-27 真落盘复算：主检出库里 6 条研究记录共 23 个
 #: 候选**一个都没有**空 url，所以这条规则是给"来源网址没落到候选上"这一种情况兜底的，
-#: 证据见 ``output/ondemand/identity-replay.txt``）：
+#: 证据见 ）：
 #:
 #: 1. 用 ``'\x00no-url:' + str(model)`` 当地址段——仍由**型号逐字**决定，同一轮两次
 #:    算同一个值；
@@ -214,8 +214,7 @@ EDUCATION_PLATFORM_LIMIT = 24
 #:
 #: * **列表查询**：一个平台一次（安徽 / 江西 / 浙江 / 广西 = 4 次），命中缓存时 0 次；
 #: * **详情回读**：只有政采云内核家族（浙江 / 广西）需要——它们的列表行只给"命中
-#:   片段"（~120 字符，``price_table_rows`` 读不出任何一行，实测见
-#:   ``output/province-direct/pd1-excerpt-gate.txt``），正文必须回读
+#:   片段"（~120 字符，``price_table_rows`` 读不出任何一行），正文必须回读
 #:   ``GET /portal/detail?articleId=``。每个平台最多
 #:   ``province_award_sources.PORTAL_DETAIL_LIMIT``（4）条，两站 = 8 次。
 #:
@@ -242,7 +241,7 @@ SEARCH_RESULT_LIMIT = 10
 #:
 #: 每复核一条至少一次 CCGP 站内搜索，而那一条线有 6 秒地板、撞「频繁访问」还要
 #: 停 300 秒（``search_providers.CCGP_RATE_LIMIT_COOLDOWN``）。chinamae 一个型号
-#: 第 1 页就有 14–50 行（``docs/164``），全量复核会把一轮的额度与时间全吃在这一条
+#: 第 1 页就有 14–50 行，全量复核会把一轮的额度与时间全吃在这一条
 #: 通道上，所以取一个小的定数；被上限挡下的线索**记成缺口**，不静默丢弃。
 AGGREGATOR_RECHECK_LIMIT = 5
 #: 一次 CCGP 站内搜索最多看几条候选公告（取回列表用，不额外发请求）。
@@ -258,7 +257,7 @@ AGGREGATOR_CCGP_BODY_LIMIT = 3
 #:
 #: ``no_price_fallback``：**产品默认路径**——价格车道跑完（``lanes['price'] ==
 #: 'completed'``）而 ``run['prices']`` 仍为空。判据是「价格确实没产出」，不是
-#: 「某一次检索没命中」：CCGP 按型号直查本来就弱（``docs/161`` 实测 3/6，那份报告
+#: 「某一次检索没命中」：CCGP 按型号直查本来就弱（实测 3/6，那份报告
 #: 自己写明样本不能外推），拿"没命中"当判据等于每个任务都多打一轮 CCGP 站内搜索，
 #: 而那条线有 6 秒地板、撞「频繁访问」停 300 秒。
 #: ``forced``：``run['aggregator_lead_discovery']`` 为真——保留给探针、用例与排障的
@@ -277,15 +276,15 @@ AGGREGATOR_TRIGGER_NOTES = {
 #:
 #: **为什么要有这个名字**：这个窗口比 ``search`` / ``fetch`` 额度**更早**生效——一条
 #: 查询可能从多个通道拿回三十条候选，去重排序后只有窗口内的那几条被读正文，其余既不抓
-#: 也不记录（docs/111 §3.2、docs/112 §2）。它此前是散在两处的内联三元表达式
+#: 也不记录。它此前是散在两处的内联三元表达式
 #: （``5 if purpose == 'discovery' else 3``），改一处漏一处不会有任何提示。
 #:
 #: **取值保持现状，一个字没变**：发现阶段 ``discovery`` 是 5，其余用途是 3。
-#: 把两条路径统一放宽成 5 的对照实验（``docs/118``）在这个样本上**没测出收益**：
+#: 把两条路径统一放宽成 5 的对照实验在这个样本上**没测出收益**：
 #: 候选层确实多进 24 条，但真正抓到的正文没多（60 对基线 62）、采信价格 0 对 0、
 #: 配置 0 对 0，墙钟反而多 27.7 s；两轮都先顶格 ``fetch=72``，A 档只跑完 15 个查询
 #: 就用光了抓取额度（基线 19 个）。所以这一步**只把丢弃留痕补上**
-#: （见 ``note_candidate_window``），窗口大小不动——台账 ``docs/78`` 第 67 行的口径
+#: （见 ``note_candidate_window``），窗口大小不动——台账 第 67 行的口径
 #: 也是「先给丢弃留痕再评估」。
 BODY_CANDIDATE_LIMITS = {'discovery': 5, 'default': 3}
 
@@ -359,7 +358,7 @@ TENDER_BODY_UNVERIFIED = 'tender_body_unverified'
 
 #: What an earlier version appended to those gaps. It named two internal stages,
 #: claimed the body had been *priced* from (a run with zero accepted prices still
-#: printed it eight times), and reached 164 gap lines (``docs/202``). It is
+#: printed it eight times), and reached 164 gap lines . It is
 #: matched here only so already-stored runs stop printing it.
 LEGACY_BODY_GAP_NOTE = re.compile(r'（这是检索阶段的判定；研究阶段已取得正文并据其核价，见来源清单）\s*$')
 
@@ -397,7 +396,7 @@ def sanitize_gap_text(gap):
 
 
 #: 比较基准里那些**由销售口述**的字段：报告必须说清"这一项现在是什么状态"。
-#: 顺序与 ``report()`` 里「比较基准」节一致，前端 ``PriceRejectionSection`` 之外
+#: 顺序与 ``report`` 里「比较基准」节一致，前端 ``PriceRejectionSection`` 之外
 #: 的核价页也按这套名字展示。
 SALES_FIELDS = (('category', '仪器品类'), ('quantity', '数量'), ('tax', '税费'),
                 ('shipping', '运费'), ('installation', '安装培训'), ('warranty', '保修期限'),
@@ -515,7 +514,7 @@ def reconcile_tender_body_gaps(gaps, sources):
 #: while holding ``sbm.pumc.edu.cn``.
 NO_OFFICIAL_SOURCE = 'no_official_source'
 
-#: How many sources ``prices()`` may spend one model call on **per target**. It is
+#: How many sources ``prices`` may spend one model call on **per target**. It is
 #: a cost gate, not a price test: everything past it already passed the entry
 #: predicates (fetched / price-source type / target model in body) and the amount
 #: gate, and is only out of budget.
@@ -537,7 +536,7 @@ LATE_PRICE_SOURCE_LIMIT = PRICE_SOURCE_LIMIT
 #: empty, requested again in each following pass for no gain.
 #:
 #: Two, not one: a second attempt is the existing recovery contract, not a waste
-#: -- ``query()`` re-enters the same notice when a query is already completed and
+#: -- ``query`` re-enters the same notice when a query is already completed and
 #: ``tests/test_delivery_fixes.py::test_failed_attachment_remains_recoverable``
 #: pins exactly that (the first read fails, a later pass with the file reachable
 #: must succeed). What changes is that the attempts are **counted in one place**
@@ -953,7 +952,7 @@ def confirmed_model(repo, task_id):
 #: 抓取之后按**正文文书类型**剔掉与采购内容无关的附件。附件发现
 #: （``research_sources.attachment_leads``）跑在抓取之前，那时只有文件名和 URL，
 #: 所以「这份文件读不读」只能在正文到手之后判，而那一步落在这里。
-#: 判据是文书类型，不是关键词：实测（``output/pipe-supervisor-20260923/site-probe/``
+#: 判据是文书类型，不是关键词：实测（
 #: ``attachment-survey.txt``，41 条真实附件）两条中小企业声明函和那份医价网宣传书
 #: **恰好含「标的名称」「技术参数」字样**，按关键词判会假阳性。文书名只认正文**开头**
 #: 的 ``DOCUMENT_HEAD_CHARS`` 字：一份文书是不是承诺函，看它开头是不是承诺函。
@@ -983,11 +982,11 @@ def irrelevant_document(text):
 #: 附件正文里承载「配置」的标题词，顺序即优先级：越具体的标题越先取窗口。
 #: 附件的配置只写在这些标题下面，而 ``attachment`` 原来是 ``attachment_text[:12000]``
 #: —— 从**开头**砍一刀，长附件里这一刀正好砍在配置清单前面。复算真实运行
-#: （``output/pipe-supervisor-20260923/site-probe/``）确认：DW-86L578S 那次的父公告
+#: 确认：DW-86L578S 那次的父公告
 #: 加自身附件共 48176 字，「配置清单」在第 30863 字，改动前喂给抽取模型的那 12000 字
 #: 里没有它；海口那条公告自身的附件拼起来 56646 字，「主要配置清单（1 台标准配置）」
-#: 在第 29381 字。后者另有一个更靠前的拦路条件（那条公告正文不含型号，``prices()``
-#: 根本不会处理它），本轮没改那条筛选规则，见 ``docs/65`` 第 3 节。
+#: 在第 29381 字。后者另有一个更靠前的拦路条件（那条公告正文不含型号，``prices``
+#: 根本不会处理它），本轮没改那条筛选规则，见 第 3 节。
 #: 与 ``price_regions`` 同一个思路：不砍头，按内容定位取局部窗口。
 CONFIGURATION_HEADINGS = (
     '主要配置清单', '配置清单', '标准配置', '主要标的', '采购清单及技术要求', '货物需求',
@@ -1198,17 +1197,17 @@ def failure_location(error):
 
 
 #: 一次性口令／会话参数名。异常原文里常常带着**整条请求地址**，而这些参数的值等于
-#: 凭据：`accessCode` 是政府采购平台附件的一次性下载口令（``docs/56``、``docs/200``），
-#: ``uuid`` 是 CCGP 的附件 id。与 ``docs/207`` 的台面核对规则同一组名字，
+#: 凭据：`accessCode` 是政府采购平台附件的一次性下载口令，
+#: ``uuid`` 是 CCGP 的附件 id。与台面核对规则同一组名字，
 #: 与 ``supplemental_research.prompt_packet`` 的做法同向——那里干脆把查询串整条丢掉。
 #:
 #: 名单按**参数名**认，白名单永远可能漏，所以它是第一道、不是唯一一道（第二道见
 #: ``_URL_QUERY``）。``api_key`` 就是漏过的一次：它里面的 ``key`` 前面是下划线，
 #: 被下面那条负向断言挡住（那条断言防的是 ``monkey=``／``keyword=`` 这类误伤），
 #: 于是整条凭据原样落库——``api[-_]?key``／``apikey``／``password``／``authorization``
-#: 这些写法因此单独列，且排在 ``key`` 前。``docs/209``（字段 ``error``）与
-#: ``docs/210``（字段 ``detail``）两侧各写了一份脱敏，合并时取并集，只留这一个函数、
-#: 一个字段名；两边的漏处、载荷与比较过程见 ``docs/DRAFT-merge-alt.md`` 与
+#: 这些写法因此单独列，且排在 ``key`` 前。（字段 ``error``）与
+#: （字段 ``detail``）两侧各写了一份脱敏，合并时取并集，只留这一个函数、
+#: 一个字段名；两边的漏处、载荷与比较过程见 与
 #: ``tests/test_lane_crash_resilience.py`` 的 ③ 一节。
 _ONE_TIME_TOKEN = re.compile(
     r'(?i)(?<![A-Za-z0-9_])'
@@ -1222,7 +1221,7 @@ _URL_QUERY = re.compile(r'(?i)\b(https?://[^\s?#]*)\?([^\s#]*)')
 def _blank_query_values(match):
     """把一条 URL 查询串里每个 ``k=v`` 的**值**抹成 ``***``，参数名留着。
 
-    为什么不连名字一起丢（``docs/210`` 侧原是把整条查询串换成 ``?<已隐去>``）：名字
+    为什么不连名字一起丢（侧原是把整条查询串换成 ``?<已隐去>``）：名字
     留着才看得出"这条链接当时带了哪几个参数"；要证明的只是凭据没落库，不是把请求
     形状也抹平。
 
@@ -1263,13 +1262,13 @@ def note_failure(run, stage, code, error):
     """把一次失败的技术细节留在 ``run['failures']``。
 
     这些字段（异常类名、出错行、**异常原文**）是给排查用的，**不渲染到页面**
-    （前端全库搜不到 ``failures``，见 ``docs/65`` 第 3 节），所以异常类名放这里、
+    （前端全库搜不到 ``failures``，见 第 3 节），所以异常类名放这里、
     缺口文字那一侧只写中文。
 
     ``error`` 记的是脱敏后的 ``str(error)``。为什么非记不可：标准库
     ``urllib/parse.py:_checknetloc`` 抛 ``ValueError`` 时，**message 里就带着那个
     出问题的主机名**；只记 ``type`` 与 ``location`` 的话，事后谁也回不到具体是
-    哪一条链接（``output/lane-crash`` 里那一轮就是这样，只能把页面重新抓一遍才
+    哪一条链接（那一轮就是这样，只能把页面重新抓一遍才
     定位到）。
     """
     run.setdefault('failures', []).append({'stage': stage, 'type': type(error).__name__,
@@ -1981,7 +1980,7 @@ def _price_sources(prices):
 #: 为什么按"哪一步拿到"分类而不是只留一个网址列表：同一台机器常常先被目录页提到、
 #: 参数只在详情页上、配置证据又可能来自第三个页面，用户要能看出每条链接回答的是哪个问题。
 #: 价格来源（``candidate['prices'][].url``）**不在这里**——它在候选卡片的价格区已经有
-#: 自己那一块（``PriceSources``），同一件事不在两个出口各说一遍（``docs/209`` §5）。
+#: 自己那一块（``PriceSources``），同一件事不在两个出口各说一遍。
 CANDIDATE_SOURCE_ORIGINS = ('discovered', 'detail_page', 'brand_evidence',
                             'config_match', 'matrix')
 
@@ -2040,7 +2039,7 @@ def record_candidate_source_pages(candidate):
 
     * **只增不减**——同一候选在不同阶段被不同来源支撑（发现 → 详情页 → 品牌 →
       配置 → 参数），每次都调一次，结果取并集。负责人要的"取信息最全的那次"就是这一步：
-      重跑一轮只拿到 1 条来源时，上一轮那 3 条**一个字都不删**（``docs/209`` §5
+      重跑一轮只拿到 1 条来源时，上一轮那 3 条**一个字都不删**（
       "内部事实不许被抹掉"）。已有条目的 ``origin`` / ``primary`` 一律不因为后一次
       调用而改写，只在必要时补上主来源标记。
     * **主来源最多一条**——它由"发现这条候选的那一页"（``candidate['url']``）唯一决定；
@@ -2853,7 +2852,7 @@ class ProcurementResearch:
         ``is_tender`` 判——**判不出来就是 ``unknown``**，绝不会因为"它是成交公告"就
         直接写成 ``tender_document``。
 
-        落盘前的号码掩码（``docs/154`` §4 第 6、7 行）：这条通道的正文**不进**
+        落盘前的号码掩码：这条通道的正文**不进**
         ``fetch_source``（它是从平台列表响应的 ``content`` 字段自己拼出来的），所以
         共享落盘点覆盖不到它，必须在这里单独接一次。掩的是公告 ``content`` 原文——
         ``snapshot`` 与 ``body_text`` 都由它派生，先掩原文两处才同时干净；只掩正文
@@ -2921,8 +2920,8 @@ class ProcurementResearch:
         ``recalled`` 是这条查询去重之后（并已过 ``relevant_source`` 判据）的候选数，
         ``admitted`` 是真正交给正文抓取循环的条数——两者的差正是被
         ``body_candidate_limit(purpose)`` 截掉、过去既不抓也不记录的那批
-        （docs/111 §3.2、docs/112 §2）。有了它，「这个窗口丢了多少」才能用 run 里的
-        数字回答，而不是靠推断（docs/118 的对照实验就是这么读出来的）。
+        。有了它，「这个窗口丢了多少」才能用 run 里的
+        数字回答，而不是靠推断（的对照实验就是这么读出来的）。
 
         窗口是**每查询一个决定**，所以字段写在本次 ``query`` 调用产生的行上
         （``first_attempt`` 之后、``query`` 文本相同的那些）。
@@ -3115,7 +3114,7 @@ class ProcurementResearch:
                 # thing again, and ``FATAL_CHANNEL_QUARANTINE_MARKER`` means the
                 # channel itself refused the account or the request shape and
                 # recorded that refusal process-wide. Measured on the two dead
-                # channels of ``docs/109``: 30 live refusals (15 tavily HTTP 432,
+                # channels of : 30 live refusals (15 tavily HTTP 432,
                 # 15 deepseek_web HTTP 400), byte-identical every time, for three
                 # spent calls per channel per task.
                 if any(marker in warning for warning in response.warnings
@@ -3284,7 +3283,7 @@ class ProcurementResearch:
 
         这一层是修法②的落点：附件线索来自**这一页的正文**，正文里的脏链接是
         单条来源自己的事。它过去直接由车道的 ``except Exception`` 兜着，于是
-        一条畸形链接把整条车道写成 ``failed``（``output/lane-crash``）。
+        一条畸形链接把整条车道写成 ``failed``。
         """
         with self.source_scope(run, source, '附件线索'):
             self._fetch_attachments(run, source)
@@ -3811,7 +3810,7 @@ class ProcurementResearch:
                     from backend.services.education_platform_sources import redact_detail
                     payload = redact_detail(platform.key, payload)
                 # 落盘层的号码掩码：**与来源是不是注册平台无关**。
-                # 这里是 ``docs/154`` §4 第 3 行那个共同根因的修法——过去只有注册平台
+                # 这里是  第 3 行那个共同根因的修法——过去只有注册平台
                 # 有钩子，第三方站／附件所在主机／品牌核验那次搜索打到的页面一律没有。
                 # 掩的是手机号与 18 位号（``mask_landed_text`` 的口径），二进制原样。
                 from backend.services.education_platform_sources import mask_landed_payload
@@ -4141,8 +4140,8 @@ class ProcurementResearch:
             body = source.get('body_text')
             if not body:
                 continue
-            # The model gate belongs here, not only inside ``prices()``: the
-            # allowance is spent in the order of this list, and ``prices()``
+            # The model gate belongs here, not only inside ``prices``: the
+            # allowance is spent in the order of this list, and ``prices``
             # refuses a body without the target model *before* it is worth a call.
             # Leaving it out let four bodies that cannot pass it eat the whole
             # allowance. Measured on a run: the first four
@@ -4158,7 +4157,7 @@ class ProcurementResearch:
         # not afford come first, because they are the ones this pass exists for --
         # they passed every entry predicate and the amount gate and were never
         # asked. A source that was only out of budget must not be out of budget
-        # twice. The rest use the same order ``prices()`` uses, so the two budgets
+        # twice. The rest use the same order ``prices`` uses, so the two budgets
         # cannot disagree about which eligible source deserves the next call.
         limit_skips = {(item.get('url'), str(item.get('target_model') or ''))
                        for item in (run.get('price_source_skips') or [])
@@ -4171,7 +4170,7 @@ class ProcurementResearch:
             before = [row for row in (run.get('prices') or []) if isinstance(row, dict)]
             # A one-source view, so this call's cost gate sees exactly the source
             # being reconsidered instead of re-reading the whole source list. The
-            # extractor cache must ride along: ``model()`` keys on the material it
+            # extractor cache must ride along: ``model`` keys on the material it
             # was given, so a key made over a one-source view is not the key the
             # first pass made, and a run that already paid for this body would pay
             # again. Merging the caches back afterwards keeps the second pass free.
@@ -4241,7 +4240,7 @@ class ProcurementResearch:
             # ``price_regions`` 只切型号行上下三行（实测那条公告的窗口 37 个字符），
             # 项目编号、采购单位、代理机构都在几十行以外，抽取 prompt 要的
             # ``procurement_unit``/``project_id`` 因此只能是空串，一路空到前端。
-            # 只抽一次：``prices()`` 每个 target 都会跑一遍这个循环。
+            # 只抽一次：``prices`` 每个 target 都会跑一遍这个循环。
             if 'notice_fields' not in source:
                 from backend.services.research_sources import lot_suppliers, notice_fields
                 notice_body = source.get('body_text') or ''
@@ -4402,7 +4401,7 @@ class ProcurementResearch:
         # Same identity rule as ``_merged_prices``: two readings of one transaction
         # whose blanks differ are one transaction. Keeping the two rules apart is
         # how the same URL and the same ¥17 480 ended up as two rows on the run
-        # (``docs/99-改后效果评测.md`` §5.1).
+        # .
         unique_rows = _merge_price_rows(result)
         # Also explain formal announcements that priced a *sibling* model and
         # were therefore dropped before any predicate ran. Display-only.
@@ -4413,7 +4412,7 @@ class ProcurementResearch:
         for item in rejections:
             deduped.setdefault((item.get('url'), (item.get('excerpt') or '')[:200],
                                 item.get('reason_code')), item)
-        # ``prices()`` runs again for every alternative candidate, so assigning
+        # ``prices`` runs again for every alternative candidate, so assigning
         # the whole list here used to discard whatever the main target had
         # already refused: one measured run refused 15 rows for the main model
         # and ended up listing 15 rows that all belonged to the last candidate,
@@ -4470,7 +4469,7 @@ class ProcurementResearch:
         pass as a first-hand announcement.
         """
         from backend.services.procurement_tables import republished_award_rows
-        # Formal publications keep going through ``prices()`` and its stricter
+        # Formal publications keep going through ``prices`` and its stricter
         # predicate stack. Reading them here as well would create a second,
         # weaker route into the evidence set, so they are skipped outright.
         formal = {'manufacturer_website', 'manufacturer_download', 'tender_document'}
@@ -4527,7 +4526,7 @@ class ProcurementResearch:
     def note_price_scan(self, candidate, sources):
         """只读记账：这一次候选抽价看到了哪批来源、各来自哪条通道。
 
-        方案 C（``docs/148`` §121-124）：不改通道、不改判据，只把"到底查了没有"
+        方案 C：不改通道、不改判据，只把"到底查了没有"
         记下来。放在每次 ``prices()`` **之前**——``prices()`` 读的是它被调用那一刻
         的 ``run['sources']``，之后（或之前）记都会与它实际看到的不是同一批。
         最后一次记账落进 ``candidate['price_lookup']`` 后即被删掉。
@@ -4667,8 +4666,8 @@ class ProcurementResearch:
 
         为什么优先站内搜索而不是通用搜索引擎：同一个项目在 CCGP 站内会有多条公告
         （招标、结果、合同各一条），能**主动挑**带成交价的那一条；通用通道常常只给
-        一条，而且经常给的是招标公告（``docs/168`` 实测三层下钻后型号单价 0/5 与
-        0/6，``docs/169`` ③ 量出 85% 对 0% 的差距）。通用通道**没有**被撤掉：
+        一条，而且经常给的是招标公告（实测三层下钻后型号单价 0/5 与
+        0/6，量出 85% 对 0% 的差距）。通用通道**没有**被撤掉：
         这里搜不到（或没有 CCGP 通道）时由调用方退回它，别的省份与其他官方源照旧。
 
         返回与既有 searcher 同形的行（``url`` / ``title`` / ``body_text``）；
@@ -4693,11 +4692,11 @@ class ProcurementResearch:
         if hasattr(provider, 'supports') and not provider.supports(query):
             return []
         if run['usage']['search'] >= run['limits']['search']:
-            # 额度见底**不是**限流信号：``query()`` 对同一件事是 ``break``（整条查询
+            # 额度见底**不是**限流信号：``query`` 对同一件事是 ``break``（整条查询
             # 放弃、不往上抛），这里必须一样"不抛"——兜底触发点在价格车道末尾，在这里
             # 上抛 ``ResearchStopped`` 会让"这一轮没有价格"的任务停在半路，连替代品那一
             # 车道都跑不到，把"没查"变成"整轮没跑完"。
-            # 比 ``query()`` 多留一条痕：额度见底发生在这条通道上时，只有
+            # 比 ``query`` 多留一条痕：额度见底发生在这条通道上时，只有
             # ``search_attempts`` 能说明"兜底为什么一条官方正文都没带回来"。
             run.setdefault('search_attempts', []).append({
                 'query': text, 'provider': provider.name, 'purpose': 'aggregator_recheck',
@@ -4728,7 +4727,7 @@ class ProcurementResearch:
             self.persist(run)
             return []
         # 结果类排前面：这一顺序决定"先读哪几篇正文"，也就是身份判据有没有机会
-        # 落在带成交价的那条公告上（``docs/169`` ③）。
+        # 落在带成交价的那条公告上（③）。
         from backend.services.aggregator_discovery import looks_like_award_notice
         rows.sort(key=lambda row: 0 if looks_like_award_notice(row['title']) else 1)
         collected = []
@@ -4996,7 +4995,7 @@ class ProcurementResearch:
 
     def alternatives(self, run):
         base = run['baseline']
-        # 方案 C 的"没查"原因码（``docs/148`` §121-124）；取值与解释都在那个模块里。
+        # 方案 C 的"没查"原因码；取值与解释都在那个模块里。
         from backend.services.alternative_price_lookup import (
             DUPLICATE_MODEL, LEAD_BELOW_REQUIREMENT, NOT_REQUESTED,
             RETAINED_FROM_PREVIOUS_ROUND, SOURCE_NOT_USABLE, VERIFICATION_LIMIT)
@@ -5058,7 +5057,7 @@ class ProcurementResearch:
             # ``discovery_sources(run['sources'], limit=len(run['sources']))`` 取回的全量、
             # 没有截断），不是模型那 8 篇窗口：``DISCOVERY_WINDOW`` 管的是送进模型的正文量，
             # 那是成本；这一条是纯本地正文扫描，零网络、零模型调用。
-            # 取证 ``output/sample-b-stability/report.md`` §三/§五.1：窗口成员每轮几乎不
+            # 取证：窗口成员每轮几乎不
             # 重叠，兜底被同一个窗口卡住时，同一套规则一轮捞 10 条、一轮只捞 1 条，
             # 候选数因此 0/5/1 波动（sample-b 三轮的发现来源实测 36～43 条，
             # 全量扫就是一次字符串遍历）。
@@ -5125,18 +5124,17 @@ class ProcurementResearch:
         if not alternative_price_on_demand():
             for position, candidate in enumerate(raw.get('candidates', [])[:10]):
                 if not isinstance(candidate, dict) or not candidate.get('model') or identity(candidate['model']) in seen:
-                    # 方案 C（``docs/148`` §121-124）：这一轮不会再查它了，如实记下"没查"
+                    # 方案 C：这一轮不会再查它了，如实记下"没查"
                     # 与原因。过去这一步什么都不留，于是"没查"和"查了没有"形状一样。
                     self.note_price_lookup_not_attempted(candidate, DUPLICATE_MODEL)
                     continue
                 src = next((s for s in sources if s['url'] == candidate.get('url')), None)
                 # "这条来源讲的是不是这个候选型号"用 ``candidate_source_matches_model``，
-                # **不是** ``contains_model``：后者要求候选型号是完整 token（``docs/203``
-                # 有意收紧的全局口径，不许放宽），于是产品页把型号写成
+                # **不是** ``contains_model``：后者要求候选型号是完整 token（# 有意收紧的全局口径，不许放宽），于是产品页把型号写成
                 # ``C1450-230V``（型号 + 连字符后缀）时这一页会被判成"不认识候选型号"，
                 # 候选在这里被记成 ``SOURCE_NOT_USABLE`` 就再没有下文——``diverse_candidates``
                 # 早就把它选进名额了，落点却两边都没有，用户眼里这条候选凭空消失
-                # （``docs/210`` 第十五节，落盘证据 ``output/alt-extract/live-extract7.json``：
+                # （第十五节，落盘证据 ：
                 # 同一页的 ``H1650`` 走完核验、``C1450`` 消失，唯一差别就是那个后缀）。
                 if not src or not supported(candidate.get('excerpt'), src['body_text']) \
                         or not candidate_source_matches_model(candidate.get('excerpt', ''), candidate['model']):
@@ -5204,7 +5202,7 @@ class ProcurementResearch:
         # 报告与卡片都不再提它——用户眼里就是"这条候选消失了"。这里补一次落点：
         # 进过名额的候选，至少要出现在参考候选里（用户可见的那个折叠清单）。
         self.place_slotted_candidates(run, slotted, raw.get('candidates') or [])
-        # 车道级总账（``docs/148`` §123）：这一轮相似品抽价扫描到多少来源、其中
+        # 车道级总账：这一轮相似品抽价扫描到多少来源、其中
         # 教育／科研平台通道与省级直查通道各几条、命中了几条候选。口径与"为什么它
         # 不是每一批来源"写在 ``alternative_price_lookup.alternative_lookup`` 里。
         from backend.services.alternative_price_lookup import alternative_lookup
@@ -5288,7 +5286,7 @@ class ProcurementResearch:
             # 行挂一份差额（口径见 ``research_planning.parameter_shortfall``）：
             # 只加 ``shortfall`` / ``shortfall_text`` 两个键，不改 status/observed，
             # 判定与 similarity_score 都不受影响（差额不参与任何判定或排序）。
-            # （``docs/217`` 的修法；搬进本方法时与 ``alternatives()`` 里那份逐字一致，
+            # （的修法；搬进本方法时与 ``alternatives`` 里那份逐字一致，
             # 两段路——批量核验与按需查价——共用这一处，不许各挂一份。）
             from backend.services.research_planning import (parameter_shortfall,
                                                             shortfall_text)
@@ -5306,9 +5304,9 @@ class ProcurementResearch:
                             status='no_comparison_basis' if no_basis else
                                    'needs_review' if has_provisional else 'eligible' if states and all(s == 'satisfied' for s in states) else 'ineligible' if 'violated' in states else 'needs_review')
             candidate['prices'] = self.alternative_prices(run, candidate, reserve_search=self._candidate_search_reserve(run, position, window, seen))
-            # 方案 C（``docs/148`` §121-124）：把这一次查价的结论（没查 / 查了没有 /
+            # 方案 C：把这一次查价的结论（没查 / 查了没有 /
             # 有来源但没被采信）与这个候选自己的逐条留痕写到卡片上。抽价链一个字没动，
-            # 这里读的全是 ``prices()`` 已经写下的 ``price_source_skips`` /
+            # 这里读的全是 ``prices`` 已经写下的 ``price_source_skips`` /
             # ``price_rejections`` 与 ``alternative_prices`` 记下的扫描账。
             from backend.services.alternative_price_lookup import candidate_lookup
             candidate_lookup(run, candidate)
@@ -5342,7 +5340,7 @@ class ProcurementResearch:
     def lookup_candidate_price(self, run, candidate_id, force=False):
         """只对 ``candidate_id`` 这一个候选做一次查价（按需查价的服务侧）。
 
-        接口形状与设计见 ``docs/HANDOVER-alt-two-stage.md`` 第二节。三条硬要求：
+        接口形状与设计见 第二节。三条硬要求：
 
         * **只做这一个候选**：不重跑发现、不重跑核验名单的判定（那一段是别人在改的
           跨品牌名额逻辑），只做现在 ``alternatives()`` 里对**每一个**候选做的那件事
@@ -5414,7 +5412,7 @@ class ProcurementResearch:
         （线索低于要求 / 上一轮沿用 / 名额用完），``candidate_scope`` 接住单点故障时
         也只是跳过这一个候选——三条路都不写 ``alternatives``。于是这些候选只剩
         ``price_lookup`` 一条留痕挂在发现名单上，报告与卡片都不再提它，用户眼里就是
-        "这条候选消失了"。真跑实测就是 ``docs/210`` 第十五节那条 ``某型号``。
+        "这条候选消失了"。真跑实测就是 第十五节那条 ``某型号``。
 
         落点选 ``reference_candidates`` 而不是新开一份清单：那是界面上**已经存在、
         用户可见**的口径（``ResearchResults.jsx`` 的"未进入深入核验的其他线索"），
@@ -5551,21 +5549,21 @@ class ProcurementResearch:
                 self.trace_procurement(run)
                 # 价格通道入口：正文给了附件线索、名下却没有附件正文的公告在这里
                 # 补抓一次。它只花 fetch 额度，抓回来的正文照旧过全部既有判据
-                # （``prices()`` 一个字没改）。
+                # （``prices`` 一个字没改）。
                 self.backfill_publication_attachments(run)
                 # 教育／科研交易平台通道（省级教育部门自己的小额竞价平台）。
-                # 位置必须在 ``prices()`` **之前**：``prices()`` 读的是它被
+                # 位置必须在 ``prices`` **之前**：``prices`` 读的是它被
                 # 调用那一刻的 ``run['sources']``，这一步新增的来源要到场才
                 # 有意义。额度是它自己的一份（``education_platform``），不占
                 # ``fetch``；价格判据一个字没改，它只是多放几条来源进去。
                 self.education_platform_leads(run, b)
                 # 省级政府采购平台"按型号直查成交公告"（安徽省本级 / 江西省本级）。
-                # 同样必须在 ``prices()`` 之前：这条通道**列表响应里就带正文**，
+                # 同样必须在 ``prices`` 之前：这条通道**列表响应里就带正文**，
                 # 进来的来源立刻是 ``fetched`` 的完整一手公告。额度是它自己的一份
                 # （``province_award``），而且结果跨任务缓存——命中缓存时 0 个请求。
                 # 价格判据一个字没改，它只是往 ``run['sources']`` 里多放几条。
                 self.province_award_sources(run, b)
-                # 合并而不是覆盖：``prices()`` 只读它被调用的那一刻的
+                # 合并而不是覆盖：``prices`` 只读它被调用的那一刻的
                 # ``run['sources']``，而 ``recover_sources``（最后一个会新增来源的
                 # 步骤）在两个通道之后才跑。到这里做赋值，会把"另一条 target 的
                 # 通道已经落库、按当前判据仍然有效"的价格整条抹掉——实测
@@ -5574,19 +5572,19 @@ class ProcurementResearch:
                 run['prices'] = _merged_prices(run.get('prices'), self.prices(run, b))
                 run['republished_prices'] = self.republished_prices(run, b)
                 # 聚合站发现渠道的**兜底触发点**：官方直查——本车道上这一串
-                # 检索、教育/科研平台通道、省级按型号直查，直到 ``prices()``
-                # 与 ``republished_prices()``——跑完仍然一条可采信的成交单价都
+                # 检索、教育/科研平台通道、省级按型号直查，直到 ``prices``
+                # 与 ``republished_prices``——跑完仍然一条可采信的成交单价都
                 # 没有，才花聚合站这笔钱。触发判据在 ``aggregator_trigger``
                 # 里（读的是落地结果，不是"某一次检索没命中"）。
                 #
                 # 位置的两处讲究：
-                # ① 在 ``prices()`` **之后**：判据是"价格确实没产出"；
+                # ① 在 ``prices`` **之后**：判据是"价格确实没产出"；
                 # ② 在本车道之内、``alternatives`` **之前**：复核回来的官方
                 #    原文因此同时喂给替代品的发现检索（``discovery_sources``
                 #    读的就是 ``run['sources']``）。
                 #
                 # 它这次进来的正文**来得及**被价格车道再读一遍：本车道的
-                # ``prices()`` 只认它被调用那一刻的来源，而这些正文是之后才到
+                # ``prices`` 只认它被调用那一刻的来源，而这些正文是之后才到
                 # 的，由「来源复核与结果汇总」里的 ``_rescan_late_price_sources``
                 # 用第二份额度补读——那一步只排除"这一轮真进过价格通道"的来源
                 # （``price_source_skips`` / ``price_source_cache_hits`` 里有的），
@@ -5730,7 +5728,7 @@ class ProcurementResearch:
                 document_quality_notice(run, self.repo.list('documents', run['task_id']))
                 # 这时这一轮不会再抓新页面了（``recover_sources`` 是最后一个会新增来源的
                 # 步骤），所以在这里补厂家产品参数、由本段末尾那次 ``persist`` 落库：
-                # ``prices()`` 末尾那次跑在价格通道里，而实测一轮 66 个来源里有 35 个是
+                # ``prices`` 末尾那次跑在价格通道里，而实测一轮 66 个来源里有 35 个是
                 # 价格通道结束之后才抓回来的（见 ``hydrate_run``）。补到就落库、补不到
                 # 就什么都不写，而且只填空配置，已有的配置不被顶掉。
                 from backend.services.product_configuration import hydrate_run
@@ -5740,10 +5738,10 @@ class ProcurementResearch:
                 for candidate in run['alternatives']:
                     candidate['price_leads'] = price_leads(run['sources'], candidate)
                 # 价格通道跑完之后才抓回来的正文，对它是**不存在**的：入口只读它跑的
-                # 那一刻的 ``run['sources']``（见 ``prices()`` 开头）。实测一轮 66 个来源
+                # 那一刻的 ``run['sources']``（见 ``prices`` 开头）。实测一轮 66 个来源
                 # 里有 35 个是价格通道结束之后才到货的，所以现在补读一次。
                 # 只读"这一轮从没进过价格通道、且现在四条件都满足"的来源——判据读的是
-                # 修法① 写下的留痕，不是猜的。判据栈一个字不改（仍然走 ``prices()``）。
+                # 修法① 写下的留痕，不是猜的。判据栈一个字不改（仍然走 ``prices``）。
                 # ``aggregator_leads``／``recover_sources`` 抓回来的正文是价格通道
                 # 结束之后才到的，它们的附件同样没人抓过；补一次再进补读，判据栈不动。
                 self.backfill_publication_attachments(run)
@@ -5762,7 +5760,7 @@ class ProcurementResearch:
                 # 这一轮到此收尾：下面是只读的取数与落库，不会再开任何车道，所以
                 # ``active_lane`` 必须在这里清掉。它的唯一含义是"这一轮从哪条车道起步"
                 # （``start_lane``／``resume`` 写入），留着就会被读成"还在跑那条车道"——
-                # 实测一轮结束 22 分钟后它仍是 ``price``（docs/234）。就绪信号是
+                # 实测一轮结束 22 分钟后它仍是 ``price``。就绪信号是
                 # ``status`` + ``lanes`` + ``finished_at``，前端也只读 ``lanes``。
                 run.pop('active_lane', None)
                 from backend.services.procurement_rules import historical_summary
@@ -5868,7 +5866,7 @@ class ProcurementResearch:
         try:
             # 这一笔是报告自己的付费调用，用 ``stage`` 记账：一轮研究要求「每一笔付费调用
             # 都落在某个计时阶段里」（见 tests/test_research_stage_timings.py），
-            # 而 report() 是在最后一个阶段之后才被调用的。
+            # 而 report 是在最后一个阶段之后才被调用的。
             with self.stage(run, '报告总述'):
                 raw = self.model(run, REPORT_OVERVIEW_PROMPT, packet)
         except ResearchStopped:
@@ -5978,7 +5976,7 @@ class ProcurementResearch:
 
         那句注解（「这是检索阶段的判定；研究阶段已取得正文并据其核价，见来源清单」）
         是旧版 ``reconcile_tender_body_gaps`` 拼上去的，**只拼给"正文已经读到"的那些
-        缺口**（已测 164 条，``docs/202``），所以它正好是"这条对读者已经不成立"的记号。
+        缺口**（已测 164 条，），所以它正好是"这条对读者已经不成立"的记号。
         库里的报告是存下来的，旧任务读一次就按当前口径清一遍；那句内部话一条都不再印。
         保留其余条目原样（含后面按逐项比较追加的冲突条目）。
         """
@@ -6086,7 +6084,7 @@ class ProcurementResearch:
         document_quality_notice(run, self.repo.list('documents', run['task_id']))
         run['prices'] = [q for q in run['prices'] if q.get('kind') in {'award', 'contract'}]
         # 报告的取材与页面同一口径：有官方成交记录时，这一轮判定为不列出的来源及其
-        # 转载口径的文字，在正文里也不出现（判据与 ``display()`` 同一个）。
+        # 转载口径的文字，在正文里也不出现（判据与 ``display`` 同一个）。
         mark_source_authority(run)
         for candidate in run['alternatives']:
             candidate['prices'] = [q for q in candidate.get('prices', []) if q.get('kind') in {'award', 'contract'}]
@@ -6101,7 +6099,7 @@ class ProcurementResearch:
         # （见本方法开头），所以不存在把研究线程的新状态盖掉的窗口。
         self.save(run)
         # 检索阶段写过「采购公告正文待核实」、而研究阶段已经把那份正文抓回来的缺口，
-        # **只在展示副本上**撤掉（``display()`` 走同一个函数，页面与报告同一份）。
+        # **只在展示副本上**撤掉（``display`` 走同一个函数，页面与报告同一份）。
         # 落库放在它前面：库里的缺口是这一轮检索的原始记账，读一次报告不该把它删掉。
         # 顺手过一遍 ``sanitize_gap_text``：库里的旧缺口还写着 ``120shop``、
         # ``（TimeoutError）``，报告这一层不许再印这些（库里那份不动）。
@@ -6199,7 +6197,7 @@ class ProcurementResearch:
                 changed = self.refresh_price_section(report, run, price_gap_labels)
                 changed = self.refresh_republished_section(report, run) or changed
                 # 这一排取并集：``master`` 侧的「读到旧报告时补一次上传资料提示」与
-                # 本单的四节重刷，改的是同一排调用不是二选一（见 docs/DRAFT-merge-report.md）。
+                # 本单的四节重刷，改的是同一排调用不是二选一。
                 changed = self.refresh_document_notice(report, run) or changed
                 changed = self.refresh_price_rejection_section(report, run) or changed
                 changed = self.refresh_gap_section(report) or changed

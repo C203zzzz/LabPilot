@@ -1,7 +1,6 @@
 """第三方聚合站「发现渠道」适配器：只产出线索，永远不产出价格证据。
 
-设计边界（都是硬约束，改动前先读 ``output/procurement-sourcing/probe_aggregators.txt``
-里的实测记录）：
+设计边界（都是硬约束，下面每一条都是实测出来的事实）：
 
 * 医价网（``www.120shop.cn``）、采招网（``bidcenter.com.cn``）与中国机电设备采购
   平台（``www.chinamae.com``）只用来**发现**：知道「某个型号在某地某项目里被某供应商
@@ -14,7 +13,7 @@
   ``renderer``（前两个站用）与 ``fetcher``（chinamae 用）。只注入其中一种时，另一种
   站点降级成「空线索 + 一句人话原因」，不影响已经注入的那一种。
 * chinamae **详情页有意不解析**：详情页有 7 个字段被服务端打成 ``******``
-  （``docs/164`` §第 1 级、``docs/169`` ① 都实测过），列表页已经给足了本模块需要的
+  （§第 1 级、① 都实测过），列表页已经给足了本模块需要的
   四样东西——项目名（``title`` 属性）、地区、日期、详情 URL。不碰掩码字段是边界。
 * 聚合站正文**永远不能**成为价格证据。本模块产出的每条记录都带
   ``evidence_grade='secondary'`` 与 ``source_kind='aggregator'``，
@@ -33,7 +32,7 @@
   调用方注入 ``searcher(query)``，「5 分钟冷却」与「同一时刻只允许一个任务用搜索
   接口」由那一层统一管，本模块不越权。
 * 官方复核**优先落到「中标/成交结果类」公告上**：复核线索时先挑结果类的，
-  同一批官方结果里也先看结果类的（``docs/169`` ③ 实测：最终落到结果类公告的
+  同一批官方结果里也先看结果类的（③ 实测：最终落到结果类公告的
   型号单价率是 17/20，落到招标/采购类的是 0/2——招标公告结构上就没有成交价）。
   这是**排序**，不是放宽判据：身份比对那几条判据一个字没动，排在前面的对不上
   就继续往后看，全对不上仍然是缺口。
@@ -142,13 +141,13 @@ _AWARD_NOTICE_MARKERS = ('中标', '成交', '结果公告', '结果公示', '�
                          '评标结果', '定标')
 
 #: chinamae 列标题里「公告类型」后缀词。项目名 = 列表标题剥掉这些后缀
-#: （口径照搬 ``docs/169`` 探针里那把已验证的尺子）。剥不干净不是错误：复核身份
+#: （口径照搬 探针里那把已验证的尺子）。剥不干净不是错误：复核身份
 #: 比对只是更难命中，并因此记成缺口——宁可不中，不放松判据。
 _NOTICE_SUFFIX = re.compile(
     r'(?:[-－—–\s]*(?:中标|成交|采购|招标|竞争性|询价|公开|邀请|结果|评标|定标|'
     r'候选人|合同|更正|变更|终止|废标|流标|验收|公示|公告|竞价|比价|议价|比选|直接)'
     r'[^\u4e00-\u9fff]*)+$')
-#: 代理机构前缀「<公司>关于」。``docs/169`` 实测必须剥：不剥的话同一家代理公司的
+#: 代理机构前缀「<公司>关于」。实测必须剥：不剥的话同一家代理公司的
 #: **另一个项目**会靠代理机构名本身凑够标题重合，被当成同一项目（idx=167 的错法）。
 _AGENCY_PREFIX = re.compile(r'^.{2,40}?关于')
 
@@ -207,7 +206,7 @@ class Lead:
     url: str = ''
     project_id: str = ''
     #: 项目名。chinamae 的列表页没有单独的「项目名称」字段，这里是**列表标题剥掉
-    #: 公告类型后缀与代理机构前缀后的推导值**（口径来自 ``docs/169``），用途只有
+    #: 公告类型后缀与代理机构前缀后的推导值**，用途只有
     #: 两个：当官方复核的查询词、当身份比对的字符串。医价网/采招网的列表页没有项目
     #: 名称时这里是空串——不把设备名硬塞进来。
     project_name: str = ''
@@ -216,7 +215,7 @@ class Lead:
     amount: str = ''
     aggregator: str = ''
     notice_date: str = ''
-    #: 聚合站自己标的地区标签。**只作展示与留痕**：``docs/164`` §四 实测有错标
+    #: 聚合站自己标的地区标签。**只作展示与留痕**：§四 实测有错标
     #: （标 ``[安徽]`` 的其实是新疆的项目），所以任何路由都不得读它。
     region: str = ''
     #: 聚合站自己标的公告类型（chinamae 的列表页有这一列，如「结果公示」）。
@@ -573,14 +572,14 @@ def _parse_bidcenter_search(page_url: str, text: str, html: str, keyword: str):
     return leads, ''
 
 
-#: chinamae 的结果列表行。实测结构（2026-xx，`docs/164` 那批原始页）：
+#: chinamae 的结果列表行。实测结构：
 #: ``<li><div class="info"><i></i><a href="/purchases/province/464" …class="region">[辽宁]</a>
 #: <a href="/purchases/<32位>.html" class="title" title="…项目名…">…</a>…</div>
 #: <div class="source"><a href="/purchases/type/2" …class="type">结果公示</a>…<span class="time">2025-11-07</span>``。
 #: **两处与站点真实形态对齐的细节**：① 详情 URL 里**可能带掩码星号**
 #: （实测 ``/purchases/c0119********d42362582fbb1a42b729.html``，172 行里 1 行），
 #: 所以路径段不能限死成 hex；② 项目名取 ``title`` 属性而不是链接文字：链接文字里夹着
-#: 站点自己加的高亮标签与「(…包含在正文中)」尾巴（``docs/164`` §第 1 级）。
+#: 站点自己加的高亮标签与「(…包含在正文中)」尾巴（§第 1 级）。
 _CHINAMAE_ROW = re.compile(
     r'<li>\s*<div class="info">.*?'
     r'<a href="/purchases/province/\d+"[^>]*class="region"[^>]*>\s*'
@@ -596,8 +595,7 @@ _CHINAMAE_ROW = re.compile(
 def _project_name_from_title(title: str) -> str:
     """chinamae 列表标题 → 项目名（剥公告类型后缀与代理机构前缀）。
 
-    判据与实现照搬 ``docs/169`` 探针里那把已经在 26 条样本上用过的尺子，
-    ``output/detail-rate/b-labels.json`` 就是它的判据来源。剥不出来时返回空串——
+    判据与实现在 26 条样本上定过。剥不出来时返回空串——
     宁可这一条复核不上，也不拿一个猜出来的名字去官方站碰运气。
     """
     base = _NOTICE_SUFFIX.sub('', _clean(title)).strip(' -－—')
@@ -861,7 +859,7 @@ class AggregatorDiscovery:
             if _CHINAMAE_LIST_PATH.match(urlsplit(page_url).path):
                 return _parse_chinamae_list(page_url, text, html, keyword)[0]
             # 详情页**有意不解析**：站点在服务端把 7 个字段打成 ``******``
-            # （``docs/164`` §第 1 级实测），本模块需要的东西列表页已经全给了。
+            # （§第 1 级实测），本模块需要的东西列表页已经全给了。
             # 不在这里做"看到星号就跳过"一类的猜测——那是判断，不是解析。
             return []
         return []
@@ -903,7 +901,7 @@ class AggregatorDiscovery:
         searched = 0
         searched_queries = set()
         stop_reason = ''
-        # 先复核「结果类」的线索：``docs/169`` ③ 实测最后落到成交公告上的比例远高于
+        # 先复核「结果类」的线索：③ 实测最后落到成交公告上的比例远高于
         # 落到招标/采购公告上的（17/20 对 0/2）。排序用稳定排序，同一优先级内保持
         # 调用方给的顺序——只改先后，不改判据、不改去留。
         ordered = sorted(leads, key=_recheck_priority)
@@ -994,7 +992,7 @@ def _lead_value(lead, name: str) -> str:
 def looks_like_award_notice(value) -> bool:
     """标题/公告类型里带不带"结果类"字样（中标、成交、结果公示…）。
 
-    这个判据**只用来排序**（先看结果类），从来不用来筛除：``docs/169`` ③ 实测
+    这个判据**只用来排序**（先看结果类），从来不用来筛除：③ 实测
     结果类 17/20、招标采购类 0/2，先看结果类是省额度，不是宣告后者没有价格。
     公开出来是因为复核那一路（``procurement_research.aggregator_ccgp_search``）
     要用同一把尺子决定先读哪几篇正文，两处各写一份迟早会走偏。
@@ -1003,8 +1001,8 @@ def looks_like_award_notice(value) -> bool:
     return any(marker in text for marker in _AWARD_NOTICE_MARKERS)
 
 
-#: 「同一项目」的最长连续汉字重合门槛。沿用 ``docs/164`` / ``docs/169`` 两单用过的
-#: 同一把尺子（≥10 字）：``docs/164`` 用它把 8 个"官方域名命中"砍到 4 个真命中，
+#: 「同一项目」的最长连续汉字重合门槛。沿用 / 两单用过的
+#: 同一把尺子（≥10 字）：用它把 8 个"官方域名命中"砍到 4 个真命中，
 #: 方向是收紧而不是放松。这里只当**最后一档兜底**——严格的"名字整体出现在正文里"
 #: 已经先试过了，这一档是为推导出来的项目名（标题剥类型后缀、难免留个把残字）准备的。
 SAME_PROJECT_OVERLAP = 10
@@ -1077,7 +1075,7 @@ def _recheck_priority(lead):
 
     **只排序，不筛除**：结果类的一个都没命中时，招标/采购类的线索照样会被复核——
     它们是拿不到成交价，但拿得到项目编号、采购人、预算，仍然是有用的线索。
-    ``docs/169`` ③ 给出的只是"先看哪一类"的理由：结果类是 17/20，招标采购类是 0/2。
+    ③ 给出的只是"先看哪一类"的理由：结果类是 17/20，招标采购类是 0/2。
     """
     if looks_like_award_notice(_lead_value(lead, 'notice_type')):
         return 0
@@ -1105,7 +1103,7 @@ def _official_body_ok(body) -> bool:
 def _official_result_rank(item) -> int:
     """官方候选公告的查看顺序：结果类排前面（0），其余排后面（1）。
 
-    ``docs/169`` ③ 那组 85% 对 0% 的差距就是这一步的理由：同一批官方结果里，
+    结果类 85%、招标采购类 0% 的差距就是这一步的理由：同一批官方结果里，
     先看「中标/成交结果公告」，别把额度花在结构上就没有成交价的招标公告上。
     """
     if not isinstance(item, dict):
@@ -1157,8 +1155,7 @@ def _match_official(lead, results) -> str:
         for candidate in identity_names:
             if candidate and candidate in norm_body and _official_body_ok(body):
                 return url
-        # 最后一档：推导名的**最长连续汉字重合 ≥10 字**（``docs/164``/``docs/169``
-        # 那把尺子）。只在严格判据都没命中时才走；候选名的长度下限在
+        # 最后一档：推导名的**最长连续汉字重合 ≥10 字**（/# 那把尺子）。只在严格判据都没命中时才走；候选名的长度下限在
         # ``_identity_names`` 里把关。
         for candidate in identity_names:
             if _official_body_ok(body) and (

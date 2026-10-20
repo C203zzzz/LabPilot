@@ -191,7 +191,7 @@ def procurement_router(repo, search):
 
     @router.post('/{task_id}/research-runs/{run_id}/alternatives/{candidate_id}/price')
     def lookup_alternative_price(task_id: str, run_id: str, candidate_id: str, body: dict | None = None):
-        """按需查价：只查路径里那一个候选（设计见 ``docs/HANDOVER-alt-two-stage.md`` 第二节）。
+        """按需查价：只查路径里那一个候选（设计见 第二节）。
 
         * 路径里带 ``candidate_id`` 而不是下标——一次请求只可能命中一个候选，
           "用户只查其中一个"由接口形状保证，不靠前端自觉；

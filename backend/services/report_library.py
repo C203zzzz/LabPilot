@@ -42,7 +42,7 @@ def empty_results_all_channels_text(match):
 
 
 def search_channel_failed_text(match):
-    """通道抛异常：说失败，不说"没有结果"（``docs/209`` §3）。"""
+    """通道抛异常：说失败，不说"没有结果"。"""
     return (f'检索通道 {_gap_channel_names(match.group(1))} 这一次查询失败，没有取得结果；'
             '这是通道故障，不是“没有结果”')
 
@@ -62,7 +62,7 @@ GAP_CODE_LABELS = (
     (re.compile(r'empty_results:\s*([A-Za-z0-9_.,\-]+)'), empty_results_channel_text),
     (re.compile(r'empty_results'), '这一次检索没有返回任何结果'),
     # 通道失败与 ``provider_failed`` 分开写：前者是对外的一句"这个通道这次没跑通"，
-    # 后者带异常原文、是给排查用的那一份（``docs/209`` §5）。
+    # 后者带异常原文、是给排查用的那一份。
     (re.compile(r'search_channel_failed:\s*([A-Za-z0-9_.,\-]+)'), search_channel_failed_text),
     (re.compile(r'provider_failed:[^\s:]+:\s*'), '检索服务未完成：'),
     # 产品自己生成的失败代号（后端把 failure_kind 原样拼进缺口文字）。
@@ -211,7 +211,7 @@ def export_reports(items, records, snapshot_root=None):
             # 两件事分开说：``no_official_source`` 是"这次检索没拿到官方来源"，
             # ``empty_results`` 是"这次检索一条结果都没有"。以前两者翻成同一句
             # 「未找到已核实的官方来源」，导出的 md 会因此说错——见
-            # ``docs/待归档-价格没被采信的根因.md`` §3.3。
+            # 。
             text = humanize_gap_text(text)
             archive.writestr(prefix + '.md', text)
             archive.writestr(prefix + '.json', json.dumps(record, ensure_ascii=False, indent=2))

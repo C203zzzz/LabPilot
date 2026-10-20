@@ -285,7 +285,7 @@ class EducationPlatform:
 #: 清洗链就能读成文本，不需要整形。
 #:
 #: ⚠️ 它的列表页 HTML 里带着自己 ``:8090`` / ``:8093`` 的 href。以前这种地址会让
-#: ``public_url`` 把端口当成登录凭据抛 ``ValueError``（``docs/129`` 记的产品缺陷，
+#: ``public_url`` 把端口当成登录凭据抛 ``ValueError``（记的产品缺陷，
 #: 本单已修），所以这里既不需要、也不允许再为它过滤 href。
 class GuangdongEduGovernmentPlatform(EducationPlatform):
     key = 'gdegp'
@@ -415,7 +415,7 @@ class GuangdongXiaolingyigouPlatform(EducationPlatform):
     所以它按普通一手来源进 ``prices()``。
 
     **商品价格目录**（``Goods_List.aspx?searchStr=``，按型号直查挂牌价）**已撤掉**：
-    用户 2026-09-25 拍板「撤掉这个在线查的路线」。撤掉的是这条**在线检索**，不是数据
+    已经撤掉。撤掉的是这条**在线检索**，不是数据
     本身——``price_leads`` 线索通道（``backend/services/price_leads.py``）是通用机制、
     与这个站无关，一行都没动；这个类的**结果公示解析能力也原样保留**，
     ``backend/services/xlyg_local_db.py`` 仍旧实例化它来建离线库。要看小零易购的
@@ -437,7 +437,7 @@ class GuangdongXiaolingyigouPlatform(EducationPlatform):
     label = '广东省教育部门“小零易购”电子采购系统'
     list_url = ('https://gdegp.gds.edu.cn:8093/Upgrade/Publicity/ResultPublicity/'
                 'ResultPublicity.aspx')
-    #: 详情页地址：``{template}`` 由 ``_detail_template()`` 按单据类型填。
+    #: 详情页地址：``{template}`` 由 ``_detail_template`` 按单据类型填。
     detail_url = ('https://gdegp.gds.edu.cn:8093/Upgrade/Publicity/ResultPublicity/'
                   '{template}?BillGuid={id}&RequestCodeType={kind}&RequestGuid={code}')
     #: 列表行 ``codeType``：``0``/``1`` 是订单（议价、直购），``3``/``4`` 是电子反拍／竞价。
@@ -445,9 +445,9 @@ class GuangdongXiaolingyigouPlatform(EducationPlatform):
     _ORDER_CODE_TYPES = frozenset({'0', '1'})
     _BILL_CODE_TYPES = frozenset({'3', '4'})
     #: 列表行 ``code2``：``1`` = 服务类，``0`` = 物品类。
-    #: 判据抄自列表页自己的 ``DoView(this)`` JS（原文见 ``docs/141-修复8093详情模板.md``）：
+    #: 判据抄自列表页自己的 ``DoView(this)`` JS：
     #: ``var isService = $(obj).attr("code2");//判断是什么类型；物品和服务``。
-    #: **用户 2026-09-25 裁定：「服务类订单不需要」**（目标是仪器设备的成交价，
+    #: **「服务类订单不需要」**（目标是仪器设备的成交价，
     #: 服务类采购不是目标）。所以下面跳过它是**有意的**，不是"还没来得及补"。
     _SERVICE_CODE2 = '1'
     #: 关键词走**表单字段**（结果公示的项目名筛选），不走查询串。
@@ -489,7 +489,7 @@ class GuangdongXiaolingyigouPlatform(EducationPlatform):
         ``3`` / ``4``       ``1``      ``FWBillResultView``
         ==================  =========  ===============================
 
-        ⚠️ 服务类（``code2=1``）那两套模板**有意不接**——**用户 2026-09-25 拍板
+        ⚠️ 服务类（``code2=1``）那两套模板**有意不接**——**服务类订单不需要**
         「服务类订单不需要」**（我们要的是仪器设备的成交价，服务类采购不是目标数据）。
         技术上还有第二条同向理由：本单抽样的 265 条里 ``code2`` 全是 ``0``、一个服务类
         样本都没有，那两套模板的列名从未见过——而本模块靠**认表头列名**取价，猜错会把
@@ -738,11 +738,11 @@ def shape_detail(platform_key, body, payload=None):
 #
 # 为什么要有这一层：``fetch_source`` 原来只对**注册平台**调 ``redact_detail``
 # （按 host+port 认站），不在注册表里的主机（第三方校／院网站、附件所在的下载站、
-# 品牌核验那一次普通搜索打到的页面）一律没有钩子——这是 ``docs/154`` §4 第 3 行
+# 品牌核验那一次普通搜索打到的页面）一律没有钩子——这是  第 3 行
 # 记下的共同根因。修法是在**共享落盘路径**上加一道与站点无关的掩码：只认"号码
 # 形状"，问的是"这段文本要落盘了吗"，不再问"这是哪一站"。
 #
-# 口径（用户 2026-09-25 拍板）：**只掩号码，不删个人字段行**。理由是号码不会出现
+# 口径：**只掩号码，不删个人字段行**。理由是号码不会出现
 # 在价格列里，掩码对判据几乎零影响；而"哪些行算个人信息行"是站点事实，继续留在
 # 各站自己的 ``redact_payload`` 里（gdegp 那种钩子）。
 
@@ -805,7 +805,7 @@ def mask_landed_text(text):
     都有，只认半角等于漏一半。做法是**先按全角形状的号码试一次**，命中就把那一小段
     折成半角再掩（只动这一小段，见 ``_FULLWIDTH_DIGITS``）。
 
-    不做的事（有意为之，见 ``docs/待归档-落盘层掩码.md``）：座机号（带区号的固话）
+    不做的事（有意为之）：座机号（带区号的固话）
     不掩——放宽号码形状会误伤订单号与金额；姓名／地址不掩——"哪一行算个人信息行"
     是站点事实，仍旧由各站自己的 ``redact_payload`` 处理。
     """
@@ -828,7 +828,7 @@ def mask_landed_payload(payload):
 
     这一句就是"落盘层"的入口：``fetch_source`` 在写快照与推正文**之前**对每一份
     载荷调它，不再看来源主机是不是注册平台。二进制不动，理由与 ``is_binary_payload``
-    一字不差：改坏文件不等于删掉里面的数字（``docs/154`` §3 实测 379 → 635 字节）。
+    一字不差：改坏文件不等于删掉里面的数字（实测 379 → 635 字节）。
     **PDF／Office 文本层里的号码仍是缺口**，如实标注。
     """
     if isinstance(payload, (bytes, bytearray)) and not is_text_payload(bytes(payload)):
@@ -845,11 +845,11 @@ def is_binary_payload(payload: bytes) -> bool:
 
     **为什么入口要问这个问题**：平台的脱敏钩子内部是 ``decode('utf-8','replace')``
     → 正则 → 重新 ``encode('utf-8')``。对 HTML 没问题；对二进制会把文件本身改坏——
-    离线实测（``output/redact-gdegp/probe_binary_payloads.py``）一份最小 PDF：
+    离线实测一份最小 PDF：
     **379 字节 → 635 字节、128 个替换符**。而"把文件改坏"并不等于"删掉了里面的
     数字"：手机号是 ASCII，改坏之后照样读得出来。所以二进制在这里**原样返回**：
     不引入"用户拿到坏文件"这个新毛病，也不假装已经脱敏了（PDF 文本层里的个人信息
-    是**已知未处理**的缺口，见 ``docs/待归档-脱敏缺口.md``）。
+    是**已知未处理**的缺口）。
     """
     if payload.startswith(_BINARY_MAGIC):
         return True
@@ -879,7 +879,7 @@ def redact_detail(platform_key, payload):
 
     **必须与 ``mask_landed_payload`` 配套使用**：注册平台的钩子删的是"个人字段行"
     （站点事实），号码掩码在共享层、对所有来源生效。两者缺一都会留洞——只调这一个
-    的话，没注册的主机一个钩子都没有（``docs/154`` §4 第 3 行）。
+    的话，没注册的主机一个钩子都没有。
     """
     platform = _BY_KEY.get(platform_key)
     if platform is None or payload is None:

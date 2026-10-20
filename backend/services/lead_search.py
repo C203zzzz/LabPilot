@@ -3,7 +3,7 @@
 这个模块只做三件事，别往里塞第四件：
 
 1. **按上限花请求。** 一条线索最多花多少个 HTTP 请求是显式参数（`RequestLedger`），
-   不是"看计划跑多远"的结果。CCGP 有 6 秒硬节流，`docs/88` §4③ 记着三段窗口一次查询
+   不是"看计划跑多远"的结果。CCGP 有 6 秒硬节流，③ 记着三段窗口一次查询
    就要 18.16 秒；6 步计划 × 3 段最坏 54 秒纯等待，所以上限必须在这里落地。
    触到上限不是静默放弃：剩下的查询式进 `skipped_queries`，结论是 `unresolved`，
    理由里写明"已试哪些、哪些没试"。
@@ -41,7 +41,7 @@ from backend.services.official_search import (
     queries_from_lead,
 )
 
-#: 官方发布方的主机后缀。百度 SERP 上"不是这两类"的一律不进闸门（docs/88 §4② 里
+#: 官方发布方的主机后缀。百度 SERP 上"不是这两类"的一律不进闸门（② 里
 #: 那 19 行有 4 行是 `qianlima.com`，聚合站正是要筛掉的那一类）。
 GOV_EDU_SUFFIXES = (".gov.cn", ".edu.cn")
 
@@ -173,7 +173,7 @@ def is_gov_or_edu(url: Any) -> bool:
 def is_directory_like(url: Any) -> bool:
     """路径以 `/` 结尾的栏目页/目录页不是一篇公告。
 
-    docs/88 §4② 实测百度结果里有 `https://www.xjkc.gov.cn/zwgk/csxx/cjgg/` 这种栏目页；
+    ② 实测百度结果里有 `https://www.xjkc.gov.cn/zwgk/csxx/cjgg/` 这种栏目页；
     `index.htm` / `index_4.htm` 这类列表页同理（真机实测案例③ 有一条
     `http://www.ccgp.gov.cn/cggg/dfgg/zbgg/index_4.htm` 被当成候选抓了正文）。
     只按域名筛它们会混进闸门。这里丢掉，剩下的可疑页面交给闸门（没有型号/供应商证据
@@ -323,10 +323,10 @@ def _decoded_tables_only():
     """让正文抓取走本地的 `decode_body`，而不是 Jina Reader。
 
     为什么非这样不可：闸门判定"公告里写的是别的型号"靠的是表格行
-    （`a | b | c`，`docs/76` §9 案例三那三行福玛就是表格）。`PublicWebSearchProvider.fetch`
+    （`a | b | c`， 案例三那三行福玛就是表格）。`PublicWebSearchProvider.fetch`
     默认先试 Jina Reader，返回的是它自己清洗过的纯文本——表格结构会丢，闸门就
     抽不出"公告内是…"，案例三会退化成 `unresolved` 而不是 `rejected`。
-    关掉它以后正文由本地 `_request` + `decode_body` 取，形态与夹具、与 `docs/88` 的
+    关掉它以后正文由本地 `_request` + `decode_body` 取，形态与夹具、与线上实测
     实测一致，而且正文抓取也真的计入请求账本并受 6 秒节流约束。
 
     恢复原值：这是调用级配置，不留在进程里给别人踩。

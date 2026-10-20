@@ -24,7 +24,7 @@ LIGHT_ZOOM = 1.2
 #: count used by the accurate Docling pass. Reading this is the only knob: the
 #: layout model's thread count stays pinned to 1 (see ``layout_num_threads``),
 #: because RT-DETR multi-thread inference has raised native access violations on
-#: Windows (docs/28). Setting ``LAB_PDF_OCR_THREADS=1`` restores the previous
+#: Windows . Setting ``LAB_PDF_OCR_THREADS=1`` restores the previous
 #: single-threaded behaviour without a code change.
 OCR_THREADS_ENV = 'LAB_PDF_OCR_THREADS'
 #: Default when the environment variable is absent. A scanned A4 page at the
@@ -32,7 +32,7 @@ OCR_THREADS_ENV = 'LAB_PDF_OCR_THREADS'
 #: onnxruntime, and one intra-op thread leaves every other core idle. Four is
 #: deliberately below the core count: eight threads were measured to give the
 #: same reading, but sit closer to the pagefile pressure already recorded on
-#: this 16GB machine (docs/41, ``OSError 1455``).
+#: this 16GB machine (, ``OSError 1455``).
 DEFAULT_OCR_THREADS = 4
 _OCR_THREADS_MIN = 1
 _OCR_THREADS_MAX = 16

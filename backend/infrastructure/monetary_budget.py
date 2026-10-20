@@ -17,12 +17,11 @@ from pathlib import Path
 #: 空闲时段是高峰价的一半（同一个模型：``deepseek-flash`` 1/4、``qwen3.8-max-0902`` 4.5/13.5），
 #: 对账时按实际时段另算。
 #: 来源：DeepSeek 官方价目表 https://api-docs.deepseek.com/zh-cn/quick_start/pricing/
-#: （2026-10-01 取）：模型名 ``deepseek-flash`` 的模型版本就是 DeepSeek-V4.1-Flash，
+#: （2026-10 价目表）：模型名 ``deepseek-flash`` 的模型版本就是 DeepSeek-V4.1-Flash，
 #: 输入（缓存未命中）高峰 2 元、输出高峰 8 元；``deepseek-v4.1-flash`` 是同版本在网关上
-#: 的写法，故同价。本地交叉核对：``docs/78:355`` 与 ``output/e2e-final/runs/*/cost.json``
-#: 里真实外发的模型串是 ``deepseek-flash``，金额正是按 (2, 8) 折出来的。
+#: 的写法，故同价。外发的模型串是 ``deepseek-flash``，金额正是按 (2, 8) 折出来的。
 #: **表里没有的模型一律拒发**（``reserve`` 抛错）：不许拿别的模型的费率顶上，也不许把
-#: 未知金额当 0（口径见 ``docs/209`` §3.4）。
+#: 未知金额当 0。
 RATES = {
     'deepseek-flash': (2, 8),
     'deepseek-v4.1-flash': (2, 8),
@@ -36,7 +35,7 @@ class BudgetConfigError(ValueError):
     与 ``reserve`` 抛的其它 ``ValueError``（额度到顶、模型没费率、付费工具未覆盖）
     不同，这类错误出在**配置层**：闸门打开了，却没告诉账本"已经花了多少"。
     所以它自带 ``code``，由 ``deepseek.py`` 的 ``_call`` 原样转述——不许粗化成
-    "额度超了"，那是另一件事实（口径：``AGENTS.md``「对外口径与兜底」，``docs/209`` §3）。
+    "额度超了"，那是另一件事实（口径：``AGENTS.md``「对外口径与兜底」，）。
     继承 ``ValueError`` 是为了让既有的调用侧照旧接得住。
     """
 

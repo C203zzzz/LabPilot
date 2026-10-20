@@ -396,7 +396,7 @@ def build_router(repo: SQLiteRepository, storage_dir: Path, search_service: Offi
         }
 
     #: 视觉失败码 → 一句给人看的话。异常类名、原文与出错行**不进**这里：
-    #: 两处分开写是 ``docs/209`` §5 的硬要求。
+    #: 两处分开写是硬要求。
     _VISION_FAILURE_REASONS = {
         "vision_invalid_response": "视觉服务返回的内容不是有效 JSON",
         "vision_output_truncated": "视觉服务输出被长度限制截断",
@@ -484,7 +484,7 @@ def build_router(repo: SQLiteRepository, storage_dir: Path, search_service: Offi
         只看"有没有字"不够：一页被路由到 ``vision``，本身就是 profile 判它原生
         文字不足采信（0 字／<32 字／乱码／可疑字形，``_assess_pdf_page``），那点
         残留字符不能算正文——把它当成"还有正文可读"，就是把丢数据说成跳过
-        （``docs/209`` §3.4/§4）。可信文字只有两个来源：profile 判过达标的原生
+        。可信文字只有两个来源：profile 判过达标的原生
         文字层，以及本地结构化识别读到并已写回页的正文。
         """
         if completed_pages:
@@ -495,7 +495,7 @@ def build_router(repo: SQLiteRepository, storage_dir: Path, search_service: Offi
                                 completed_pages: set[int], codes: Mapping[int, str]) -> str:
         """把"跳过了哪一页、丢了哪一页"写成给人看的一句话。
 
-        "跳过"和"丢数据"必须能分开（``docs/209`` §3.4）：这一页真有别的文字接手
+        "跳过"和"丢数据"必须能分开：这一页真有别的文字接手
         （profile 判过达标，或本地识别读到并写回），才说"改用……继续分析"；
         只剩 profile 判过不可信的残留字符时，如实说"原生文字不足采信、本轮没有
         可靠读到"——不许拿噪声冒充正文。异常类名与原文不在这里，它们在
@@ -1133,7 +1133,7 @@ def build_router(repo: SQLiteRepository, storage_dir: Path, search_service: Offi
                         if not _has_usable_body_text(updated, completed_after):
                             # 视觉是这份资料**唯一**的正文来源：跳过它等于把一份
                             # 没有正文的资料当成"分析完成"，那是丢数据，不是跳过
-                            # （``docs/209`` §3.4）。这种情况仍然整份失败。
+                            # 。这种情况仍然整份失败。
                             raise DeepSeekError(
                                 "visual_page_analysis_failed",
                                 f"PDF 视觉分析未完成，失败页：{failed_pages[:10]}",
@@ -1415,7 +1415,7 @@ def build_router(repo: SQLiteRepository, storage_dir: Path, search_service: Offi
             payload = {"query": {"text": query.text, "candidate_id": query.candidate_id, "purpose": query.purpose},
                        "results": [result_to_dict(x) for x in run.results],
                        "sources": [source_to_dict(x) for x in run.sources], "warnings": run.warnings}
-            # 落盘层的号码掩码（``docs/154`` §4 第 13 行）。``_fetch_body`` 里已经掩过
+            # 落盘层的号码掩码。``_fetch_body`` 里已经掩过
             # 一次，这里再掩一次是**兜底**：这条车道允许调用方注入自己的 provider，
             # 替身／别家实现返回的正文不保证走过那段代码，而 ``repo.put`` 下面就是
             # 落库。掩码幂等，重复不会改坏正文。

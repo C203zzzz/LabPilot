@@ -290,10 +290,10 @@ PARAMETER_ALIASES = {
 _NUMBER = r'(\d{1,3}(?:,\d{3})+(?:\.\d+)?|\d+(?:\.\d+)?)'
 #: 注意：单位后面**不加** ``\b``——``\b`` 是零宽断言，加量词（``\b?``）会让
 #: ``re.compile`` 直接抛 ``nothing to repeat``，而它在模块顶层执行，一抛就是整个
-#: 模块 import 失败（2026-09-26 踩过：真跑整轮 failed、用量全 0，原因就是这一处）。
+#: 模块 import 失败（2026-09-26 发现：真跑整轮 failed、用量全 0，原因就是这一处）。
 #: 单位与数字之间允许 ``×``／空格（厂商官网印的是 ``23950 × g``），单位外面还允许
 #: 一层括号（经销商详情页印的是 ``最大相对离心力：5000(×g)``）——两种写法都由
-#: ``canonical_unit`` 归一化。不认这两种写法时"读到了也判未知"，是换站验证实测踩到的。
+#: ``canonical_unit`` 归一化。不认这两种写法时"读到了也判未知"，是换站验证实测发现的。
 _MEASURED = re.compile(
     _NUMBER + r'\s*[（(\[【]?\s*(r/min|rpm|rcf|x\s*g|×\s*g|℃|°C|dB|dBA|mL|ml|L|kg|mm)\s*[)）\]】]?',
     re.I)
@@ -314,7 +314,7 @@ def as_number(text):
     """把页面上的数字写法转成浮点：``14,500`` 的千分位逗号要去掉。
 
     不认逗号会把 ``800-14,500rpm`` 读成 ``500rpm``、``14,000xg`` 读成 ``0xg``
-    （真跑实测踩过：某型号的转速读成 500、相对离心力读成 0）。
+    （真跑实测：某型号的转速读成 500、相对离心力读成 0）。
     """
     return float(str(text).replace(',', '').replace('，', ''))
 
@@ -336,7 +336,7 @@ def decode_entities(text):
 
 #: 抽出来的单位写法归一化到 ``procurement_rules.UNITS`` 认得的那几个键。厂商官网上印的
 #: 是 ``23950 × g``（中间有空格）、``5000rpm``，直接拿去查单位表会查不到，这一项就
-#: 判成"未知"——**读到了却因为写法不同而丢掉**，是实测踩到的（换站验证 2026-09-28）。
+#: 判成"未知"——**读到了却因为写法不同而丢掉**，是实测发现的（换站验证 2026-09-28）。
 #: **实现只有一份**（``procurement_rules.canonical_unit``，本模块直接复用那个函数）：
 #: 真跑实测（``08-run-off.json`` 里的一份页面）两份实现各写各的，同一份正文里的
 #: ``10000rpm (转/分)`` 在候选卡片这条路上归一成 ``r/min`` 判 ``violated``，
@@ -394,8 +394,7 @@ _MODEL_TOKEN = re.compile(r'(?<![A-Za-z0-9])([A-Za-z]{1,10}[- ]?\d{2,5}[A-Za-z]{
 #: 标准编号的形态：``GB/T 12345-2020``、``T/CIS 17009-2025``、``ISO 9001``、``JB/T 5678``、
 #: ``DB11/T 1234``。正文兜底（``text_scan_candidates``）先按这个形态把标准号抹掉再做型号
 #: 匹配：``T/CIS 17009-2025`` 会被 ``_MODEL_TOKEN`` 抠成 ``CIS 17009``——那是把标准号
-#: 当成了候选型号（实测 ``sample-b-brand1`` 唯一的候选就是这条误召回，取证见
-#: ``output/sample-b-stability/report.md`` §四）。
+#: 当成了候选型号（实测 ``sample-b-brand1`` 唯一的候选就是这条误召回）。
 #:
 #: 边界刻意画在"**标准机构前缀 + 编号**"上，不是"字母＋数字＋年份"：
 #:   * 纯字母＋数字的真型号（``CIS 17009``、``SB-5200DTS``、``CIS17009``）一个字都不碰；
@@ -422,7 +421,7 @@ def _same_model_spelling(token, model):
     **不能**用 ``contains_model``：它要求候选型号是**完整** token，实测
     ``contains_model("FC5513", "FC5513-R01")`` 是 ``False`` —— 而那一页上商品名写的
     就是 ``FC5513-R01``，字面/完整词相等会把**候选自己的带后缀写法**当成"别的型号"，
-    整页参数作废（实测踩过：FC5513 的参数被整页判成"不是本品"）。
+    整页参数作废（实测：FC5513 的参数被整页判成"不是本品"）。
 
     判据：去掉分隔符后一个是另一个的前缀，且**前缀后面那个字符不是数字**
     （``FC551`` 不会并进 ``FC5513``，``FC5513`` 不会并进 ``FC55130``）。
@@ -448,15 +447,14 @@ def _is_candidate_family(text, model):
 def candidate_source_matches_model(text, model):
     """这条来源讲的是不是这个候选型号——**候选核验入口专用**的那一层识别。
 
-    ``contains_model`` 是全局的"型号判据"，要求候选型号是**完整 token**；``docs/203``
-    把它左右紧邻的连字符一起卡住（``SPX-250B-ZII`` 里的 ``SPX-250B`` 不许命中），
+    ``contains_model`` 是全局的"型号判据"，要求候选型号是**完整 token**；把它左右紧邻的连字符一起卡住（``SPX-250B-ZII`` 里的 ``SPX-250B`` 不许命中），
     这个口径**一个字都不放宽**，本函数第一句就是原样调它。
 
     但候选核验入口拿它来回答的是另一个问题：**这一页是不是在讲这台候选仪器**。
     产品页把同一个型号写成"型号 + 连字符后缀"（``C1450-230V``、``C10K-230V``、
     ``FC5513-R01``）是**规范写法，不是另一个型号**，而要求候选型号是完整 token 会把
-    这种写法判成"这一页不认识候选型号"。真跑实测（``docs/210`` 第十五节，落盘证据
-    ``output/alt-extract/live-extract7.json``）：同一张发现页上的 ``C1450``（原文行是
+    这种写法判成"这一页不认识候选型号"。真跑实测（第十五节，落盘证据
+    这种写法判成"这一页不认识候选型号"。真跑实测：同一张发现页上的 ``C1450``（原文行是
     ``C1450-230V高速离心机 微型高速离心机``）因此进不了核验名额，用户眼里这条候选
     凭空消失——同一页的 ``H1650``（后缀不紧跟型号）却走完了核验。
 
@@ -480,7 +478,7 @@ def candidate_source_matches_model(text, model):
 #: 字符集：型号内部的 ``-`` 与页面上印的 ``–``／``—`` 都得当分隔符。
 _HYPHEN_CHARACTERS = ('\u002d', '\u2010', '\u2011', '\u2012', '\u2013', '\u2014', '\u2015', '\u2212')
 #: 供正则字符类用：``-`` 放**末尾**，否则 ``[\s-‐…]`` 会被当成字符范围（``\s-‐``）
-#: 直接抛 ``bad character range`` —— 2026-09-29 就在这一行踩过一次。
+#: 直接抛 ``bad character range`` —— 这一行出过这个问题。
 _HYPHEN_CHARS = ''.join(_HYPHEN_CHARACTERS[1:]) + '-'
 
 
@@ -532,7 +530,7 @@ def _hyphen_suffix_spelling(text, model):
                 # **后缀里既有字母也有数字**。
                 #   * ``R01``／``230V``／``50HZ``——配置或电源写法，认；
                 #   * 纯字母（``SPX-250B-ZII`` 的 ``ZII``、``SPX-150BIII`` 的 ``III``）
-                #     ——同一族里**另外的型号**（``docs/203`` 的护栏就是这么来的），
+                #     ——同一族里**另外的型号**（的护栏就是这么来的），
                 #     不许当成同一个；``FC5513`` 对 ``FC5816-R01`` 也在这里被挡住；
                 #   * 纯数字（``C1450-230``）——选配/规格编号，同样按另一个型号处理。
                 suffix = re.match(r'[A-Za-z0-9]+', chunk[following:])
@@ -658,7 +656,7 @@ def compact_spec_lines(body, model, numeric_count):
 
     * 下界取 2 而不是"要求个数"：实测 ``200–15000rpm，21379xg，Max6×250ml`` 是
       **转速 + 离心力 + 容量**三个数，而要求可能只写了两条（转速、离心力）。
-      卡"恰好等于要求个数"会把这一页最干净的数字全丢掉（实测踩过：compact=0）。
+      卡"恰好等于要求个数"会把这一页最干净的数字全丢掉（实测：compact=0）。
     * 上界卡住是为了排除**表格行**：湘仪那几页把整机参数与转子参数表拼成了一行
       （20 个数值），收进来会让"相对离心力"吃到**转速列**的 17500 —— 把一个列的
       读数安到另一个指标上，比"读不到"更糟。
@@ -703,7 +701,7 @@ def spec_rotor_rows(lines, model):
 
     列序是**表头自己写的**（转速、相对离心力、容量），数据行是"每个 ``No.n`` 后面
     跟着三个数"。所以按 ``No.n`` 切段、每段只取**连续的纯整数**，前两个就是转速与
-    相对离心力。为什么不用"连着的数字"：实测踩过 —— 容量列写成 ``24×1.5ml/2ml``，
+    相对离心力。为什么不用"连着的数字"：实测——容量列写成 ``24×1.5ml/2ml``，
     按"连着的数字"取会把 ``1.5``/``2`` 也算进来，"最大相对离心力"于是被读成
     ``8.0 ×g``。只认纯整数就把容量整列排除了。
 
@@ -902,7 +900,7 @@ def parameter_shortfall(required, observed):
 
     **这是附加信息，不参与任何判定、打分或排序**——这一项满不满足仍只由
     ``procurement_rules.evaluate_parameter`` 说了算，本函数只在它已经判"不满足"
-    之后补一句"差多少"（负责人 2026-09-29 拍板：不把不满足项揉进 ``soft_score``，
+    之后补一句"差多少"（不把不满足项揉进 ``soft_score``，
     "差多少"和"是否满足"是两件独立的事）。为什么值得单列：采购员看到"不满足"之后
     要问的第一句就是"差 3% 还是差 50%"——差 3% 也许能接受或能让供应商凑，差 50%
     就是另一台机器。
@@ -1038,7 +1036,7 @@ def configuration_alignment(candidate, sources, requirements, detail_sources=Non
     ``confidence`` 是有值项占全部要求的比例。``soft_score`` 与 ``confidence`` 都
     可能为 ``None``——那是"这一侧没有可比的东西"，不编成 0 或 1。
 
-    另有一份**独立的差额信息**（负责人 2026-09-29 拍板，口径见
+    另有一份**独立的差额信息**（见 ``parameter_shortfall``）：
     ``parameter_shortfall``）：``shortfalls`` 是"读到值但不满足"那几项的差距百分比，
     同一份信息也写在不满足项自己的 ``items[].shortfall`` 上，并在 ``diff_points``
     文案里说给采购员听（例："…不满足。差额：实读比要求低 17.5%（以要求值为基准）。"）。
@@ -1139,7 +1137,7 @@ def configuration_alignment(candidate, sources, requirements, detail_sources=Non
                 margin = (actual_value - required_value) / required_value if required_value else 0.0
                 soft_scores.append(1.0 / (1.0 + abs(margin)) if req['direction'] == 'min' else 1.0)
         elif status == 'violated':
-            # "差多少"是独立于"是否满足"的第二件事（负责人 2026-09-29 拍板）：这里只把
+            # "差多少"是独立于"是否满足"的第二件事：这里只把
             # 它作为附加信息算出来，**判定（status）与 soft_score 的计算口径一个字不改**。
             shortfall = parameter_shortfall(req, observed)
             entry['shortfall'] = shortfall
@@ -1231,7 +1229,7 @@ _SPEC_SECTION = re.compile(r'(产品参数|技术参数|规格参数|技术规�
 #: 参数标签行（``Max Speed``／``最大相对离心力 Max RCF``）。**只有英文站**需要单独认它：
 #: 那一页没有"Specification"这种章节标题，规格区直接从 ``Max Speed`` 开始。
 #: ⚠️ 它不能并进 ``_SPEC_SECTION``：并进去之后"章节终止于下一个章节标签"会把规格区
-#: 在第二行（``Max RCF``）就截断，于是离心力反而读不到（实测踩过）。
+#: 在第二行（``Max RCF``）就截断，于是离心力反而读不到（实测发现）。
 _PARAM_LABEL_ROW = re.compile(r'Max\.?\s*(Speed|RCF)', re.I)
 
 
@@ -1241,7 +1239,7 @@ def _spec_section_after(detail_lines, index, look=30):
     方向是**向后**找，不是向前：实测厂商官网那几页的页头里，"技术参数"这几个字
     先出现在顶部导航（"服务支持 — 技术参数及彩页下载"），真正属于本品的那个章节标签
     在型号行下面几行（``产品参数 产品介绍 转子附表 …``）。向前找会锚到导航上，
-    于是规格行一行都圈不进来（换站验证踩过）。
+    于是规格行一行都圈不进来（换站验证时出现过）。
     """
     start = None
     for probe in range(index + 1, min(len(detail_lines), index + look + 1)):
@@ -1320,7 +1318,7 @@ def observed_from_two_line_table(requirement, detail_lines, model, url, allowed=
 
     ⚠️ 返回形状与其它口子**一致**（``{'found': bool, 'observed': …}``）。先前这里成功时
     返回的是裸的 observed 字典、失败时返回 ``{'found': False}``——两种形状混在一起，
-    调用方按 ``found`` 判断就永远看不到成功的那一路（换站验证时真踩到：厂商官网明明
+    调用方按 ``found`` 判断就永远看不到成功的那一路（换站验证时出现过：厂商官网明明
     有 ``最高转速 Max Speed`` / ``18600r/min`` 两行，抽出来却是 0 项）。
     """
     name = str(requirement.get('name'))
@@ -1382,7 +1380,7 @@ def _observed_on_detail_page(req, model, detail_lines, fallback_lines, url, nume
     详情页 ``http://www.antinglxj.com/`` 正文里连型号都没有（``contains_model`` 为假），
     而卡片上那一项的 ``evidence.url`` 却写着它，引用却是目录页
     ``某厂商官网的产品页`` 上的原文 —— 引用和网址对不上，
-    用户按网址去核对会核不到（"跳过"与"留痕"必须是同一件事，见 ``docs/209`` §3）。
+    用户按网址去核对会核不到（"跳过"与"留痕"必须是同一件事）。
     """
     fallback_url = fallback_url or url
     name = str(req.get('name'))
@@ -1567,7 +1565,7 @@ def text_scan_candidates(sources, baseline, limit=10):
                 continue
             # 先把行里的网址剥掉：产品页的导航行常混着 ``[https://www.912688.com]`` 这类
             # 链接，而 ``xinling2021`` 这种"字母+数字"的域名片段会被型号正则误当成型号
-            # （实测踩过：候选第一条的"型号"就是这个域名片段）。
+            # （实测发现：候选第一条的"型号"就是这个域名片段）。
             prose = re.sub(r'https?://\S+', ' ', stripped)
             # 标准号不是型号：先按形态抹掉，再做型号匹配。``T/CIS 17009-2025`` 否则会被
             # ``_MODEL_TOKEN`` 抠成 ``CIS 17009``（``sample-b-brand1`` 的误召回）。

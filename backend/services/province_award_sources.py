@@ -4,12 +4,11 @@
 此前只有 "品类词检索 → 公告 → 详情页 → 解析标的表" 这一条链——它要求先知道该搜
 哪个品类词、再把公告逐条读回来。安徽 / 江西两站的成交公告接口**有全文检索参数**
 （``keyword``，搜正文；``projectName`` 只搜项目名，两者不是一回事，见
-``docs/134``/``docs/136``），而**正文 HTML 随列表响应一起返回**（字段 ``content``），
+/），而**正文 HTML 随列表响应一起返回**（字段 ``content``），
 所以 "型号 → 公告正文（含品牌 / 规格型号 / 数量 / 单价）" 是一次请求就能完成的事，
 不需要逐条进详情页。安徽详情页服务端只给 JS 空壳，进详情页反而读不到正文。
 
-三个必须写在这里、不能靠记忆填的接口事实（``docs/133`` §4.2 / §4.3、
-``docs/136`` §1.2，2026-09-25 实站复核）：
+三个必须写在这里、不能靠记忆填的接口事实（2026-09-25 实站复核）：
 
 * **必须显式传 ``district``**。不传时站点直接拒绝：
   ``{"success":false,"result":null,"error":"区划和实例白名单不能同时为空"}``。
@@ -23,8 +22,8 @@
 ## 只查省本级，不要遍历区划
 
 ``district`` 是**硬过滤**：``349900`` 是 "安徽省本级"，**不等于全省**。要覆盖全省得
-逐区划遍历（安徽 183 个、江西 158 个区划码，见 ``docs/136`` §6.4）。产品负责人的裁定
-是 "先用省本级按需查、把结果存下来"——所以 ``districts`` 是一个**配置项**，而现在
+逐区划遍历（安徽 183 个、江西 158 个区划码）。当前的做法
+是"先用省本级按需查、把结果存下来"——所以 ``districts`` 是一个**配置项**，而现在
 **默认只装省本级一格**。以后想扩全省是改配置，不是重写：每个 (平台, 区划) 各自一条
 缓存键、各自一次请求。
 
@@ -37,10 +36,9 @@
   **列表响应里的 ``content`` 就是完整正文**，一次请求同时拿到型号与单价。
 * ``PORTAL_PROVINCES``（浙江 / 广西）：政采云内核 ``POST <站>/portal/all``，
   body 只有 ``keyword`` / ``pageNo`` / ``pageSize``，**没有区划参数**——检索是
-  **站内全量**（返回行的 ``districtName`` 可以是市县，实测浙江 7/8、广西 1/6，
-  见 ``docs/161`` §2.1）；而且**列表行的 ``content`` 只是命中片段**（实测浙江 5 个
-  型号 16 条行，片段都在 114–121 字符，`price_table_rows` **一条都读不出来**，
-  见 ``output/province-direct/pd1-excerpt-gate.txt``）。正文必须回读
+  **站内全量**（返回行的 ``districtName`` 可以是市县，实测浙江 7/8、广西 1/6）；
+  而且**列表行的 ``content`` 只是命中片段**（实测浙江 5 个
+  型号 16 条行，片段都在 114–121 字符，`price_table_rows` **一条都读不出来**）。正文必须回读
   ``GET <站>/portal/detail?articleId=``——它回的是 JSON，正文在
   ``result.data.content`` 里（实测某型号那条：响应 25646 字节，
   ``content`` 原文 20586 字符，过一遍清洗链剩 1600 字符 / 110 行）。
@@ -106,7 +104,7 @@ from backend.services.education_platform_sources import (
 #: （工具与探测脚本直接调它）；显式传 ``None`` = 这一轮**一个请求都不发**。
 _TRANSPORT_UNSET = object()
 
-#: 成交公告那一组类型码（页面标签抓到的，``docs/133`` §4.2）：8013 电子卖场成交公告
+#: 成交公告那一组类型码（页面标签抓到的，）：8013 电子卖场成交公告
 #: （采购成功）、8020 / 8012 同族。``[8018,8023]`` 是**竞价公告**（还没成交），不能混。
 ANNOUNCEMENT_TYPES = (8020, 8012, 8013)
 
@@ -122,9 +120,9 @@ MAX_SOURCES = 8
 ANHUI_PROVINCE_LEVEL = '349900'
 JIANGXI_PROVINCE_LEVEL = '369900'
 
-#: 政采云内核那两站的 ``pageSize``。``docs/130``/``docs/153`` 实测用 15，
-#: ``docs/161`` 也是 15。**没有测过上限**，所以不往上加：15 已经覆盖到实测的
-#: 最大命中数（浙江 ``SW-CJ-1FD`` 7 条），翻页也没测过（见 ``docs/161`` §4）。
+#: 政采云内核那两站的 ``pageSize``。/实测用 15，
+#: 也是 15。**没有测过上限**，所以不往上加：15 已经覆盖到实测的
+#: 最大命中数（浙江 ``SW-CJ-1FD`` 7 条），翻页也没测过。
 PORTAL_PAGE_SIZE = 15
 
 #: 政采云内核站的"区划"格。这个家族**没有区划参数**，``keyword`` 检索是站内全量
@@ -136,7 +134,7 @@ PORTAL_SCOPE = 'site'
 #: 一个型号最多回读几条详情页（每个政采云内核平台各一次上限）。
 #:
 #: 取值理由：① 列表片段里**带不带 ``单价（元）``** 是页面自己的证据，按它排序后
-#: 命中的公告排在前面（实测 ``docs/161`` 里"带单价的"就是能被读出来的那些）；
+#: 命中的公告排在前面（实测 里"带单价的"就是能被读出来的那些）；
 #: ② 实测一个型号在浙江最多 7 条行、带单价的 4 条（``DHG-9070A`` 6 条里 4 条带价），
 #: 4 条能覆盖到实测的最大值；③ 它是**成本上限**，不是"这个型号只有 4 条"的结论——
 #: 超出的行留在 ``queries.rejected`` 的计数里，看得见。
@@ -151,7 +149,7 @@ PORTAL_DETAIL_LIMIT = 4
 #: （``backend/repositories/sqlite.py``）；读取只按 ``id``，所以**跨任务**生效。
 CACHE_TABLE = 'province_award_cache'
 CACHE_VERSION = 1
-#: 缓存有效期。取值理由见 ``docs/待归档-省级按型号直查.md``：成交公告一旦发布就是
+#: 缓存有效期。取值理由见 ：成交公告一旦发布就是
 #: 历史事实、不会再变，但**同一个型号以后还会有新公告**，所以不能永不过期；
 #: 而一次未命中的代价只有 1 个请求（每省），所以 7 天这种 "按周" 的窗口比按天更划算。
 CACHE_TTL_SECONDS = 7 * 24 * 3600
@@ -181,7 +179,7 @@ class ProvincePlatform:
         """一次查询的 JSON body。``district`` **显式写进去**，绝不省略。
 
         ``{"pageSize":…,"pageNo":…,"announcementTypes":[…],"district":…,
-        "keyword":…,"all":{"blackList":[],"whiteList":[]}}`` 是 ``docs/133`` §4.2
+        "keyword":…,"all":{"blackList":[],"whiteList":[]}}`` 是 
         逐字记下来的形状。
         """
         return {
@@ -243,7 +241,7 @@ class ProvincePlatform:
             raise ValueError('省级平台响应不是对象')
         # ``success=false`` 是**拒绝**，不是 "0 命中"：实测（2026-09-25）不带 ``district``
         # 时两站都回 ``{"success":false,"result":null,"error":"区划和实例白名单不能同时为空"}``。
-        # 把这种响应当空结果读，就等于把 "没查成" 说成 "没有"——``docs/134`` 的假否定
+        # 把这种响应当空结果读，就等于把 "没查成" 说成 "没有"——的假否定
         # （"37 个型号全 0 命中"）就是这么来的。所以这里**抛错**，由调用方如实记一条失败。
         if data.get('success') is False or 'result' not in data:
             raise ValueError('省级平台拒绝这次查询：' + str(data.get('error') or '响应缺少 result')[:200])
@@ -323,7 +321,7 @@ class PortalPlatform(ProvincePlatform):
     * **body 只有三个字段**（``keyword`` / ``pageNo`` / ``pageSize``）。这里**不写**
       ``district``：这个接口没有区划参数，检索是站内全量。也不写 ``announcementTypes``
       ——那是卖场家族的参数，照抄过来**没有证据说这个站认它**（见报告"公告类型"一节）；
-      也不写 ``isTitleSearch``：``docs/130`` 记着"传布尔会 422"，而省略它时
+      也不写 ``isTitleSearch``：记着"传布尔会 422"，而省略它时
       （默认就是搜正文）实测能召回只出现在正文里的词（"灭菌锅"在浙江站有结果）。
     * **响应形状不同**：``result.data`` 是对象（``{"total":…,"data":[…]}``），
       不是卖场家族那样的数组。
@@ -341,7 +339,7 @@ class PortalPlatform(ProvincePlatform):
 
     def query_body(self, district: str, model: str, *, page_no: int = 1,
                    page_size: int = PORTAL_PAGE_SIZE) -> dict:
-        """三个字段，逐字是 ``docs/130``/``docs/153``/``docs/161`` 实测可用的形状。"""
+        """三个字段，逐字是 //实测可用的形状。"""
         return {'keyword': model, 'pageNo': page_no, 'pageSize': page_size}
 
     def request_headers(self) -> dict:
@@ -422,7 +420,7 @@ PORTAL_PROVINCES: tuple = (
     ),
 )
 
-#: 产品实际要查的平台全集（``province_award_platforms()`` 读它）。
+#: 产品实际要查的平台全集（``province_award_platforms`` 读它）。
 #: 两份注册表分开，是因为两个家族连请求 body 与响应形状都不一样；
 #: 合并成一份会让"卖场家族的默认值"这个既有事实消失。
 ALL_PROVINCES: tuple = PROVINCES + PORTAL_PROVINCES
@@ -470,7 +468,7 @@ def request(url, *, body, headers, tls_profile=None, on_request=None,
     不给这个模块开第二个 HTTP 客户端。
 
     为什么必须走产品读取器：自己开连接会绕过 ``network_url``、重定向逐跳校验、16MB
-    上限，也会绕过测试注入的离线读取器——上一单（``docs/135``）就是这么让 8 个集成
+    上限，也会绕过测试注入的离线读取器——上一单就是这么让 8 个集成
     用例真去连站点并超时的。
     """
     if on_request is not None:
@@ -541,7 +539,7 @@ def _total_yuan(body: str) -> float | None:
       总成交金额（元）: 10640``），从行首找第一个数字会读成 2026。
     * **单位要跟着数字一起读**。安徽写 ``总成交金额（元）: 54940``，江西写
       ``总成交金额： 12.09 （万元）``——同一份江西公告里明细是元、汇总是万元
-      （``docs/133`` §4.4），照抄数字会差 10000 倍。
+      ，照抄数字会差 10000 倍。
     """
     for line in (body or '').splitlines():
         marker = TOTAL_AMOUNT.search(line)
@@ -598,7 +596,7 @@ def shape_award_table(body: str) -> str:
 
     为什么不去改 ``render_table`` / ``price_table_rows``（治本但面太大）：那两个是共享的、
     被对抗性用例钉住的模块，动 ``rstrip`` 会让**全局**所有含尾空列的表格重新匹配，
-    采信结果跟着变。这里走 ``docs/135`` 里 8093 那条同款路子：**只恢复页面自己印着的
+    采信结果跟着变。这里走 里 8093 那条同款路子：**只恢复页面自己印着的
     列关系，不改一个数**。门槛不是 "看着像"：
 
     * 只认表头**尾列**正好是配置里那种非数据列名（``报价明细``）的情况；
@@ -699,7 +697,7 @@ def body_text(announcement: Mapping[str, Any]) -> str:
 #: 标项块的分节标记。**浙江印**：每个标项前面一行 ``标项一`` … ``标项十五``。
 LOT_MARKER = re.compile(r'^标项\s*([一二三四五六七八九十零〇百\d]+)\s*$')
 #: **广西不印分节标记**：同一个 5 行组直接重复（实测正文见
-#: ``output/province-direct/raw/ev-guangxi-FA2004-3010.txt``），所以没有 ``标项N`` 时
+#: ），所以没有 ``标项N`` 时
 #: 用 ``主要标的名称`` 当分块起点。
 LOT_NAME_START = re.compile(r'^主要标的名称\s*[:：]')
 #: 块里的标签。**键名逐字是页面自己的措辞**，不是我们另起的列名。
@@ -818,8 +816,7 @@ def shape_lot_blocks(body: str) -> str:
     规格型号:…`` 若干行，**整份正文一个 ``<table>`` 都没有**。既有的
     ``price_table_rows`` 要求"表头行 + 行列数完全相等的数据行"，在这份正文上读出
     **0 行**——单价印在那里却读不出来（实测某型号那条：正文里就有
-    ``单价（元）： 12000.00``，``price_table_rows`` 返回 0 行，见
-    ``output/province-direct/pd2b-summary.txt``）。
+    ``单价（元）： 12000.00``，``price_table_rows`` 返回 0 行）。
 
     **两种实测形状都要认**（见 :data:`LOT_MARKER` / :data:`LOT_NAME_START`）：
     浙江每个标项前印一行 ``标项N``，广西**不印**、同一个 5 行组直接重复。
@@ -887,10 +884,10 @@ def parse_response(platform: ProvincePlatform, payload, model: str, district: st
 def cache_key(platform_key: str, district: str, model: str) -> str:
     """缓存键 = ``(缓存版本, 平台, 区划, 型号)`` 的摘要。
 
-    **键里必须有区划**：省本级与市县的公告集合互斥（``docs/136`` §6.4），
+    **键里必须有区划**：省本级与市县的公告集合互斥，
     拿省本级的结果回答 "全省" 就是错。以后加区划，各格各一条键，不会互相污染。
     型号按**去空白后的原串**入键——接口的匹配是完整 token，``TG16-WS`` 与
-    ``TG16WS`` 不是一回事（``docs/136`` §2），大小写是否同义**没验过**，
+    ``TG16WS`` 不是一回事，大小写是否同义**没验过**，
     所以不合并、不归一化：宁可多打一次网络，不肯让两个不同的串共用一个答案。
     """
     raw = json.dumps([CACHE_VERSION, platform_key, district, model],

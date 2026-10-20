@@ -97,7 +97,7 @@ def _pdf_page_counts(record: DocumentRecord, reader: Any, layout_pdf: Any,
                      pages_before: int) -> str:
     """说清一次整份 PDF 解析中断时"已解析几页、整份几页"。
 
-    ``docs/209`` §3.4：对外的粒度不许粗于内部事实。``pdf_parse_failed`` 是
+    ：对外的粒度不许粗于内部事实。``pdf_parse_failed`` 是
     ``_parse_pdf`` 整份失败的唯一出口，原来只说"解析失败"——连缺了几页都没记，
     所以这条记录在排查时既不能降级判级、也说不清影响面。两个数能拿多少拿多少：
     ``PdfReader`` 构造失败时页清单根本不存在，只能写"未能获取"；
@@ -126,7 +126,7 @@ def _pdf_page_counts(record: DocumentRecord, reader: Any, layout_pdf: Any,
 def _vision_failure(exc: BaseException, source_location: str | None) -> dict[str, Any]:
     """把一次视觉调用失败记成 ``run['failures']`` 那一套形状的事实。
 
-    给排查用的三样东西缺一不可（``docs/209`` §5）：异常**类名**、**脱敏后的原文**、
+    给排查用的三样东西缺一不可：异常**类名**、**脱敏后的原文**、
     **出错行**。 ``source_location`` 让这条记录回到具体那一页。原文按
     ``procurement_research.redact_error_text`` 脱敏后再落库——视觉端点的异常里
     可能带着整条请求地址与它的查询串，而这份记录会随文档一起持久化。
