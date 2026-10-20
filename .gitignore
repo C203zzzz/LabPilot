@@ -36,3 +36,8 @@ output/
 
 # User-provided source documents (never commit)
 /*.pdf
+
+# The local direct-purchase price database ships with the demo so a fresh clone
+# reads real transaction rows without re-scraping. Read-only, 17 MB, built from
+# public procurement publicity pages; override the path with LAB_XLYG_DB.
+!data/xlyg_prices.sqlite3

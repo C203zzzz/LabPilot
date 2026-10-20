@@ -10,7 +10,7 @@ requires-python = ">=3.11"
 dependencies = ["fastapi>=0.100", "uvicorn>=0.20"]
 
 [project.optional-dependencies]
-parsing = ["docling>=2.0", "onnxruntime>=1.20", "pypdf>=5", "pymupdf>=1.24", "pdfplumber>=0.11", "pillow>=10", "openpyxl>=3.1"]
+parsing = ["docling>=2.0", "onnxruntime>=1.20", "rapidocr>=3", "pypdf>=5", "pymupdf>=1.24", "pdfplumber>=0.11", "pillow>=10", "openpyxl>=3.1"]
 test = ["pytest>=8", "httpx>=0.24"]
 browser = ["playwright>=1.50,<2"]
 # Optional TLS-impersonating transport for WAF-protected hosts. Off unless
