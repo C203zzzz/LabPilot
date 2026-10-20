@@ -402,9 +402,9 @@ class BochaSearchProvider:
 #: A PDF can draw the same glyph twice, offset by a fraction of a point, to fake
 #: a bold face. pdfplumber reports every drawing, so a heading reads 品品目目
 #: where the page shows 品目. PyMuPDF's text pass, pdfium and docling's layout
-#: pass all merge the twin; the table extractor has to ask for it. On the
-#: observed on a real university award notice the second copy sits 0.42pt left of the
-#: first. Left alone, every keyword in an overprinted heading doubles, so a
+#: pass all merge the twin; the table extractor has to ask for it. On a real
+#: university award notice the second copy sits 0.42pt left of the first. Left
+#: alone, every keyword in an overprinted heading doubles, so a
 #: price row's label no longer matches anything the readers look for.
 OVERPRINT_TOLERANCE = 1.0
 
