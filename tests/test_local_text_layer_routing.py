@@ -373,6 +373,7 @@ def test_rapidocr_array_fields_do_not_raise_on_truthiness(tmp_path: Path, monkey
     ``local_text_layer_failed``, so the local layer never produced text on a
     real scan and every page silently stayed on paid vision.
     """
+    pytest.importorskip("rapidocr", reason='本地 OCR 引擎未安装：pip install -e ".[parsing]"')
     import io
 
     import fitz
@@ -416,6 +417,7 @@ def test_local_layer_recovers_text_from_a_pure_scan(tmp_path: Path, monkeypatch)
     layer, and monkeypatched the function everywhere else, so the OCR branch was
     never executed by any test.
     """
+    pytest.importorskip("rapidocr", reason='本地 OCR 引擎未安装：pip install -e ".[parsing]"')
     import io
 
     import fitz
