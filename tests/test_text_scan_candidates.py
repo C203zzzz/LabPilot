@@ -57,7 +57,7 @@ def test_a_same_family_model_is_kept_but_ranked_last_and_flagged():
 
 
 def test_a_domain_fragment_is_not_mistaken_for_a_model():
-    # 实测踩过：导航行里的 ``[https://xinling2021.912688.com]`` 被型号正则抽成"型号"。
+    # 导航行里的 ``[https://xinling2021.912688.com]`` 不能按型号正则抽成"型号"。
     body = '高速离心机 KH20A台式高速离心机 [https://xinling2021.912688.com] 实拍'
     found = text_scan_candidates([_source(PAGE, body)], BASE)
     assert [item['model'] for item in found] == []

@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """对外的话不许把"某一个通道这一次没有结果"说成"整轮检索没有结果"。
 
-取证（``output/sample-b-stability/report.md``）：sample-b 三轮共 6 次 ``empty_results``
+取证：sample-b 三轮共 6 次 ``empty_results``
 **全部**来自 ``deepseek_web`` 一个通道，同一查询下 exa／bocha／public_web 各返回 10 条；
 而报告与页面上那句话是「这一次检索没有返回任何结果」，读者只能读成整轮都没结果。
-``docs/209`` §3：对外的粒度不许粗于内部事实；也**不许把一次通道失败说成"没有结果"**。
+对外的粒度不许粗于内部事实；也**不许把一次通道失败说成"没有结果"**。
 
 这一组用例守三件事：
   * 哪个通道空就说哪个通道（代号里带通道名，翻译层说人话）；
@@ -113,8 +113,8 @@ def test_a_failed_channel_next_to_an_empty_one_is_not_promoted_to_the_whole_roun
 def test_the_channel_failure_gap_is_not_the_one_the_lane_filters_out():
     """研究链路会丢掉 ``provider_failed:`` 前缀的告警（``procurement_research``）。
 
-    失败句要是也用那个前缀，就会连对外的那一句一起消失——"跳过"等于把事实抹掉
-    （``docs/209`` §3/§5）。所以失败句必须是另一个代号。
+    失败句要是也用那个前缀，就会连对外的那一句一起消失——"跳过"等于把事实抹掉。
+    所以失败句必须是另一个代号。
     """
     kept = [w for w in ['provider_failed:deepseek_web: HTTP 400', 'search_channel_failed:deepseek_web']
             if not w.startswith('provider_failed:')]

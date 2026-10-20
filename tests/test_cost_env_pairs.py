@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 """金额闸门的环境变量必须配套：只设一半要响亮失败，且不许替它编默认额度。
 
-来历（``docs/245`` §8 第 4 条、``docs/232:29``、``docs/227:52``）：``LAB_COST_LEDGER``
+来历：``LAB_COST_LEDGER``
 （开金额闸门）与 ``LAB_COST_INITIAL_CNY``（给初始额度）必须配套。只设前一个时，
 ``monetary_budget.reserve`` 直接 ``os.environ[...]`` 取键，抛出的 ``KeyError`` 既不是
 ``ValueError``（``deepseek.py:231`` 只捕它），消息里也只有一个变量名，于是**一路逃逸
-成未处理崩溃**。口径见 ``AGENTS.md``「对外口径与兜底」与 ``docs/209`` §3：配置错误
+成未处理崩溃**。口径与 ``AGENTS.md``「对外口径与兜底」一致：配置错误
 不兜底、不静默降级——要的是**点名变量的人话报错**，不是给它编一个 0 元默认值。
 
 本文件覆盖三个变量（``monetary_budget.reserve`` 一带的全部读取路径）：

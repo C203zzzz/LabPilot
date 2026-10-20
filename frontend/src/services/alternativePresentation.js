@@ -208,8 +208,7 @@ export function sameBrandAsBaseline(candidate = {}, baseline = {}) {
 //
 // 数据来源是后端 ``research_planning.configuration_alignment`` 写到候选上的
 // ``candidate['config_match']``（在 ``procurement_research.alternatives()`` 里
-// ``candidate['config_match'] = configuration_alignment(...)``，真跑产物见
-// output/alt-extract/live-extract5.json）：
+// ``candidate['config_match'] = configuration_alignment(...)``）：
 //
 //     {'score': 0.5, 'items': [{'name','required':{...},'observed':{...}|null,
 //                               'status':'satisfied|violated|unknown',

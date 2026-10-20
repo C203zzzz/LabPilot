@@ -170,7 +170,7 @@ def test_brand_stays_null_when_the_body_names_no_maker():
     # 品牌仍然是空：资料里没有厂名，不许猜（这一条没变）。
     assert result["candidates"][0]["brand"] is None
     # 但"品牌没读出来"这件事必须留痕：它是资料的事实，却决定了下游能不能判
-    # 跨品牌相似品（``docs/209`` §3.4：静默跳过等于把事实抹掉）。
+    # 跨品牌相似品（静默跳过等于把事实抹掉）。
     gap = next(g for g in result["gaps"] if "厂名" in g)
     assert "CE-5600A" in gap and "跨品牌相似品" in gap
     # 给用户看的那句是人话：不带异常类名、不带内部代号。
@@ -220,7 +220,7 @@ def _multi_transport(inventory):
 def test_a_filtered_out_candidate_is_not_named_in_the_brand_gap():
     """型号筛选之后只剩带品牌的候选时，不写"资料里没有厂名"。
 
-    对外粒度与结果一致（``docs/209`` §2）：被筛掉的候选不在结果里，缺口就不该点它的名。
+    对外粒度与结果一致：被筛掉的候选不在结果里，缺口就不该点它的名。
     """
     inventory = [
         {"brand": "天美", "model": "UV1100",

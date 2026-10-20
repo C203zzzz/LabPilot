@@ -117,7 +117,7 @@ def test_analysis_calls_only_required_visual_pages(monkeypatch, tmp_path: Path):
 
 
 def test_single_page_visual_failure_degrades_instead_of_whole_document_502(monkeypatch, tmp_path: Path):
-    """单页视觉失败不再把整份资料打成 502，但要留下两处痕迹（docs/209 §5）。
+    """单页视觉失败不再把整份资料打成 502，但要留下两处痕迹。
 
     第 2 页那一页的文字层不足采信（低于 32 字阈值）走了视觉，视觉又失败；
     第 1 页的正文仍然可用，所以本次分析按部分资料继续——这与
@@ -126,7 +126,7 @@ def test_single_page_visual_failure_degrades_instead_of_whole_document_502(monke
 
     但"第 2 页还剩几个字"**不是**可用正文：那几个字正是 profile 判过不足采信
     的噪声（``very_low_native_text``）。给用户看的话必须如实说这一页没可靠读到，
-    不许说成"改用本地文字层继续分析"（``docs/209`` §3.4/§4）。
+    不许说成"改用本地文字层继续分析"。
     """
     source = tmp_path / "degraded.pdf"
     _make_pdf(source, ["Clean selectable source text with sufficient length. " * 8, "Too short to trust"])
@@ -205,7 +205,7 @@ def test_untrusted_native_noise_alone_still_fails_whole_document(monkeypatch, tm
     一页被路由到 ``vision`` 本来就是产品判定它原生文字不足采信
     （``empty_native_text``／``very_low_native_text``／乱码／可疑字形，
     ``document_ingestion._assess_pdf_page``）；把这种残留字符当成"还有正文可读"
-    会把丢数据说成跳过（``docs/209`` §3.4/§4）。
+    会把丢数据说成跳过。
     """
     source = tmp_path / "noise-only.pdf"
     _make_pdf(source, ["Too short", "Page 12"])
@@ -328,7 +328,7 @@ def test_deferred_by_page_cap_page_is_not_trusted_body_text(monkeypatch, tmp_pat
     （``document_ingestion`` :749-760），判据只是 ``(page.text or '').strip()``——
     所以这些页里既有真的本地识别文字，也有纯噪声原文字符。判据若退化成看
     ``route == 'native_text'``，这些噪声页就会冒充正文，把"整份没有可靠读到"
-    说成"跳过了一页"（``docs/209`` §3.4/§4）。
+    说成"跳过了一页"。
 
     这里两页都只有 9 个噪声字（``label=poor``），第 2 页因超限被推迟、``route`` 是
     ``native_text``；视觉在第 1 页失败后，这份资料没有任何可信正文，仍应整份 502。

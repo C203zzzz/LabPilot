@@ -26,7 +26,7 @@ export function candidateName(candidates, id) {
 export function publicText(value, state) {
   let text = String(value || '')
   // 空结果/通道失败按**通道**说（与后端 ``report_library`` 逐字相同）：研究链路每次
-  // 只传一个通道，说成"整轮检索没有结果"就把内部事实说粗了（``docs/209`` §3）。
+  // 只传一个通道，说成"整轮检索没有结果"就把内部事实说粗了。
   // 长的排前面：带通道名的三条必须排在裸 ``empty_results`` 之前。
   const channelList = names => String(names || '').split(/[,\s]+/).filter(Boolean).join('、')
   text = text

@@ -313,7 +313,7 @@ def test_pdfplumber_tables_are_independent_page_located_elements(tmp_path: Path)
 
 
 def test_pdf_parse_failure_warning_records_page_counts(tmp_path: Path, monkeypatch):
-    """``pdf_parse_failed`` 必须写清"已解析几页、整份几页"（``docs/209`` §3.4）。
+    """``pdf_parse_failed`` 必须写清"已解析几页、整份几页"。
 
     这是 ``_parse_pdf`` 整份失败的唯一出口。页级问题各有各的出口，能冒泡到这里
     的只有两种：``PdfReader`` 构造失败（页清单根本不存在）与 ``reader.pages``

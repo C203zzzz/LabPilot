@@ -13,7 +13,7 @@ export function researchIssue(value) {
   let message
   if (/no_official_source/.test(raw)) message = '未找到可核实的厂家原始资料，产品参数还不能确认。'
   else if (/tender_body_unverified/.test(raw)) message = '找到采购公告线索，但尚未核实公告正文与该型号的成交信息。'
-  // 通道失败与"没有结果"分开说：一次通道失败不许说成"没查到"（``docs/209`` §3）。
+  // 通道失败与"没有结果"分开说：一次通道失败不许说成"没查到"。
   else if (/search_channel_failed/.test(raw)) message = '有检索通道这一次没有跑通（这不是“没有搜到”），相关结论仍缺少依据。已有结果已保留。'
   else if (/empty_results_all_channels/.test(raw)) message = '这一次查询所有跑过的检索通道都没有返回结果，尚不能据此作出价格或替代判断。'
   else if (/empty_results/.test(raw)) message = '部分检索没有找到相关资料，尚不能据此作出价格或替代判断。'

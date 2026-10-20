@@ -1,8 +1,8 @@
 """``active_lane`` 的生命周期：运行中表示"从哪条车道起步"，收尾后必须消失。
 
-实测（docs/234 第 86 行，sample-d）：``finished_at`` 已写、``status=partial``、
+实测（sample-d）：``finished_at`` 已写、``status=partial``、
 ``lanes={"price":"completed","alternatives":"pending"}`` 都对了，``active_lane`` 却在
-一等 22 分钟后仍是 ``price``（见 docs/237 第 4 条）。读它就等于把一轮已经结束的研究
+一等 22 分钟后仍是 ``price``。读它就等于把一轮已经结束的研究
 当成"还在跑那条车道"。正规的就绪信号是 ``status`` + ``lanes`` + ``finished_at``，
 前端 ``frontend/src/services/researchProgress.js`` 也只读 ``lanes``。
 

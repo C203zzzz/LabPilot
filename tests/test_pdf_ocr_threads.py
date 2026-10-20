@@ -2,7 +2,7 @@
 
 The local pass runs two ONNX model families. Their thread counts are not
 interchangeable: RT-DETR (layout) multi-thread inference has raised native
-access violations on Windows (docs/28), while RapidOCR's onnxruntime session
+access violations on Windows, while RapidOCR's onnxruntime session
 was merely inheriting the same single-thread setting and paying for it on every
 scanned page. These tests pin both facts without parsing a real PDF.
 """

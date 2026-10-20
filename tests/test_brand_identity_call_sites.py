@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 """三个"品牌同一性"调用点是不是真的查了别名表。
 
-`docs/195` 量出：全仓还有几处做品牌同一性判断时用的是 ``identity``（只做 NFKC
+量出：全仓还有几处做品牌同一性判断时用的是 ``identity``（只做 NFKC
 归一／去空白连字符／小写），而 ``identity`` **不查别名表**，``brand_identity`` 才查。
 后果是已经写进 ``_BRAND_ALIASES`` 的写法在那些地方全部判成两家。
 
-本单只改**等值比较**那三处（``source_identity.verify_publisher`` 的发布者证据那一侧、
+只改**等值比较**那三处（``source_identity.verify_publisher`` 的发布者证据那一侧、
 ``procurement_research.verify_publishers`` 的 ``known_brand``、``product_configuration.
-_own_brand_page`` 的发布者证据那一侧）。**子串包含**那几处按量测结论刻意不动
-（``output/brand-normalize/03`` 到 ``06``），本文件同时把它们钉住，防止后人顺手改松。
+_own_brand_page`` 的发布者证据那一侧）。**子串包含**那几处按量测结论刻意不动，
+本文件同时把它们钉住，防止后人顺手改松。
 
 每个"改前"都用 ``monkeypatch`` 把该模块的 ``brand_identity`` 换回 ``identity``
 模拟出来，所以一条测试里同时有调用前与调用后的结果。
@@ -122,7 +122,7 @@ def test_every_alias_is_one_brand_at_the_equality_call_sites(written, canonical)
 # --------------------------------------------------------------------------
 
 @pytest.mark.parametrize('left,right', [
-    ('上海申安', '上海三申'),                    # docs/193 的反例：同城另一家灭菌器厂
+    ('上海申安', '上海三申'),                    # 同城另一家灭菌器厂
     ('上海申安', '上海三申医疗器械有限公司'),
     ('申安', '上海三申'),
     ('shenan', '上海三申'),
@@ -135,7 +135,7 @@ def test_counterexamples_are_still_two_brands(left, right):
 
 
 @pytest.mark.parametrize('written,other', [
-    ('湖南湘仪', '长沙高新开发区湘仪天平仪器设备有限公司'),   # docs/194：只收完整「湖南湘仪」
+    ('湖南湘仪', '长沙高新开发区湘仪天平仪器设备有限公司'),   # 只收完整「湖南湘仪」
     ('天津泰斯特', '江苏泰斯特电子设备制造有限公司'),
     ('天津泰斯特', '海南泰斯特医学科技有限公司'),
     ('上海一恒', '苏州一恒科学仪器有限公司'),
@@ -146,8 +146,8 @@ def test_the_alias_table_does_not_suck_in_a_namesake(written, other):
     注意这里**只**断言 ``brand_identity``：``brand_name_matches`` 另有一条
     "一侧是另一侧的企业登记名"的桥（短名是企业全名的子串、且全名以「有限公司」
     这类后缀结尾），上面这四组在那条桥下**今天就是 True**——那是既有行为，
-    归 ``docs/193``「同行登记全名做桥」那一单评估，本单一行没动它。
-    本单要保证的是：别名表没有把这些同字号公司并进来（``identity`` 换成
+    归「同行登记全名做桥」单独评估，这次一行没动它。
+    要保证的是：别名表没有把这些同字号公司并进来（``identity`` 换成
     ``brand_identity`` 没有放宽到它们）。
     """
     assert brand_identity(written) != brand_identity(other)
@@ -175,7 +175,7 @@ def test_shanghai_shenan_is_not_shanghai_sanshen_at_the_call_sites(monkeypatch):
 def test_the_substring_call_site_keeps_the_counterexample_out():
     """``_own_brand_page`` 的版权所有者子串那一处刻意保持 ``identity``。
 
-    量测（``output/brand-normalize/06_eq_key_sort.txt`` A2）显示：换成 ``brand_identity``
+    量测显示：换成 ``brand_identity``
     之后 ``湖南湘仪`` 缩成 ``湘仪``，``某厂商官网的产品页``
     （版权所有者「长沙高新开发区湘仪天平仪器设备有限公司」，做天平的另一家）会被判成
     「湖南湘仪」自己的页面——那是误放行；``申安``→``上海申安`` 又会让两家 ``shenan.net``
@@ -202,11 +202,11 @@ def test_diverse_candidates_already_goes_through_the_alias_table():
 
 
 def test_known_bridge_behaviour_for_the_balance_company_is_not_touched_here():
-    """「同行企业登记全名做桥」那条判据会认湘仪天平——既有行为，不是本单引入。
+    """「同行企业登记全名做桥」那条判据会认湘仪天平——既有行为，不是这次引入。
 
     ``brand_name_matches('湘仪', '长沙高新开发区湘仪天平仪器设备有限公司')`` 今天就是
-    True（长名以「有限公司」结尾、短名是它的子串）。它归 ``docs/193`` 那一单评估，
-    本单一行没动它，这里把它钉住，免得下一次有人把账记到别名表头上。
+    True（长名以「有限公司」结尾、短名是它的子串）。它单独评估，
+    这次一行没动它，这里把它钉住，免得下一次有人把账记到别名表头上。
     """
     assert brand_name_matches('湘仪', '长沙高新开发区湘仪天平仪器设备有限公司') is True
     assert brand_identity('湘仪') != brand_identity('长沙高新开发区湘仪天平仪器设备有限公司')

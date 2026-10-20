@@ -1,12 +1,11 @@
 """型号闸门**不许**放宽：把"近似"和"根本不在"分开，但不让近似进门。
 
-``docs/89`` 的猜想是「入口用字符串一刀切，所以像 ``SJ-LS-1300A2`` 这种写法收不
+早先的猜想是「入口用字符串一刀切，所以像 ``SJ-LS-1300A2`` 这种写法收不
 进来」。这一条在隔离库上不成立：
 
 * ``contains_model`` 本来就吃掉分隔符/大小写/空格（``1300 A2``↔``1300A2`` = True、
   ``XKA 2200``↔``XKA-2200`` = True）；它**不**吃掉厂商代码——``SJ-LS-1300A2`` 对
-  ``1300A2`` 在型号边界收紧（``docs/185`` §2.1，落地见 ``docs/DRAFT-model-tighten.md``）
-  之后不再命中，因为 ``SJ-LS-1300A2`` 是上海上净的整机型号、厂商代码 ``SJ-LS`` 与目标
+  ``1300A2`` 在型号边界收紧之后不再命中，因为 ``SJ-LS-1300A2`` 是上海上净的整机型号、厂商代码 ``SJ-LS`` 与目标
   数字段粘在一起，与目标不是同一台机器，
 * 590 条有正文来源里，白名单内被型号闸门挡住的 135 条，
   **换成"去分隔符后包含"这一档激进放宽，能多救回 0 条**；
@@ -36,9 +35,9 @@ def test_the_spellings_that_must_be_accepted_are_already_exact(body, model):
     """这些写法**不需要**放宽就已经过闸门——放宽的理由因此不成立。
 
     这里刻意**不含** ``SJ-LS-1300A2``：厂商代码与目标数字段粘在一起的那种形状
-    （``SJ-LS-1300A2``／``X1300A2``）在型号边界收紧之后不再命中，而这是
-    ``docs/185`` §2.1 的判定（上海上净的整机型号）。它的断言在
-    :func:`test_the_example_docs_89_gave_is_now_refused` 里。
+    （``SJ-LS-1300A2``／``X1300A2``）在型号边界收紧之后不再命中，这是
+    上海上净整机型号的判定。它的断言在
+    :func:`test_the_sj_ls_prefix_example_is_refused` 里。
     """
     assert contains_model(body, model) is True
     assert model_match_signal(body, model) == 'exact'
@@ -69,10 +68,10 @@ def test_a_vendor_prefixed_sibling_is_not_a_near_miss():
     assert model_match_signal(body, 'SPX-150B') is None
 
 
-def test_the_example_docs_89_gave_is_now_refused():
-    """``SJ-LS-1300A2`` 对 ``1300A2``：``docs/89`` 当它是 exact，``docs/185`` §2.1 判它错配。
+def test_the_sj_ls_prefix_example_is_refused():
+    """``SJ-LS-1300A2`` 对 ``1300A2`` 必须判错配。
 
-    以 ``docs/185`` 为准（本题目的权威量测）：``SJ-LS-1300A2`` 是上海上净的整机型号，
+    ``SJ-LS-1300A2`` 是上海上净的整机型号，
     ``SJ-LS`` 是厂商代码、与目标数字段粘在一起，``BSC-1300A2``／``BHC-1300A2``／
     ``ZSC-1300A2``／``CBHC-1300A2`` 同形（都是别家机器）。型号边界收紧后它不再命中，
     信号报 ``None``——与 ``X1300A2`` 同样是"前缀粘连、字符串分不清是厂商代码还是
@@ -94,7 +93,7 @@ def test_a_different_number_is_not_called_a_near_miss(body, model):
     """**关键断言**：``near`` 不许把这些说成"差一点就是你的型号"。
 
     ``1306A2`` 与 ``X1300A2`` 是不同型号；``Cary 6000i`` 对 ``Cary 60``
-    是全库里唯一一条"放宽口径会误收"的真实例子（``output/q2_relax_probe.txt``），
+    是全库里唯一一条"放宽口径会误收"的真实例子，
     必须仍然是"不在正文里"。
     """
     assert contains_model(body, model) is False

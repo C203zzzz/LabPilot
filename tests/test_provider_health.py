@@ -423,7 +423,7 @@ def test_runtime_vision_chain_keeps_the_timeout_floor_and_honours_the_setting(mo
 def test_configuration_error_reaches_the_browser_on_every_vision_entry_point(monkeypatch, tmp_path):
     """``LAB_VISION_JSON_RETRIES`` 写错时，每个入口都要给出可读的 502。
 
-    实验 4 的原始表现（``docs/245`` 第 77 行）：``GET /providers``、上传、分析一律
+    原始表现：``GET /providers``、上传、分析一律
     500，而且是**不带 CORS 头**的裸 ``Internal Server Error``；缺
     ``Access-Control-Allow-Origin`` 时浏览器把响应判成网络失败，用户看到的是
     "暂时无法连接，请检查网络或重新启动应用"。这里把三个入口和健康检查钉在一起：

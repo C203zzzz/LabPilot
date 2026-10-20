@@ -508,7 +508,7 @@ function Alternative({ candidate, baseline, sources, reference = false, official
     {/* 价格区 + 两段式的那个按钮：**先展示候选，用户点哪个才查哪个**。
         状态文案由 ``priceLookupView`` 把后端 ``price_lookup`` 的三态说成人话
         （没查／查了没有／有来源但没被采信——"没查"与"查了没有"必须能分开看，
-        见 docs/148 与 backend/services/alternative_price_lookup.py 模块开头）；
+        语义见 backend/services/alternative_price_lookup.py 模块开头）；
         按钮的 disabled 与请求形状由 ``priceButtonState`` / ``lookupCandidatePrice``
         负责，点击只 POST 路径里那一个 ``candidate_id``。 */}
     <section className="alternative-price" aria-label={`${candidate.model || '这个候选'}的价格`}>

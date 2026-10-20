@@ -157,7 +157,7 @@ def test_alignment_uses_the_detail_page_and_keeps_the_exact_line_as_evidence():
 
 
 def test_navigation_urls_in_the_header_do_not_disable_the_spec_line():
-    """真跑踩过：浏览器渲染后的页头里，导航与面包屑都带方括号网址。
+    """浏览器渲染后的页头里，导航与面包屑都带方括号网址。
 
     网址 slug 长得很像型号（``list11``／``zt000``／``sort01``），被当成"别的型号"之后
     整页紧凑规格行被禁用 —— 真跑 10 条候选因此抽到 0 项。判"这一页讲的是不是本品"之前
@@ -180,7 +180,7 @@ def test_navigation_urls_in_the_header_do_not_disable_the_spec_line():
 
 
 def test_thousand_separators_are_read_as_one_number():
-    """真跑踩过：``800-14,500rpm`` 读成 500rpm、``14,000xg`` 读成 0xg。
+    """``800-14,500rpm`` 不能读成 500rpm、``14,000xg`` 不能读成 0xg。
 
     产品页就是这么写千分位的；不认逗号会把上限读小一个数量级，直接影响"够不够"的判定。
     """
@@ -194,7 +194,7 @@ def test_thousand_separators_are_read_as_one_number():
 
 
 def test_a_model_suffix_token_is_not_another_model():
-    """``FC5513-R01`` 被拆开后的 ``R01`` 不能算"外来型号"（真跑踩过：整页被禁用）。"""
+    """``FC5513-R01`` 被拆开后的 ``R01`` 不能算"外来型号"（否则整页被禁用）。"""
     head = 'FC5513-R01微量高速离心机 型号 FC5513-R01 品牌 R01'
     assert other_models_in(head, 'FC5513') == []
 

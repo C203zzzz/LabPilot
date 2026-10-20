@@ -104,7 +104,7 @@ export function reportSummary(payload) {
  * 逻辑不依赖 React，而「模型写进句子里的 unknown、run 数据里的内部 ID 都不会
  * 漏给用户」这件事可以被 node --test 直接验证。
  * （publicText 的词典没有覆盖任意 snake_case 字段名，例如 evidence_grade；
- *   那一类词属于后端不该写进给人看的文字里，见 docs/66。）
+ *   那一类词属于后端不该写进给人看的文字里。）
  */
 export function reportSummaryView(summary, translate = value => value) {
   const blocks = summaryBlocks(summary)

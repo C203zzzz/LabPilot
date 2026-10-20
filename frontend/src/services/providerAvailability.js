@@ -54,7 +54,7 @@ export function visionState(providerStatus) {
  * ``LAB_VISION_JSON_RETRIES=9`` 越界），``services/api.js`` 的
  * ``fetchProviderStatus`` 已经把 404 与网络错误当成"服务未连接"正常返回，
  * 所以能走到 ``error`` 非空的只有"服务在、配置有问题"。这时两行各说一句
- * "未连接"就是把"装错了"讲成了"连不上"——``docs/209`` §3。
+ * "未连接"就是把"装错了"讲成了"连不上"——配置错误要让用户看见是配置错了。
  */
 export function connectionSummary(providerStatus) {
   const error = providerStatus?.error || ''

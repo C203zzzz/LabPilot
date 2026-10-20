@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """标准号不是型号：正文兜底不许把 ``T/CIS 17009-2025`` 抠成候选 ``CIS 17009``。
 
-取证（``output/sample-b-stability/report.md`` §四）：``sample-b-brand1`` 唯一的候选
+取证：``sample-b-brand1`` 唯一的候选
 ``CIS 17009`` 来自这一行::
 
     T/CIS 17009-2025-槽式超声波清洗机通用技术规范-国家标准馆·国家数字标准馆
