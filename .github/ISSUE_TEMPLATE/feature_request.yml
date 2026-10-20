@@ -1,0 +1,26 @@
+name: 功能建议
+description: 想让它支持新的品类、来源或输出
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: 现在卡在哪
+      description: 具体到一条查不到的价格、一类被误判的公告，或者一步多余的操作。
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: 希望它变成什么样
+    validations:
+      required: true
+
+  - type: textarea
+    id: example
+    attributes:
+      label: 有没有真实例子
+      description: 一条公开公告链接或一份脱敏资料，比抽象描述有用得多。
+    validations:
+      required: false

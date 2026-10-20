@@ -1,0 +1,35 @@
+name: Bug 报告
+description: 有一处行为不对，或者页面、接口报错
+labels: [bug]
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: 发生了什么
+      description: 预期是什么，实际是什么。
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: 怎么复现
+      description: 从哪一步开始，用了哪类资料，有没有配模型密钥。
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: 提交或版本
+      placeholder: c147c5b
+    validations:
+      required: false
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: 日志、截图或报错原文
+      description: 贴之前删掉 API key、Cookie 和真实单位名称。
+    validations:
+      required: false
