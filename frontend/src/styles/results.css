@@ -1,0 +1,1251 @@
+/* ============================================================
+   采购面板（ProcurementPanel / 结果区）
+   ============================================================ */
+.procurement-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin: 18px 0;
+}
+
+.procurement-panel label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: var(--ink);
+  font-size: .8rem;
+  font-weight: 700;
+}
+
+.procurement-panel input:not([type="checkbox"]):not([type="radio"]),
+.procurement-panel select {
+  width: 100%;
+  min-height: 42px;
+  padding: 8px 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-sm);
+  color: var(--ink);
+  background: var(--paper);
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+
+.procurement-panel input:not([type="checkbox"]):not([type="radio"]):focus,
+.procurement-panel select:focus {
+  border-color: var(--accent);
+  outline: 0;
+  box-shadow: 0 0 0 3px rgba(47, 95, 224, .14);
+}
+
+.procurement-parameter {
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr 1.5fr 2fr auto;
+  gap: 10px;
+  align-items: end;
+  margin: 12px 0;
+}
+
+.procurement-result {
+  padding: 16px 0;
+  border-top: 1px solid var(--line);
+}
+
+.procurement-panel table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.procurement-panel th,
+.procurement-panel td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  font-size: .82rem;
+  line-height: 1.6;
+}
+
+.procurement-panel th {
+  color: var(--muted);
+  font-size: .74rem;
+  font-weight: 700;
+}
+
+.procurement-panel h3 {
+  margin: 22px 0 10px;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.procurement-panel a {
+  color: var(--accent);
+  text-underline-offset: 3px;
+}
+
+.result-facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin: 16px 0;
+}
+
+.result-facts dt {
+  margin-bottom: 5px;
+  color: var(--muted);
+  font-size: .76rem;
+  font-weight: 700;
+}
+
+.result-facts dd {
+  margin: 0;
+  color: var(--ink);
+  font-size: .9rem;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+
+.baseline-identity {
+  grid-template-columns: minmax(140px, 1fr) minmax(0, 2fr);
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.price-target-overview {
+  margin: 4px 0 8px;
+  padding: 20px 0 18px;
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.price-target-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(230px, .7fr);
+  gap: 28px;
+  align-items: stretch;
+}
+
+.price-target-heading h3,
+.price-analysis-conclusion h3,
+.price-next-actions h3 {
+  margin: 0 0 8px;
+  color: var(--ink);
+  font-size: 1rem;
+}
+
+.price-target-heading > div:first-child > strong {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--ink);
+  font-size: 1.35rem;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.price-target-heading p { margin: 0; color: var(--muted); }
+
+.supplier-quote {
+  display: grid;
+  align-content: center;
+  gap: 4px;
+  padding-left: 24px;
+  border-left: 1px solid var(--line);
+}
+
+.supplier-quote > span {
+  color: var(--muted);
+  font-size: .74rem;
+  font-weight: 700;
+}
+
+.supplier-quote > strong {
+  color: var(--ink);
+  font-size: 1.2rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.supplier-quote > small { color: var(--muted); line-height: 1.55; }
+
+.price-target-terms,
+.transaction-meta,
+.transaction-terms {
+  display: grid;
+  margin: 18px 0 0;
+}
+
+.price-target-terms { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.transaction-meta { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.transaction-terms { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+.price-target-terms > div,
+.transaction-meta > div,
+.transaction-terms > div {
+  min-width: 0;
+  padding: 10px 14px;
+  border-top: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+}
+
+.price-target-terms > div:nth-child(3n),
+.transaction-meta > div:nth-child(4n),
+.transaction-terms > div:nth-child(4n) { border-right: 0; }
+
+.price-target-terms dt,
+.transaction-meta dt,
+.transaction-terms dt {
+  margin-bottom: 3px;
+  color: var(--muted);
+  font-size: .7rem;
+  font-weight: 700;
+}
+
+/* 迭代规范（设计规范）：参数网格里的键也按"是不是用户关注参数"分字重。
+   这一组原来一律 700，粗体就表达不出差别，所以先把它降回正文字重，命中的再加粗
+   ——**只动字重**，颜色、勾叉、满足与否一概不加。 */
+.price-target-terms dt { font-weight: 400; }
+.price-target-terms dt.is-watched { font-weight: 700; }
+
+.price-target-terms dd,
+.transaction-meta dd,
+.transaction-terms dd {
+  margin: 0;
+  color: var(--ink);
+  font-size: .82rem;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.research-summary {
+  padding: 0 0 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.procurement-panel .research-summary h3 {
+  margin-top: 14px;
+  font-size: 1.05rem;
+}
+
+.research-summary > p,
+.result-section > p {
+  max-width: 70ch;
+  line-height: 1.8;
+}
+
+.result-section {
+  padding: 14px 0 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+.price-record-heading,
+.price-lead-heading,
+.result-section-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.price-record-heading h4 { font-variant-numeric: tabular-nums; }
+
+/* 一个型号命中多条成交记录时，第一行右端印「第 n 条 / 共 m 条」。**不另起标题**：
+   区块标题 「可比历史成交记录」 在 ``prices.map`` 外面、只渲染一次（用户明确
+   抱怨过每条记录上又重复一遍这个标题），所以编号只能是这一行的一个小标记，
+   顺带 ``flex-wrap`` 让它在 420px 窄屏上换到第二行而不是把型号挤断。 */
+.price-record-heading { flex-wrap: wrap; }
+.price-record-ordinal {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: .72rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* 一条价格记录卡的第一层：**型号与价格并排一行**（原来价格在上、型号单独占
+   一行）。这一行里有两个 span——「成交型号」标签和右侧的层级短徽章——所以
+   胶囊样式不能再按 ``.price-record-heading > div > span`` 一刀切，收窄到
+   ``.price-record-level``；型号本身是正文，不是徽章。
+   ``flex-wrap`` 让窄屏上价格自动换到下一行，不用另写断点。 */
+.price-record-heading .price-record-identity {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 12px;
+}
+
+.price-record-model-label { color: var(--muted); font-size: .74rem; font-weight: 700; }
+.price-record-model { color: var(--ink); font-size: 1.02rem; overflow-wrap: anywhere; }
+
+.price-record-level,
+.price-lead-heading > div > span,
+.result-section-heading > span {
+  display: inline-flex;
+  min-height: 26px;
+  align-items: center;
+  padding: 3px 9px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  color: var(--muted);
+  background: var(--canvas-raised);
+  font-size: .68rem;
+  font-weight: 700;
+}
+
+.transaction-model {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  margin-top: 14px;
+}
+
+.transaction-model span { color: var(--muted); font-size: .74rem; font-weight: 700; }
+.transaction-model strong { color: var(--ink); overflow-wrap: anywhere; }
+
+.price-boundary {
+  margin: 14px 0;
+  padding: 10px 12px;
+  border-top: 1px solid var(--warning-line);
+  border-bottom: 1px solid var(--warning-line);
+  color: var(--warning);
+  background: var(--warning-soft);
+  font-size: .8rem;
+}
+
+/* 一张价格记录卡的第三块（卡尾）：来源。默认折叠，展开后是两条分开写的链接——
+   「价格来源」（这条金额的公告／附件出处）和「配置来源」（厂家或卖场／聚合站的
+   产品页）。折叠标题上写着每类各有几条：折叠藏的是地址，不能让这条记录看起来
+   没有来源、或者只有一个来源。链接文字是「站点名 · 页面类型」的简述，不是 URL。 */
+.price-record-sources {
+  margin: 8px 0 0;
+  padding-left: 12px;
+  border-left: 2px solid var(--line-strong);
+}
+
+.price-record-sources > summary { color: var(--muted); font-size: .78rem; font-weight: 700; }
+.price-record-sources > summary:hover { color: var(--accent); }
+.price-source-list { margin: 0 0 8px; }
+.price-source-list > div { margin: 8px 0; }
+.price-source-list dt { color: var(--muted); font-size: .72rem; font-weight: 700; letter-spacing: .02em; }
+.price-source-list dd { margin: 3px 0 0; color: var(--body); font-size: .8rem; }
+/* 链接文字是中文简述（「中国政府采购网 · 中标公告」），不是长 URL；全局那条
+   ``overflow-wrap: anywhere`` 是给 URL 用的。中文默认可以在任意汉字之间断行，
+   窄屏会把「湘仪集团官网」掰成两行，所以这里按词组断（``keep-all``），
+   断不开时整个简体词组移到下一行。
+   行内不再有说明句（``<dt>`` 已经写明这是哪一类来源），链接就是这一行的开头，
+   所以没有 ``margin-left``——否则链接会比上面的标签缩进 8px。 */
+.price-source-list dd .source-link { overflow-wrap: normal; word-break: keep-all; }
+
+.price-leads-section {
+  margin-top: 8px;
+  padding: 18px;
+  border-top-color: var(--warning-line);
+  border-bottom-color: var(--warning-line);
+  background: var(--warning-soft);
+}
+
+.result-section-heading h3 { margin-top: 0 !important; }
+.result-section-heading p { max-width: 70ch; margin: 0; }
+
+.result-section-heading > span {
+  flex-shrink: 0;
+  border-color: var(--warning-line);
+  color: var(--warning);
+  background: var(--paper);
+}
+
+/* 商业线索卡片（`.price-lead`）：被拒价格那一节，以及本轮没有官方成交记录时才
+   出现的「市场参考价」与候选卡片「这个型号的价格线索」。 */
+.price-lead {
+  padding: 14px 0 4px;
+  border-top: 1px solid var(--warning-line);
+}
+
+.price-lead + .price-lead { margin-top: 12px; }
+.price-lead-heading > div { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.price-lead-heading strong { color: var(--ink); font-variant-numeric: tabular-nums; }
+.price-lead-heading > div > span { border-color: var(--warning-line); color: var(--warning); background: var(--paper); }
+.price-lead p { margin-bottom: 8px; }
+
+/* 市场参考价：权威成交价缺失时的降级展示，必须与正式价格区在视觉上分开。
+   这一块只在**一条官方成交记录都没有**时渲染（有官方记录时 ``marketReferenceBlock``
+   直接返回 null），所以它始终是展开状态：这里已经不是一个 <details>，没有
+   "默认收起 / 默认展开"两态，相应地也没有 `.market-reference-block[open]` 那套箭头样式。 */
+.market-reference-section {
+  border-left: 3px solid var(--warning-line);
+  padding-left: 18px;
+}
+
+.market-reference-section .result-section-heading strong { color: var(--ink); }
+.market-reference-lead { border-top: 1px dashed var(--warning-line); }
+.market-reference-badge { border-color: var(--line-strong); color: var(--muted); background: var(--canvas-raised); }
+.market-reference-lead .transaction-meta dt small,
+.market-reference-lead .transaction-meta dd small { display: block; color: var(--muted); font-size: .8em; }
+/* 区块顶部：标题与「非成交价」一枚标签同一行。 */
+.market-reference-top { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.market-reference-top h3 { margin: 0; }
+/* 顶部那一句警示，整块只说一次（逐条线索不重复）。加粗是用户明确要求
+   （「顶部加粗标出」）：计算后的字重 700，并且给一整条横幅的底色与左侧竖线，
+   使它在一屏里先于下面所有数字被看见。 */
+.market-reference-warning {
+  max-width: 60ch;
+  margin: 10px 0 0;
+  padding: 10px 14px;
+  border: 1px solid var(--warning-line);
+  border-left: 4px solid var(--warning);
+  border-radius: 3px;
+  background: var(--warning-soft);
+  color: var(--ink);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.6;
+}
+/* 警示下面垫底的说明：为什么没有可比的成交价、下面按什么排序。 */
+.market-reference-explanation { max-width: 72ch; margin: 8px 0 0; color: var(--muted); font-size: .88rem; }
+.market-reference-tier-note { max-width: 72ch; margin: 12px 0 0; color: var(--muted); }
+.market-reference-tier-note strong { display: block; margin-bottom: 2px; color: var(--ink); font-size: .95rem; }
+.market-reference-legend { max-width: 72ch; margin: 12px 0 0; color: var(--muted); font-size: .8rem; }
+.market-reference-rows { margin-top: 8px; }
+
+/* 被拒价格说明：解释"为什么是 0 条"，必须在视觉上区别于价格表本身。 */
+.price-rejection-section {
+  margin-top: 16px;
+  padding: 12px 16px;
+  border-left: 3px solid var(--line);
+  background: var(--paper);
+}
+
+.price-rejection-section > summary { color: var(--muted); cursor: pointer; }
+.price-rejection-section > p { max-width: 72ch; margin: 10px 0 4px; color: var(--muted); }
+.rejection-group { margin-top: 14px; }
+.rejection-group h4 { margin: 0 0 4px; font-size: .95rem; color: var(--ink); }
+/* 一组说一次的共同解释（迭代规范）：原来每条记录都把同一句话重复一遍（一节里十几次）。 */
+.rejection-group-note { margin: 0 0 6px; max-width: 76ch; color: var(--muted); font-size: .78rem; }
+.rejection-group .price-lead { border-top-style: dashed; }
+.rejection-group .price-boundary { font-variant-numeric: tabular-nums; word-break: break-all; }
+
+/* 规范项（2026-10-07）：拒收记录分节之后，候选卡里的那一节与成交价那一节共用同一套
+   样式，只在缩进上退一级，免得两张卡片贴在一起看不出层级。 */
+.alternative-result .price-rejection-section { margin-top: 12px; }
+
+/* 规范项（2026-10-07）：价格栏空着时的交代。它不是警告、也不是空态占位，而是一条
+   台账式的事实清单（查了什么、为什么没有），所以用中性底色 + 定义列表。 */
+.price-empty-disclosure { margin: 14px 0 0; padding: 10px 14px; border: 1px solid var(--line); border-radius: var(--r-sm); background: var(--paper); }
+.price-empty-disclosure > summary { font-size: .82rem; font-weight: 600; color: var(--muted); cursor: pointer; }
+.price-empty-disclosure[open] > summary { margin-bottom: 10px; color: var(--ink); }
+.price-empty-facts { margin: 0; display: grid; gap: 8px; }
+.price-empty-facts > div { display: grid; grid-template-columns: 148px minmax(0, 1fr); gap: 12px; align-items: start; }
+.price-empty-facts dt { color: var(--muted); font-size: .8rem; font-weight: 700; }
+.price-empty-facts dd { margin: 0; color: var(--body); font-size: .84rem; line-height: 1.7; max-width: 78ch; }
+
+/* 规范项（2026-10-07）：可复制的话术。保留换行、用正文字体，读者一眼能看出这一段是
+   要整段粘走的（等宽字体会让中文行长看起来像代码）。 */
+.supplier-question-section .supplier-question-body {
+  margin: 12px 0 14px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 8px;
+  background: var(--paper); color: var(--ink); font-size: .84rem; line-height: 1.8;
+  white-space: pre-wrap; overflow-wrap: anywhere; font-family: inherit;
+}
+
+/* 本项目采购要求：招标文件里的门槛，与产品参数分开的一条独立证据。
+   ▲ 关键条款单独列出并给底色，一般条款折叠，每台设备一组。 */
+.price-tender-config { margin: 16px 0 0; padding: 14px 16px; border-left: 3px solid var(--warning-line); background: var(--warning-soft); }
+.price-tender-config h5 { margin: 0 0 6px; font-size: .88rem; color: var(--ink); }
+.price-tender-config .tender-origin { max-width: 72ch; margin: 4px 0 8px; color: var(--muted); font-size: .8rem; }
+.price-tender-config .tender-origin .source-link { margin-left: 8px; }
+.price-tender-config .tender-plain-clauses { margin-top: 10px; }
+.tender-clauses { margin: 0; padding: 0; list-style: none; }
+.tender-clauses li { display: flex; gap: 10px; margin: 8px 0; }
+.tender-clause-number { flex-shrink: 0; min-width: 2.4em; color: var(--warning); font-variant-numeric: tabular-nums; }
+
+/* 厂家标称参数（厂家／产品资料）。与上面那块采购要求互斥显示：
+   两块同时出现时，采购方的门槛会被读成这台机器的参数。底色与采购要求那块
+   明显不同（信息色 vs 警示色），是为了让读者一眼看出这是两种证据。
+   它是**价格记录卡里的第二块**（业务口径：型号价格和配置同级、同在一张卡里，
+   不再另开一张卡），靠底色与左侧色条自成一块；卡尾还有第三块「来源」。 */
+.product-spec-card {
+  margin: 12px 0 0;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--paper);
+}
+.product-spec-summary {
+  padding: 9px 14px;
+  color: var(--accent);
+  font-size: .82rem;
+  font-weight: 600;
+  list-style: none;
+  cursor: pointer;
+}
+.product-spec-summary::-webkit-details-marker { display: none; }
+.product-spec-body {
+  padding: 12px 14px 14px;
+  border-top: 1px solid var(--line);
+}
+.product-spec-card h4 { margin: 0 0 6px; color: var(--ink); font-size: .92rem; }
+.product-spec-card .tender-origin { max-width: 72ch; margin: 4px 0 10px; color: var(--muted); font-size: .8rem; }
+.product-spec-card .tender-origin .source-link { margin-left: 8px; }
+.product-spec-group + .product-spec-group { margin-top: 12px; }
+.product-spec-group-title { margin: 0 0 2px; color: var(--ink); font-size: .82rem; font-weight: 700; }
+/* 参数格子直接复用「本次核价对象」那块的 .price-target-terms，但压缩行高为紧凑键值对表格。 */
+.product-spec-grid { margin-top: 6px; border: 1px solid var(--line); border-radius: var(--r-sm); }
+.product-spec-grid > div { padding: 5px 10px; min-height: 30px; }
+.product-spec-grid dt { margin-bottom: 1px; font-size: .72rem; }
+.product-spec-grid dd { font-size: .8rem; line-height: 1.4; }
+.product-spec-table { margin-top: 8px; }
+
+/* 多列参数表（「转子参数」那一类真表格）：原来列与列之间没有任何边界，
+   ``淋巴球清洗用转子/HLA`` 后面紧跟着 ``1``，读起来就是 ``HLA1``——实际是两个
+   字段（转子名称、转子号）。三件事一起做，保证**任何一行的相邻格子都不会被读成
+   同一个值**：
+   ①每格左右各 14px 内边距。这一条原来是**借**来的：生产页里表格在
+     ``.module-panel.procurement-panel`` 里，命中的是 ``.procurement-panel th`` /
+     ``.procurement-panel td`` 那条 ``padding: 10px 12px``；一旦表格不在那个祖先里
+     （临时预览页就是这样），一格内边距都没有，列直接贴死。这组样式自带内边距与
+     表格基本样式，谁渲染都对。
+   ②相邻列之间画一道竖线——"这是两个格子"的硬边界，不靠肉眼判断间距；
+   ③数值列右对齐 + 等宽数字 + 不折行（``is-numeric`` 由 ``productSpecLayout``
+     按"这一列每个格子都是数字打头"算出来，不是按表头猜的），窄列不再和左边的
+     长名称挤在一起。
+   这组样式自带 ``width``/``border-collapse``，不依赖 ``.procurement-panel`` 祖先。 */
+.product-spec-table table { width: 100%; border-collapse: collapse; }
+.product-spec-table :is(th, td) {
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+  font-size: .8rem;
+  line-height: 1.65;
+}
+.product-spec-table :is(th, td) + :is(th, td) { border-left: 1px solid var(--line); }
+.product-spec-table th { color: var(--muted); font-size: .74rem; font-weight: 700; white-space: nowrap; }
+.product-spec-table td.is-numeric,
+.product-spec-table th.is-numeric { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.product-spec-note { margin: 10px 0 0; color: var(--muted); font-size: .76rem; }
+.alternative-leads { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); }
+.alternative-leads h5 { margin: 0 0 4px; font-size: .85rem; color: var(--ink); }
+.alternative-leads > p { max-width: 72ch; margin: 0 0 8px; color: var(--muted); font-size: .8rem; }
+.price-lead-list { margin-top: 8px; }
+.price-lead-item { margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--line); }
+.price-lead-item-heading { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
+.price-lead-item p { margin: 4px 0; color: var(--muted); font-size: .8rem; }
+
+/* 跨品牌比较候选：结论先行。
+   判定给整块底色与左侧色条，口径与边界跟在下面；
+   满足 / 不满足 / 待核对 / 缺证各自成行，没有内容的那类不渲染。 */
+.alternative-verdict {
+  margin: 10px 0 0;
+  padding: 12px 14px;
+  border-left: 3px solid var(--line-strong);
+  border-radius: 0 var(--r-md) var(--r-md) 0;
+  background: var(--canvas-raised);
+}
+
+.verdict-line { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.verdict-label { color: var(--ink); font-size: 1.02rem; font-weight: 800; line-height: 1.35; }
+.alternative-verdict p { max-width: 72ch; margin: 6px 0 0; font-size: .8rem; line-height: 1.65; }
+.verdict-detail { color: var(--body); }
+.verdict-basis { color: var(--muted); }
+.verdict-boundary { color: var(--warning); font-weight: 600; }
+
+.verdict-success { border-left-color: var(--success-line); background: var(--success-soft); }
+.verdict-success .verdict-label { color: var(--success); }
+.verdict-warning { border-left-color: var(--warning-line); background: var(--warning-soft); }
+.verdict-warning .verdict-label { color: var(--warning); }
+.verdict-danger { border-left-color: var(--danger-line); background: var(--danger-soft); }
+.verdict-danger .verdict-label { color: var(--danger); }
+.verdict-danger .verdict-boundary { color: var(--danger); }
+.verdict-neutral { border-left-color: var(--accent-line); background: var(--accent-soft); }
+.verdict-neutral .verdict-label { color: var(--accent); }
+.verdict-muted { border-left-color: var(--line-strong); background: var(--canvas-raised); }
+.verdict-muted .verdict-label { color: var(--body); }
+
+.alternative-category { margin: 10px 0 0; color: var(--muted); font-size: .8rem; }
+/* 「配置所属型号」（设计规范）：只在这份配置的来源页写着另一个型号时出现，
+   候选自己的写法一并留着。与「品类」那一行同档，但用正文色，因为它是事实不是注解。 */
+.alternative-configuration-model { margin: 6px 0 0; color: var(--ink); font-size: .82rem; }
+
+.alternative-facts { display: grid; margin: 12px 0 0; }
+.alternative-fact {
+  display: grid;
+  grid-template-columns: 168px minmax(0, 1fr);
+  gap: 12px;
+  padding: 9px 0;
+  border-top: 1px solid var(--line);
+}
+.alternative-fact dt { color: var(--muted); font-size: .72rem; font-weight: 700; line-height: 1.7; }
+.alternative-fact dd { display: flex; flex-wrap: wrap; gap: 6px; min-width: 0; margin: 0; }
+.fact-item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+  padding: 3px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--canvas);
+  color: var(--body);
+  font-size: .74rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.fact-item small { color: var(--muted); font-size: .68rem; }
+.fact-note { flex-basis: 100%; color: var(--muted); font-size: .72rem; line-height: 1.6; }
+
+/* 候选卡片：逐项差异（一致／不同／未知三态，一项一行）与「查这个的价格」价格区。
+   未知那一栏印的是"正文里没写"，所以它走中性色、不给任何正向色调——页面上不能
+   让人把"没查到"读成"满足"（口径见 services/alternativePresentation.js 顶部）。 */
+.alternative-config-match { margin: 14px 0 0; padding-top: 12px; border-top: 1px solid var(--line); }
+.alternative-config-match h5 { margin: 0 0 4px; font-size: .85rem; color: var(--ink); }
+.config-match-legend { max-width: 72ch; margin: 0 0 8px; color: var(--muted); font-size: .78rem; line-height: 1.6; }
+.config-match-table { width: 100%; border-collapse: collapse; font-size: .8rem; }
+.config-match-table th,
+.config-match-table td { padding: 7px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.config-match-table thead th { color: var(--muted); font-size: .72rem; white-space: nowrap; }
+.config-match-table tbody th { color: var(--ink); font-weight: 400; }
+/* 迭代规范（设计规范）：用户关注参数加粗——**只加粗**，不上色、不打勾、不写满足与否；
+   非关注项保持正文字重，两者之间的差别就是字重。 */
+.config-match-table tbody th.is-watched { font-weight: 700; }
+/* 卡片上那行事实标记（未查价 / 已逐项比对 N 项）：与「品类」行同档。 */
+.alternative-facts-line { margin: 4px 0 0; color: var(--muted); font-size: .78rem; }
+.config-match-table td { color: var(--body); }
+.config-match-table blockquote { margin: 6px 0 0; padding-left: 8px; border-left: 2px solid var(--line); color: var(--muted); font-size: .74rem; line-height: 1.6; overflow-wrap: anywhere; }
+/* 候选自己的资料正文（整段原文，规范项）：保留换行、不折成一行，读者要一眼看出这是原文
+   而不是系统拼的句子。 */
+.config-match-table .config-source-text { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; font-family: inherit; font-size: .78rem; line-height: 1.7; color: var(--body); }
+.config-match-row.config-unknown td { color: var(--muted); }
+.config-match-row.config-different td { color: var(--danger); }
+.config-match-note { display: block; margin-top: 4px; color: var(--muted); font-size: .72rem; }
+.config-match-scores { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin: 12px 0 0; }
+.config-match-scores dt { color: var(--muted); font-size: .72rem; font-weight: 700; }
+.config-match-scores dd { margin: 2px 0 0; color: var(--ink); font-size: .88rem; font-weight: 700; }
+.config-match-scores small { display: block; margin-top: 2px; color: var(--muted); font-size: .72rem; font-weight: 400; line-height: 1.6; }
+.alternative-excerpt { margin: 10px 0 0; padding: 6px 10px; border-left: 2px solid var(--line); color: var(--muted); font-size: .76rem; line-height: 1.6; overflow-wrap: anywhere; }
+.alternative-price { margin: 12px 0 0; padding: 9px 14px; border: 1px solid var(--line); border-radius: var(--r-sm); background: var(--paper); }
+.alternative-price-inline { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+.alternative-price-status-wrap { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 12px; min-width: 0; }
+.alternative-price-inline .action-button { min-height: 34px; padding: 6px 14px; font-size: .8rem; }
+.alternative-price-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
+.alternative-price-heading h5 { margin: 0; font-size: .85rem; color: var(--ink); }
+.alternative-price-status { margin: 0; font-size: .82rem; font-weight: 700; color: var(--body); }
+.alternative-price-status.price-success { color: var(--success); }
+.alternative-price-status.price-warning { color: var(--warning); }
+.alternative-price-status.price-muted { color: var(--muted); }
+.alternative-price-note { max-width: 72ch; margin: 0; color: var(--muted); font-size: .76rem; line-height: 1.5; }
+.alternative-price .action-hint { margin: 6px 0 0; }
+.price-target-missing-inline {
+  margin: 12px 0 0;
+  padding: 6px 10px;
+  border-radius: var(--r-sm);
+  background: rgba(47, 95, 224, .03);
+  color: var(--muted);
+  font-size: .76rem;
+  line-height: 1.5;
+}
+.alternatives-top-disclaimer {
+  margin: 4px 0 12px;
+  color: var(--muted);
+  font-size: .78rem;
+}
+.config-source-summary-wrap {
+  display: grid;
+  gap: 6px;
+}
+.config-source-preview {
+  max-height: 8.5em;
+  overflow: hidden;
+  color: var(--body);
+}
+.config-source-fold summary {
+  color: var(--accent);
+  font-size: .76rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.config-source-fold[open] .config-source-text {
+  margin-top: 6px;
+}
+.fact-danger dt { color: var(--danger); }
+.fact-danger .fact-item { border-color: var(--danger-line); background: var(--danger-soft); color: var(--danger); }
+.fact-warning dt { color: var(--warning); }
+.fact-warning .fact-item { border-color: var(--warning-line); background: var(--warning-soft); color: var(--warning); }
+.fact-success dt { color: var(--success); }
+.fact-success .fact-item { border-color: var(--success-line); background: var(--success-soft); color: var(--success); }
+.fact-neutral dt { color: var(--body); }
+.fact-muted dt { color: var(--muted); }
+
+.link-button {
+  margin-top: 12px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--accent);
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.price-analysis-conclusion {
+  margin-top: 24px;
+  padding: 18px 20px;
+  border-top: 1px solid var(--accent-line);
+  border-bottom: 1px solid var(--accent-line);
+  background: var(--accent-soft);
+}
+
+.price-analysis-conclusion p { max-width: 78ch; margin: 0 0 6px; color: var(--ink); line-height: 1.7; }
+.price-analysis-conclusion small { color: var(--muted); }
+
+.price-next-actions,
+.result-actions {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 22px 0 8px;
+}
+
+.price-next-actions p { max-width: 64ch; margin: 0; color: var(--muted); }
+.price-next-actions .module-actions { flex-shrink: 0; justify-content: flex-end; }
+
+.procurement-panel .result-section h3 {
+  margin: 20px 0 10px;
+  font-size: 1rem;
+}
+
+.procurement-panel .result-section h4 {
+  margin: 0 0 8px;
+  font-size: .92rem;
+  line-height: 1.5;
+}
+
+.result-section h4 span {
+  display: inline-block;
+  margin-left: 12px;
+  font-size: .78rem;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.result-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.result-heading > span {
+  color: var(--muted);
+  font-size: .78rem;
+}
+
+.result-empty {
+  padding: 14px 0;
+  font-weight: 600;
+}
+
+.result-section details { margin-top: 10px; }
+
+.result-section summary,
+.research-summary summary,
+.supplement-disclosure summary {
+  min-height: 40px;
+  padding: 8px 0;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.result-section li {
+  margin: 10px 0;
+  overflow-wrap: anywhere;
+}
+
+.result-section blockquote {
+  margin: 10px 0;
+  padding: 10px 14px;
+  border-left: 2px solid var(--line-strong);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  color: var(--muted);
+}
+
+.source-link {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+}
+
+.source-link:hover { color: var(--accent-hover); }
+
+.source-link:focus-visible,
+summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.source-row {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.source-row p {
+  margin: 5px 0;
+  font-size: .8rem;
+}
+
+.source-filter {
+  max-width: 300px;
+  margin: 10px 0;
+}
+
+.comparison-scroll {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.comparison-scroll table { min-width: 600px; }
+
+.comparison-scroll small,
+.comparison-scroll a {
+  display: block;
+  margin-top: 5px;
+  font-size: .76rem;
+  line-height: 1.65;
+}
+
+.supplement-disclosure { margin-top: 20px; }
+
+.decision-lead {
+  max-width: 70ch;
+  padding: 14px 0;
+  color: var(--ink);
+  font-size: .95rem;
+  line-height: 1.8;
+}
+
+.task-identity { margin: 10px 0; }
+
+.research-issues { padding-left: 22px; }
+.research-issues > li { margin: 14px 0; }
+.research-issues p { max-width: 70ch; }
+
+.advanced-tools p { color: var(--muted); }
+
+/* 上传网格 */
+.document-upload-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0 0 24px;
+}
+
+.document-upload-grid > div { min-width: 0; }
+
+.document-upload-option {
+  display: grid;
+  width: 100%;
+  min-height: 88px;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  color: var(--ink);
+  background: var(--paper);
+  text-align: left;
+  transition: color .18s ease, background .18s ease, border-color .18s ease, transform .18s var(--ease), box-shadow .18s ease;
+}
+
+.document-upload-option:hover:not(:disabled) {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  transform: translateY(-2px);
+  box-shadow: var(--sh-1);
+}
+
+.document-upload-option:disabled {
+  cursor: wait;
+  opacity: .5;
+}
+
+.document-upload-option > svg:first-child { color: var(--accent); }
+
+.document-upload-option span {
+  display: grid;
+  min-width: 0;
+  gap: 3px;
+}
+
+.document-upload-option strong { font-size: .84rem; }
+
+.document-upload-option small {
+  color: var(--muted);
+  font-size: .72rem;
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+.native-file-picker { position: relative; cursor: pointer; }
+
+.native-file-picker input[type="file"] {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.native-file-picker:focus-within {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.native-file-picker:has(input:disabled) { opacity: .55; cursor: wait; }
+.native-file-picker input:disabled { cursor: wait; }
+
+/* 联网检索操作条 */
+.search-actions {
+  display: grid;
+  min-width: min(100%, 620px);
+  grid-template-columns: auto minmax(170px, 1fr) auto auto;
+  align-items: center;
+  gap: 8px;
+  padding: 6px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--paper);
+}
+
+.search-actions input {
+  width: 100%;
+  min-width: 0;
+  min-height: 40px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  color: var(--ink);
+  background: var(--canvas);
+}
+
+.search-actions input:focus {
+  border-color: var(--accent);
+  outline: 0;
+  box-shadow: 0 0 0 3px rgba(47, 95, 224, .14);
+}
+
+.search-actions .action-button {
+  min-height: 40px;
+  gap: 8px;
+  padding-inline: 12px;
+  white-space: nowrap;
+}
+
+.search-plan-review {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  margin: -4px 0 22px;
+  padding: 14px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.search-plan-review strong,
+.search-plan-review p {
+  display: block;
+  margin: 0;
+}
+
+.search-plan-review strong {
+  color: var(--ink);
+  font-size: .84rem;
+}
+
+.search-plan-review p {
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: .78rem;
+  line-height: 1.65;
+}
+
+/* 采购对话（历史样式挂载点 — 视觉细节在 workbench.css） */
+.intake-conversation h2 {
+  margin: 0 0 12px;
+  font-size: .95rem;
+  font-weight: 800;
+}
+
+.baseline-review summary,
+.material-details > summary {
+  padding: 14px 0;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.baseline-review form { padding-top: 14px; }
+
+.material-details {
+  margin: 16px 0;
+  border-top: 1px solid var(--line);
+}
+
+.material-details > summary { color: var(--ink); }
+.material-details > summary:hover { color: var(--accent); }
+
+.web-fact-form form {
+  display: grid;
+  gap: 10px;
+  padding-block: 10px;
+}
+
+.web-fact-form label {
+  display: grid;
+  gap: 5px;
+  font-size: .8rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.web-fact-form input,
+.web-fact-form textarea,
+.web-fact-form select {
+  width: 100%;
+  padding: 9px 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-sm);
+  background: var(--paper);
+  font: inherit;
+}
+
+.source-body {
+  max-height: 320px;
+  overflow: auto;
+  white-space: pre-wrap;
+}
+
+textarea { caret-color: var(--accent); }
+
+/* ---------- 补充小组件与标记类 ---------- */
+.notice-content { min-width: 0; }
+.notice-content p { margin: 4px 0 0; }
+
+.beacon-copy { white-space: nowrap; }
+
+.model-source-excerpt blockquote {
+  margin: 10px 0;
+  padding: 10px 14px;
+  border-left: 2px solid var(--accent-line);
+  color: var(--muted);
+  font-size: .8rem;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.report-expanded { background: var(--accent-soft); border-radius: var(--r-sm); }
+
+.form-field {
+  display: grid;
+  gap: 7px;
+  margin-bottom: 14px;
+  color: var(--ink);
+  font-size: .8rem;
+  font-weight: 700;
+}
+
+.form-field textarea,
+.form-field input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-sm);
+  color: var(--ink);
+  background: var(--paper);
+  font: inherit;
+  font-weight: 500;
+}
+
+.form-field textarea:focus,
+.form-field input:focus {
+  border-color: var(--accent);
+  outline: 0;
+  box-shadow: 0 0 0 3px rgba(47, 95, 224, .14);
+}
+
+.supplement-panel {
+  margin-top: 12px;
+  padding: 18px 0 4px;
+  border-top: 1px solid var(--line);
+}
+
+.price-record,
+.alternative-result {
+  padding: 18px 0;
+  border-top: 1px solid var(--line);
+}
+
+.brand-group {
+  padding: 16px 0;
+  border-top: 1px solid var(--line);
+}
+
+.brand-group details { margin-top: 10px; }
+.brand-group details summary {
+  color: var(--accent);
+  font-size: .8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.supplier-revision {
+  padding: 12px 14px;
+  border: 1px solid var(--info-line);
+  border-radius: var(--r-md);
+  background: var(--info-soft);
+  font-size: .8rem;
+}
+
+.baseline-quick {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0;
+}
+
+.api-page .api-columns { margin-top: 4px; }
+.new-page { justify-content: center; }
+.task-unavailable-page { max-width: 860px; }
+
+.supplier-not-provided {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  margin: 14px 0;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  background: var(--paper);
+}
+.supplier-not-provided legend {
+  padding: 0 6px;
+  color: var(--muted);
+  font-size: .76rem;
+  font-weight: 700;
+}
+.procurement-panel .supplier-not-provided label {
+  flex-direction: row;
+  align-items: center;
+  gap: 7px;
+  font-size: .8rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+.procurement-panel .supplier-not-provided input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  min-height: 16px;
+  margin: 0;
+  padding: 0;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+.supplier-reply-notes {
+  display: grid;
+  gap: 6px;
+  margin: 12px 0 16px;
+}
+.supplier-reply-notes textarea {
+  width: 100%;
+  min-height: 76px;
+  padding: 9px 11px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-sm);
+  color: var(--ink);
+  background: var(--paper);
+  font: inherit;
+  font-size: .82rem;
+  line-height: 1.55;
+  resize: vertical;
+}
+.compare-jump-link {
+  margin-top: 6px;
+  padding-left: 0;
+  font-size: .8rem;
+}
+.doc-delete-confirm {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 2px 8px;
+  border: 1px solid var(--danger-line);
+  border-radius: var(--r-sm);
+  background: var(--danger-soft);
+  font-size: .78rem;
+  color: var(--danger);
+}
+.doc-delete-confirm .danger {
+  color: var(--danger);
+  font-weight: 700;
+}
+.field-inline-edit {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0;
+}
+.field-inline-edit input {
+  flex: 1 1 200px;
+  min-height: 36px;
+  padding: 6px 10px;
+  border: 1px solid var(--accent);
+  border-radius: var(--r-sm);
+  font: inherit;
+  font-size: .84rem;
+}
+.decision-status-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0;
+  font-size: .84rem;
+}
+.decision-note-text {
+  color: var(--ink);
+  font-size: .82rem;
+}
+.decision-editor {
+  display: grid;
+  gap: 10px;
+  margin: 10px 0 14px;
+}
+.decision-editor input {
+  width: 100%;
+  min-height: 38px;
+  padding: 8px 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-sm);
+  background: var(--paper);
+  font: inherit;
+  font-size: .84rem;
+}
+.archive-actions {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--line);
+}
+
+/* 降低非必要防御性小字密度，保留数据与交互主干 */
+.config-match-legend,
+.price-boundary,
+.alternative-facts-line,
+.verdict-detail,
+.alternative-price-note,
+.source-group-note,
+.transaction-section > p:first-of-type,
+.result-section[aria-label="检索来源"] > p:first-of-type,
+.supplier-question-section > p {
+  display: none;
+}
+

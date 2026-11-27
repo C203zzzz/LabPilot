@@ -1,0 +1,218 @@
+/* ============================================================
+   字体 — 自托管，不依赖外部 CDN
+   ------------------------------------------------------------
+   这里原本是 `@import url('https://fonts.googleapis.com/...')`，有两个毛病：
+   1) @import 会拖住首次绘制，网络不通时启动页要白屏数秒；
+   2) 字体晚于首次绘制到达，`swap` 把它从回退字体换成 Instrument Serif 时
+      字标 "LabPilot" 会当场缩窄约 20%（实测 252.95px → 197.81px）。
+   文件取自 Google Fonts（保留 latin / latin-ext / greek 子集），
+   由 index.html 里的 preload 与首屏并行下载。
+   重新获取：python scripts/fetch_web_fonts.py --check
+   ============================================================ */
+@font-face {
+  font-family: 'DM Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/dm-mono-400-normal-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'DM Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/dm-mono-400-normal-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'DM Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/dm-mono-500-normal-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'DM Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/dm-mono-500-normal-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Instrument Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/instrument-serif-400-normal-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Instrument Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/instrument-serif-400-normal-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url('/fonts/manrope-200-800-normal-greek.woff2') format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+@font-face {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url('/fonts/manrope-200-800-normal-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url('/fonts/manrope-200-800-normal-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* ============================================================
+   LabPilot design system — "精密仪器面板"
+   一层 token，一层组件。禁止事后补丁段：改样式只改这里。
+   ============================================================ */
+:root {
+  color-scheme: light;
+
+  /* surface */
+  --canvas: #f3f5f9;
+  --canvas-raised: #eceff6;
+  --paper: #ffffff;
+  --sidebar-bg: #0d1521;
+  --sidebar-bg-2: #142033;
+  --sidebar-line: rgba(255, 255, 255, .09);
+  --sidebar-text: #a7b4c8;
+  --sidebar-text-strong: #eef2f8;
+
+  /* ink */
+  --ink: #131c28;
+  --body: #374456;
+  --muted: #66768c;
+  --muted-2: #94a1b4;
+
+  /* accent — 全站唯一强调色 */
+  --accent: #2f5fe0;
+  --accent-hover: #2450c6;
+  --accent-soft: #e9effd;
+  --accent-line: #c4d4f7;
+
+  /* semantic */
+  --success: #0e7a4d;
+  --success-soft: #e5f5ec;
+  --success-line: #b7e2cb;
+  --warning: #a15c07;
+  --warning-soft: #fdf2e0;
+  --warning-line: #f0d9ae;
+  --danger: #b42318;
+  --danger-soft: #fdecea;
+  --danger-line: #f3c2bc;
+  --info-soft: #eaf1fe;
+  --info-line: #bfd3f8;
+
+  /* lines & elevation */
+  --line: #e2e8f1;
+  --line-strong: #c9d3e2;
+  --sh-1: 0 1px 2px rgba(16, 24, 40, .05);
+  --sh-2: 0 4px 16px rgba(16, 24, 40, .07);
+  --sh-pop: 0 14px 38px rgba(16, 24, 40, .13);
+
+  /* radius */
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-xl: 22px;
+
+  /* type */
+  --sans: 'Manrope', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+  --mono: 'DM Mono', 'Cascadia Mono', monospace;
+  --serif: 'Instrument Serif', 'Times New Roman', serif;
+
+  --sidebar: 264px;
+  --ease: cubic-bezier(.16, 1, .3, 1);
+}
+
+* { box-sizing: border-box; }
+
+html {
+  min-width: 320px;
+  background: var(--canvas);
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+  color: var(--body);
+  background: var(--canvas);
+  font-family: var(--sans);
+  font-size: .9375rem;
+  line-height: 1.65;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+body, button, input, select, textarea { font: inherit; }
+button, a, input, select, textarea { -webkit-tap-highlight-color: transparent; }
+button, a { touch-action: manipulation; }
+button { color: inherit; }
+button:not(:disabled), a, select:not(:disabled) { cursor: pointer; }
+button:disabled { cursor: not-allowed; }
+a { color: inherit; text-decoration: none; }
+
+::selection { color: #fff; background: var(--accent); }
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  border: 3px solid transparent;
+  border-radius: 8px;
+  background: rgba(19, 28, 40, .22);
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(19, 28, 40, .34); background-clip: padding-box; }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+code {
+  font-family: var(--mono);
+  font-size: .82em;
+  overflow-wrap: anywhere;
+}
+
+h1, h2, h3, h4 { color: var(--ink); letter-spacing: -.015em; }
+

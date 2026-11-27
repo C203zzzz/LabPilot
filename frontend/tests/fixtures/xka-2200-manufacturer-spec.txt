@@ -1,0 +1,74 @@
+技术参数
+型号 | XKA-2200
+订货号 | 0205202000
+最高转速 | 4500r/min
+最大相对离心力 | 2000×g
+转子容量 | (0.25～1ml)×12
+转速精度 | ±30r/min
+定时范围 | 1min~99min
+整机噪声 | 最低 ≤58dB(A)
+电源 | AC220V ±22V 50/60Hz
+整机功率 | 100W
+外形尺寸 | 456×330×266mm(L×W×H)
+包装尺寸 | 568×423×300mm(L×W×H)
+重量 | 12kg
+[表格按列展开 行3列2] XKA-2200 最高转速 4500r/min
+[表格按列展开 行4列2] XKA-2200 最大相对离心力 2000×g
+[表格按列展开 行6列2] XKA-2200 转速精度 ±30r/min
+[表格按列展开 行7列2] XKA-2200 定时范围 1min~99min
+[表格按列展开 行8列2] XKA-2200 整机噪声 最低 ≤58dB(A)
+[表格按列展开 行9列2] XKA-2200 电源 AC220V ±22V 50/60Hz
+[表格按列展开 行10列2] XKA-2200 整机功率 100W
+[表格按列展开 行11列2] XKA-2200 外形尺寸 456×330×266mm(L×W×H)
+[表格按列展开 行12列2] XKA-2200 包装尺寸 568×423×300mm(L×W×H)
+[表格按列展开 行13列2] XKA-2200 重量 12kg
+转子参数
+转子名称 | 转子号 | 离心力(xg) | 离心时间(s) | 用途
+淋巴球清洗用转子/HLA | 1 | 2000xg | 180s | 淋巴球分离,培养细胞分离
+淋巴球清洗用转子/HLA | 2 | 1000xg | 3s | 血小板的去除(凝血酶处理)
+淋巴球清洗用转子/HLA | 3 | 1000xg | 60s | 淋巴球的清洗
+红血球清洗用转子/SERO | 4 | 500xg | 60s | 血型判定，血球凝集反映观察
+红血球清洗用转子/SERO | 5 | 1000xg | 15s | 交叉适合性试验，抗球素试验
+红血球清洗用转子/SERO | 6 | 1000xg | 60s | 血球清洗、血清、血浆的提取
+*所有产品都可根据客户要求定制、设计、生产。
+留言板
+发 送
+相关推荐
+H300R大容量高速冷冻离心机
+[https://www.xiangyilxj.com/product/info_itemid_2261.html]
+CHT200R大容量高速台式冷冻离心机
+[https://www.xiangyilxj.com/product/info_itemid_2260.html]
+大容量高速台式冷冻离心机CHT230R
+[https://www.xiangyilxj.com/product/info_itemid_2258.html]
+RM32R 低速冷冻离心机
+[https://www.xiangyilxj.com/product/info_itemid_2241.html]
+RM32 低速台式离心机
+[https://www.xiangyilxj.com/product/info_itemid_2240.html]
+低速台式离心机PRP200（牙科便携式）
+[https://www.xiangyilxj.com/product/info_itemid_2239.html]
+HT200高速台式离心机
+[https://www.xiangyilxj.com/product/info_itemid_2219.html]
+HT120高速台式离心机
+[https://www.xiangyilxj.com/product/info_itemid_2218.html]
+大容量高速台式冷冻离心机CHT220R
+[https://www.xiangyilxj.com/product/info_itemid_2215.html]
+LT65低速台式离心机
+[https://www.xiangyilxj.com/product/info_itemid_2214.html]
+HT300R高速台式冷冻离心机
+[https://www.xiangyilxj.com/product/info_itemid_2200.html]
+HT230R高速台式冷冻离心机
+[https://www.xiangyilxj.com/product/info_itemid_2199.html]
+CHT160R大容量高速台式冷冻离心机
+[https://www.xiangyilxj.com/product/info_itemid_2195.html]
+LT60低速台式离心机
+[https://www.xiangyilxj.com/product/info_itemid_2194.html]
+CH300R大容量高速冷冻离心机
+[https://www.xiangyilxj.com/product/info_itemid_2182.html]
+大容量高速离心机CH210
+[https://www.xiangyilxj.com/product/info_itemid_2140.html]
+CL55R/CL55大容量低速冷冻/常温离心机
+[https://www.xiangyilxj.com/product/info_itemid_2139.html]
+大容量高速冷冻离心机CH100R
+[https://www.xiangyilxj.com/product/info_itemid_2136.html]
+HT200高速台式离心机
+[https://www.xian

@@ -1,0 +1,12 @@
+{"label": "tok_BIII", "kw": "BIII"}
+{"label": "tok_TBSPX_BIII", "kw": "TBSPX BIII"}
+{"label": "tok_TBSPX_150", "kw": "TBSPX 150"}
+{"label": "tok_TBSYG-A2-6", "kw": "TBSYG-A2-6"}
+{"label": "tok_TBMF-7-12P", "kw": "TBMF-7-12P"}
+{"label": "st1_bio_default_replay", "kw": "生物安全柜"}
+{"label": "st2_bio_default_replay2", "kw": "生物安全柜"}
+{"label": "st3_bio_370d_replay", "kw": "生物安全柜", "start_time": "2025:09:18", "end_time": "2026:09:23"}
+{"label": "bt5_broad_shiyanshi", "kw": "实验室", "bidType": 5}
+{"label": "bt6_broad_shiyanshi", "kw": "实验室", "bidType": 6}
+{"label": "d4_retry_zygg_central", "url": "http://www.ccgp.gov.cn/cggg/zygg/cjgg/202608/t20260812_27118698.htm"}
+{"label": "ZQTY-50", "kw": "ZQTY-50"}

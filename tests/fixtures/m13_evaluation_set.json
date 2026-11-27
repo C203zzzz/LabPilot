@@ -1,0 +1,25 @@
+{
+  "dataset_version": "m13-v1",
+  "source_policy": "external fixtures are input-only; originals are not copied",
+  "procurement_task": {
+    "task_id": "demo-microplate-reader-001",
+    "title": "脱敏微孔板检测仪采购任务",
+    "scenario": "科研实验室比较多功能微孔板检测设备，先核验硬约束和证据，再比较采购条件。",
+    "candidate_scope": ["Infinite 200 PRO", "Spark", "candidate-c", "candidate-d"],
+    "screening_rules": [
+      {"rule_id": "hard-plate-format", "kind": "hard", "field": "plate_format", "operator": "contains", "expected": "96-well", "evidence_required": true},
+      {"rule_id": "hard-absorbance", "kind": "hard", "field": "absorbance", "operator": "eq", "expected": true, "evidence_required": true},
+      {"rule_id": "hard-traceability", "kind": "hard", "field": "citation_location", "operator": "present", "expected": true, "evidence_required": true},
+      {"rule_id": "soft-data-export", "kind": "soft", "field": "data_export", "operator": "eq", "expected": true, "evidence_required": true},
+      {"rule_id": "soft-current-quote", "kind": "soft", "field": "current_quote", "operator": "present", "expected": true, "evidence_required": true}
+    ],
+    "privacy": "供应商联系人、报价金额、账号、地址和采购主体均未写入固定集"
+  },
+  "inputs": [
+    {"case_id": "pdf-infinite-200-pro", "source_name": "INFINITE 200 PRO多功能微孔板检测仪(1).pdf", "source_sha256": "c0638a01d1ec373833a872a1d3efac9ee92d1156b132532328f2e6e9d3d37981", "source_path": "data\\fixtures\\pdf\\INFINITE 200 PRO多功能微孔板检测仪(1).pdf", "expected_candidates": ["Infinite 200 PRO"], "observed_candidates": ["Infinite 200 PRO"], "expected_citations": ["document:page:2", "document:page:12"], "observed_citations": ["document:page:2", "document:page:12"], "expected_recommendation": "Infinite 200 PRO", "observed_recommendation": "Infinite 200 PRO"},
+    {"case_id": "pdf-kingfisher-flex", "source_name": "国产KingFisher Flex 高通量全自动核酸提取仪-招标彩页.pdf", "source_sha256": "4a4ef856572abb3fd67ab89f9f3103d17e3b08013fa9d5964437ae10a3885a77", "source_path": "data\\fixtures\\pdf\\国产KingFisher Flex 高通量全自动核酸提取仪-招标彩页.pdf", "expected_candidates": ["KF24", "KF96"], "observed_candidates": ["KF24", "KF96"], "expected_citations": ["document:page:2", "document:page:4"], "observed_citations": ["document:page:2", "document:page:4"], "expected_recommendation": "KF96", "observed_recommendation": "KF96"},
+    {"case_id": "pdf-spark-empty", "source_name": "Spark多功能酶标仪_进口.pdf", "source_sha256": "456ba9acab6721f71e447d38e5aa101752cd162944500a2d73bb17a240e6f5c6", "source_path": "data\\fixtures\\pdf\\Spark多功能酶标仪_进口.pdf", "expected_candidates": ["Spark"], "observed_candidates": [], "expected_citations": ["document:page:1"], "observed_citations": [], "expected_recommendation": "needs_review", "observed_recommendation": "needs_review", "failure": {"stage": "candidate_extraction", "anomaly_class": "empty_extraction", "reproducible": true, "expected": "识别 Spark 候选", "observed": "候选集合为空", "reproduction": "DocumentIngestionService + extract_candidates on source_sha256"}},
+    {"case_id": "jpg-no-ocr", "source_name": "1789559018790.jpg", "source_sha256": "3176cf3cf9657ac761219093e5ace94223d56351d57118aa0f9e5eb9057ba8f2", "source_path": "F:\\Desktop\\1789559018790.jpg", "expected_candidates": ["manual_review"], "observed_candidates": [], "expected_citations": ["image:image:1"], "observed_citations": [], "expected_recommendation": "needs_review", "observed_recommendation": "needs_review", "failure": {"stage": "document_ingestion", "anomaly_class": "ocr_unavailable", "reproducible": true, "expected": "图片进入 OCR 或人工复核", "observed": "ocr_status=not_requested，文本为空", "reproduction": "DocumentIngestionService.ingest_file on source_sha256"}},
+    {"case_id": "pdf-incubator-pipette", "source_name": "生化培养箱与移液器-合并资料.pdf", "source_sha256": "e8bdc12de8c9860e3015438f44e061d1787ca28eff722ec72675ed281865a44d", "source_path": "data\\fixtures\\pdf\\生化培养箱与移液器-合并资料.pdf", "expected_candidates": ["YK-S160"], "observed_candidates": ["YK-S160"], "expected_citations": ["document:page:3"], "observed_citations": ["document:page:3"], "expected_recommendation": "YK-S160", "observed_recommendation": "YK-S160"}
+  ]
+}

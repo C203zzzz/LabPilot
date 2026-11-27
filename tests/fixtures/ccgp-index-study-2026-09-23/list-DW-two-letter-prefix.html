@@ -1,0 +1,956 @@
+
+
+
+
+
+
+
+<!doctype html>
+<html>
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>采购公告搜索_中国政府采购网</title>
+    <link href="/static/css/style4.css" rel="stylesheet" type="text/css"/>
+
+    <link href="/static/css/data4.css" rel="stylesheet" type="text/css"/>
+    <script>
+        var path = "/";
+        var basePath = "//search.ccgp.gov.cn/";
+        var staticPath = path + "static/";
+        var dateTy = '6';
+        var bidType = '0';
+        var bidSort = '0';
+        var pinMu = '0';
+        var searchtype = '2';
+        var kw = 'DW';
+        var buyerName = '';
+        var projectId = '';
+        var zoneId = '';
+        var displayZone = '';
+        var agentName = '';
+        var pppStatus = '0';
+        var start_time = '2025:09:23';
+        var end_time = '2026:09:23';
+        var page_index=1;
+
+
+    </script>
+
+    <script type="text/javascript" src="/static/js/jquery-3.6.0.min.js"></script>
+
+    <script type="text/javascript" src="/static/js/data4.js"></script>
+    <script type="text/javascript" src="/static/js/page.js"></script>
+    <script type="text/javascript" src="/static/js/laydate/laydate.js"></script>
+</head>
+<body style="background:#fff">
+
+<link href="//www.ccgp.gov.cn/css/inc.css" rel="stylesheet" type="text/css" />
+<div class="v4incheadertop">
+    <div class="v4incheadertop_tel_block">
+        <div class="v4incheadertop_tel">
+            <p class="cl">财政部唯一指定政府采购信息网络发布媒体 国家级政府采购专业网站</p><p class="cr">服务热线：400-810-1996  &nbsp; | &nbsp; 服务投诉：010-63819289</p>
+        </div>
+    </div>
+    <div class="v4incheadertop_logosearch_block2">
+        <div class="v4incheadertop_logosearch">
+        <div class="searcharea1">
+            <div class="logo_gh" style="margin-top:20px">
+            <a href="#" class="ccgp"></a>
+            <a href="#" class="ccgp2"></a>
+            <a href="#" class="gmfw"></a>
+            <a href="#" class="ccgp3"></a>
+            </div>
+        </div>
+
+        <div class="searcharea2">
+            <div class="sangong_bl"></div>
+
+        </div></div>
+    </div>
+    <div class="v4incheadertop_nav_block">
+        <div class="v4incheadertop_nav">
+            <ul class="v4incheadertop_nav_ls">
+                <li  id="ch_index" style="width:140px"><a href="//www.ccgp.gov.cn/">首页</a></li>
+                <li id="ch_zcfg" style="width: 172px"><a href="//www.ccgp.gov.cn/zcfg/">政采法规</a></li>
+                <li id="ch_gmfw" style="width:172px"><a href="//www.ccgp.gov.cn/gpsr/">购买服务</a></li>
+                <li id="ch_jdjc" style="width:172px"><a href="//www.ccgp.gov.cn/jdjc/">监督检查</a></li>
+                <li id="ch_xxgg" style="width:172px"><a href="//www.ccgp.gov.cn/xxgg/">信息公告</a></li>
+                <li id="ch_gpa" style="width:172px"><a href="//www.ccgp.gov.cn/wtogpa/">国际专栏</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="clb"></div>
+</div>
+
+<div class="vT_z">
+    <div style="width:100%;background:#ccc">
+        <ul class="vT_search_sortby">
+            <li>
+                <a href="//search.ccgp.gov.cn/znzxsearch?searchtype=1&page_index=1&searchchannel=0&kw=DW&timeType=0">站内资讯</a>
+            </li>
+            <li class="current2">采购公告</li>
+            <li><a href="//search.ccgp.gov.cn/zcfgsearch">政策法规</a></li>
+        </ul>
+    </div>
+</div>
+<span class="blank37"></span>
+
+<div class="vT_z">
+    <div class="vT-srch-result-top">
+        <div class="vT-srch-result-top-logo n_fl"><img
+                src="/static/images/searchplatform_bid.gif"
+                style="border:0"></div>
+        <div class="vT-srch-result-top-form n_fr">
+            <form name="searchForm" id="searchForm" action="//search.ccgp.gov.cn/bxsearch" method="get">
+                <input type="hidden" name="searchtype" id="searchtype" value="2">
+                <input type="hidden" name="page_index" id="page_index" value="1">
+                <input type="hidden" name="bidSort" id="bidSort" value="0">
+                <input type="hidden" name="buyerName" id="buyerName" value="">
+                <input type="hidden" name="projectId" id="projectId" value="">
+                <input type="hidden" name="pinMu" id="pinMu" value="0">
+                <input type="hidden" name="bidType" id="bidType" value="0">
+                <input type="hidden" name="dbselect" value="bidx">
+                <input name="kw" id="kw" type="text" style="float:left;width:260px" value="DW"/>
+                <input type="hidden" name="start_time" id="start_time" value="2025:09:23">
+                <input type="hidden" name="end_time" id="end_time" value="2026:09:23">
+                <input type="hidden" name="timeType" id="timeType" value="6">
+                <input type="hidden" name="displayZone" id="displayZone" value="">
+                <input type="hidden" name="zoneId" id="zoneId" value="">
+                <input type="hidden" name="pppStatus" id="pppStatus" value="0">
+                <input type="hidden" name="agentName" id="agentName" value="">
+                <input type="button" value="搜标题" id="doSearch1" onclick="validateCode(1)"
+                       style="font-size:14px;font-weight:bolder;width:70px;cursor:pointer;background:#cc0000;color:#fff;float:left;height:34px" class="main"/>
+                <input type="button" value="搜全文" id="doSearch2" onclick="validateCode(2)"
+                       style="font-size:14px;font-weight:bolder;width:70px;cursor:pointer;background:#0082d4;color:#fff;float:left;height:34px" class="main"/>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+<!---->
+<span class="blank10"></span>
+
+<div class="vT_z" id="vT_bidSearch_o">
+    <div class="vT_bidSearch_outsider">
+        <!--选择内容-->
+        <div class="vT_bidSearch_addon_con" style="margin-top:20px">
+            <div class="vT_bidSearch_addon_block2" style="margin-left:0;float:left;"><p
+                    style="vertical-align:top;margin-top:0;padding-top:0">类型</p></div>
+            <div style="float:left;width:870px;height:60px">
+                <ul class="vT-srch-result-channel-list2" id="searchbidTypeSel">
+                    <li onclick="bidTypeSel(0)">所有类型</li>
+                    <li onclick="bidTypeSel(1)">公开招标</li>
+                    <li onclick="bidTypeSel(2)">询价公告</li>
+                    <li onclick="bidTypeSel(3)">竞争性谈判</li>
+                    <li onclick="bidTypeSel(4)">单一来源</li>
+                    <li onclick="bidTypeSel(5)">资格预审</li>
+                    <li onclick="bidTypeSel(6)">邀请公告</li>
+                    <li onclick="bidTypeSel(7)">中标公告</li>
+                    <li onclick="bidTypeSel(8)">更正公告</li>
+                    <li onclick="bidTypeSel(9)">其他公告</li>
+                    <li onclick="bidTypeSel(10)">竞争性磋商</li>
+                    <li onclick="bidTypeSel(11)">成交公告</li>
+                    <li onclick="bidTypeSel(12)">终止公告</li>
+                    <li onclick="isPPP()"><img src="/static/images/ppp_off.gif" title="ppp项目" id="disPPP"></li>
+                </ul>
+            </div>
+            <div style="clear:both"></div>
+        </div>
+        <!--选择内容-->
+        <div class="vT_bidSearch_addon_con">
+            <div class="vT_bidSearch_addon_block2" style="margin-left:0;float:left;"><p
+                    style="vertical-align:top;margin-top:0;padding-top:15px">类别</p></div>
+            <div style="float:left;width:870px;height:30px;margin-top:15px">
+                <ul class="vT-srch-result-channel-list3" id="searchBidSortSel">
+                    <li onclick="bidSortSel(0)">所有类别</li>
+                    <li onclick="bidSortSel(1)">中央公告</li>
+                    <li onclick="bidSortSel(2)">地方公告</li>
+                </ul>
+            </div>
+            <div style="clear:both"></div>
+        </div>
+        <!--选择内容-->
+        <div class="vT_bidSearch_addon_con">
+            <div class="vT_bidSearch_addon_block2" style="margin-left:0;float:left;"><p
+                    style="vertical-align:top;margin-top:0;padding-top:15px">品目</p></div>
+            <div style="float:left;width:870px;height:30px;margin-top:15px">
+                <ul class="vT-srch-result-channel-list3" id="searchPinMuSel">
+                    <li onclick="pinMuSel(0)">所有品目</li>
+                    <li onclick="pinMuSel(1)">货物类</li>
+                    <li onclick="pinMuSel(2)">工程类</li>
+                    <li onclick="pinMuSel(3)">服务类</li>
+                </ul>
+            </div>
+            <div style="clear:both"></div>
+        </div>
+        <!--选择内容-->
+        <div class="vT_bidSearch_addon_con">
+            <div class="vT_bidSearch_addon_block2" style="margin-left:0;float:left;"><p
+                    style="vertical-align:top;margin-top:0;padding-top:15px">时间</p></div>
+            <div style="float:left;width:870px;height:30px;margin-top:15px;position:relative">
+                <ul class="vT-srch-result-channel-list3" id="datesel">
+                    <li onclick="timeSel(0)">今日</li>
+                    <li onclick="timeSel(1)">近3日</li>
+                    <li onclick="timeSel(2)">近1周</li>
+                    <li onclick="timeSel(3)">近1月</li>
+                    <li onclick="timeSel(4)">近3月</li>
+                    <li onclick="timeSel(5)">近半年</li>
+                    <li id="cusTime">指定时间</li>
+                </ul>
+                <div class="cusTime_container">
+                    <span>指定时间</span>
+                    <input type="text" name="inpCusStartTime" id="inpCusStartTime" readonly="readonly"
+                           value="2025-09-23">
+                    <input type="text" name="inpCusEndTime" id="inpCusEndTime" readonly="readonly"
+                           value="2026-09-23">
+                    <em class="dose" title="查询">查询</em>
+                    <em class="clos" title="取消">取消</em>
+                </div>
+            </div>
+            <div style="clear:both"></div>
+        </div>
+        <!--输入内容-->
+        <div class="vT_bidSearch_addon_con">
+            <div class="vT_bidSearch_addon_block" style="margin-left:0">
+                <p>采购人</p>
+                <input value="" type="text" name="inpBuyerName" id="inpBuyerName">
+            </div>
+            <div class="vT_bidSearch_addon_block">
+                <p>项目编号</p>
+                <input value="" type="text" name="inpProjectId" id="inpProjectId">
+            </div>
+
+            <div class="vT_bidSearch_addon_block" id="zonearea">
+                <p>地区</p>
+                <input value="" type="text" name="inpDisplayZone" id="inpDisplayZone"
+                       readonly="readonly">
+                <input type="hidden" name="inpZoneId" id="inpZoneId">
+
+                <div class="zone_list_container">
+                    <ul class="zone_list" zoneId="">
+                        <li>全部</li>
+                        <li zoneId="11">北京</li>
+                        <li zoneId="12">天津</li>
+                        <li zoneId="13">河北</li>
+
+                        <li zoneId="14">山西</li>
+                        <li zoneId="15">内蒙古</li>
+                        <li zoneId="21 not 2102">辽宁</li>
+                        <li zoneId="2102">大连</li>
+                        <li zoneId="22">吉林</li>
+                        <li zoneId="23">黑龙江</li>
+                        <li zoneId="31">上海</li>
+                        <li zoneId="32">江苏</li>
+
+                        <li zoneId="33 not 3302">浙江</li>
+                        <li zoneId="3302">宁波</li>
+                        <li zoneId="34">安徽</li>
+                        <li zoneId="35 not 3502">福建</li>
+                        <li zoneId="3502">厦门</li>
+                        <li zoneId="36">江西</li>
+
+                        <li zoneId="37 not 3702">山东</li>
+                        <li zoneId="3702">青岛</li>
+                        <li zoneId="41">河南</li>
+                        <li zoneId="42">湖北</li>
+                        <li zoneId="43">湖南</li>
+                        <li zoneId="44 not 4403">广东</li>
+
+                        <li zoneId="4403">深圳</li>
+                        <li zoneId="45">广西</li>
+                        <li zoneId="46">海南</li>
+                        <li zoneId="50">重庆</li>
+                        <li zoneId="51">四川</li>
+                        <li zoneId="52">贵州</li>
+
+                        <li zoneId="53">云南</li>
+                        <li zoneId="54">西藏</li>
+                        <li zoneId="61">陕西</li>
+                        <li zoneId="62">甘肃</li>
+                        <li zoneId="63">青海</li>
+                        <li zoneId="64">宁夏</li>
+
+                        <li zoneId="65">新疆</li>
+                        <li zoneid="66" style="width:121px">新疆生产建设兵团</li>
+                        <li zoneId="71">台湾</li>
+                        <li zoneId="81">香港</li>
+                        <li zoneId="82">澳门</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="vT_bidSearch_addon_block" style="margin-left:0">
+                <p>代理机构</p>
+                <input type="text" name="inpAgentName" id="inpAgentName" value="">
+            </div>
+            <div class="vT_bidSearch_addon_block">
+                <div style="position:relative">
+                    <!--
+                    <div class="code" id="checkCode" style="float:left">
+                        <img onclick="javascript:loadimage();" title="换一张试试" name="randImage" id="randImage"
+                             src="//search.ccgp.gov.cn/ValidateImage">
+                    </div>
+                    <input style="float:left;" type="text" id="inpid" name="inpid" style="border:2px solid #ac0000"/>
+
+                    <div style="position:absolute;width:260px;height:24px;margin-left:205px;margin-top:8px;">请输入左侧验证码
+                    </div>
+                    -->
+                </div>
+            </div>
+            <div style="clear:both"></div>
+        </div>
+        <div style="clear:both"></div>
+    </div>
+</div>
+<span class="blank20"></span>
+<!---->
+<div class="vT_z">
+    <div style="width:100%;height:30px">
+        
+
+        
+            <!-- something-->
+            <div style="font-size:14px">
+                <p style="float:left">关键字：
+                    <span style="color:#c00000;font-weight:bolder">DW</span>
+                    
+                    
+                        全文检索
+                    
+                    共找到
+                    <span style="color:#c00000">920</span>
+                    条内容 查询日期从
+                    <span style="color:#c00000">2025-09-23</span>
+                    到
+                    <span style="color:#c00000">2026-09-23</span>
+                </p>
+
+                
+                    <p class="pager">
+                        <script language="javascript">Pager({
+                            size: 46,
+                            current: 0,
+                            prefix: 'data2',
+                            suffix: '.jsp&'
+                        });</script>
+                    </p>
+                
+            </div>
+        
+
+
+    </div>
+
+    
+        <!---->
+        <span class="blank10"></span>
+
+        <div class="vT_z" style="position:relative">
+            <div class="vT-srch-result">
+                <div class="vT-srch-result-list-con2">
+                    <div class="vT-srch-result-list">
+                        <ul class="vT-srch-result-list-bid">
+                            
+
+                                <li>
+                                    <a href="http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202609/t20260922_27375747.htm" style="line-height:18px">
+                                        广西科文招标有限公司关于广西医科大学公共卫生学院以旧换新设备采购（第二批）（GXZC2026-G1-002419-KWZB）中标公告
+                                    </a>
+
+                                    <p>0005广西医科大学公共卫生学院以旧换新设备采购（第二批）样本库海尔、海尔、海尔、海尔、海尔、英鹏、海尔<font color=red>DW</font>-150W209、<font color=red>DW</font>-86L729、<font color=red>DW</font>-30L528D、HYC-461GD、HYC-85GD、BL-400、HYCD-531FD1套16010006广西医科大学公共卫</p>
+                                    <span>2026.09.22 09:47:50
+                                        | 采购人：广西医科大学
+                                        | 代理机构：广西科文招标有限公司
+                                        <br/>
+                                        <strong style="font-weight:bolder">
+                                            
+                                            
+                                                中标公告
+                                            
+                                        </strong>
+                                        | 广西
+                                        | <strong style="font-weight:bolder"> </strong>
+                                        
+                                    </span>
+                                </li>
+                            
+
+                                <li>
+                                    <a href="http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202609/t20260921_27375175.htm" style="line-height:18px">
+                                        青岛市产品质量检验研究院重点工业品检验检测设备更新（一）中标公告
+                                    </a>
+
+                                    <p>万能材料试验机万测深圳ETM204C1台141000.0山东国信润达检测技术有限公司高低温试验箱1检亿科技河南郑州市<font color=red>DW</font>-701台104500.0山东国信润达检测技术有限公司高低温试验箱2检亿科技河南郑州市<font color=red>DW</font>-401台99600.0山东国信润达检</p>
+                                    <span>2026.09.21 23:48:13
+                                        | 采购人：青岛市产品质量检验研究院
+                                        | 代理机构：青岛青招招标有限公司
+                                        <br/>
+                                        <strong style="font-weight:bolder">
+                                            
+                                            
+                                                中标公告
+                                            
+                                        </strong>
+                                        | 山东
+                                        | <strong style="font-weight:bolder"> </strong>
+                                        
+                                    </span>
+                                </li>
+                            
+
+                                <li>
+                                    <a href="http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202609/t20260921_27374705.htm" style="line-height:18px">
+                                        内蒙古自治区国际蒙医医院二期扩建项目中央监护系统等医疗设备采购项目中标（成交）结果公告
+                                    </a>
+
+                                    <p>温操作台海尔HXT-C5-1.31.00(台)59,800.000059,800.00001-21A02329900其他医疗设备医用低温保存箱（1）海尔<font color=red>DW</font>-40L298J2.00(台)49,500.000099,000.00001-22A02329900其他医疗设备医用低温保存箱（2）海尔<font color=red>DW</font>-86L5792.00(</p>
+                                    <span>2026.09.21 20:24:20
+                                        | 采购人：内蒙古自治区国际蒙医医院
+                                        | 代理机构：正源信通项目管理有限公司
+                                        <br/>
+                                        <strong style="font-weight:bolder">
+                                            
+                                            
+                                                中标公告
+                                            
+                                        </strong>
+                                        | 内蒙古
+                                        | <strong style="font-weight:bolder"> </strong>
+                                        
+                                    </span>
+                                </li>
+                            
+
+                                <li>
+                                    <a href="http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202609/t20260921_27373009.htm" style="line-height:18px">
+                                        步入式生长箱等仪器设备采购项目(二次)结果公告（采购包1）
+                                    </a>
+
+                                    <p>Seedlings-->1.00(台)4,498,000.004,498,000.001-3其他分析仪器步入式低温存储箱步入式低温存储箱新学友XY-<font color=red>DW</font>-X-->6.00(台)132,000.00792,000.00五、评审专家名单：采购人代表：蔡伊思评审专家：郑莉琴、黄荣捷、林沁、</p>
+                                    <span>2026.09.21 17:16:07
+                                        | 采购人：福建农林大学
+                                        | 代理机构：福建省金丰招标代理有限公司
+                                        <br/>
+                                        <strong style="font-weight:bolder">
+                                            
+                                            
+                                                中标公告
+                                            
+                                        </strong>
+                                        | 福建
+                                        | <strong style="font-weight:bolder"> </strong>
+                                        
+                                    </span>
+                                </li>
+                            
+
+                                <li>
+                                    <a href="http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202609/t20260921_27371228.htm" style="line-height:18px">
+                                        南方医科大学珠江医院设备采购项目（脑功能监测系统、超声乳化仪、生物安全柜、超低温冰箱）结果公告
+                                    </a>
+
+                                    <p>科技有限公司）品目号品目名称采购标的品牌规格型号数量（单位）单价(元)总价(元)5-1电冰箱超低温冰箱海尔<font color=red>DW</font>-86L578S2.0000(台)45,000.000090,000.0000五、评审专家（单一来源采购人员）名单：刘子宁（采购人代表）、罗</p>
+                                    <span>2026.09.21 15:53:09
+                                        | 采购人：南方医科大学珠江医院
+                                        | 代理机构：广东元正招标采购有限公司
+                                        <br/>
+                                        <strong style="font-weight:bolder">
+                                            
+                                            
+                                                中标公告
+                                            
+                                        </strong>
+                                        | 广东
+                                        | <strong style="font-weight:bolder"> </strong>
+                                        
+                                    </span>
+                                </li>
+                            
+
+                                <li>
+                                    <a href="http://www.ccgp.gov.cn/cggg/dfgg/cjgg/202609/t20260921_27370039.htm" style="line-height:18px">
+                                        中国疾病预防控制中心地方病控制中心地病中心2025新楼设备中标（成交）结果公告
+                                    </a>
+
+                                    <p>1-9其他仪器仪表恒温培养箱冠森BI1752.00(台)23,000.0046,000.001-10其他仪器仪表超低温智能保存箱中科美菱<font color=red>DW</font>-HL7802.00(台)79,000.00158,000.001-11其他仪器仪表低温保存箱美的生物医疗MD-25L2982.00(台)11,000.0022,</p>
+                                    <span>2026.09.21 14:39:54
+                                        | 采购人：中国疾病预防控制中心地方病控制中心
+                                        | 代理机构：黑龙江卓越工程项目管理有限公司
+                                        <br/>
+                                        <strong style="font-weight:bolder">
+                                            
+                                            
+                                                成交公告
+                                            
+                                        </strong>
+                                        | 黑龙江
+                                        | <strong style="font-weight:bolder"> </strong>
+                                        
+                                    </span>
+                                </li>
+                            
+
+                                <li>
+                                    <a href="http://www.ccgp.gov.cn/cggg/zygg/zbgg/202609/t20260920_27365814.htm" style="line-height:18px">
+                                        上海国际旅行卫生保健中心（上海海关口岸门诊部）2026年实验室仪器设备更新项目中标公告
+                                    </a>
+
+                                    <p>物型号			货物数量			货物单价(元)							1			上海言合仪器科技有限公司（包件1）			超低温冰箱			海尔			<font color=red>DW</font>-86L830BPT			1套			89500																																序号			供应商名称			货物名称			货物品牌			货物</p>
+                                    <span>2026.09.20 16:54:03
+                                        | 采购人：上海国际旅行卫生保健中心（上海海关口岸门诊部）
+                                        | 代理机构：上海申诣建设咨询有限公司
+                                        <br/>
+                                        <strong style="font-weight:bolder">
+                                            
+                                            
+                                                中标公告
+                                            
+                                        </strong>
+                                        | 上海
+                                        | <strong style="font-weight:bolder"> 货物/设备/医疗设备/其他医疗设备</strong>
+                                        
+                                    </span>
+                                </li>
+                            
+
+                                <li>
+                                    <a href="http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202609/t20260918_27358659.htm" style="line-height:18px">
+                                        沈海高速公路出口异常事件主动检测预警处置系统项目结果公告（采购包1）
+                                    </a>
+
+                                    <p>息化设备沈海高速公路出口异常事件主动检测预警处置系统项目枪球一体机(两枪一球)海康威视DS-2SK6P248MXS-<font color=red>DW</font>/LM/SP(40xC5C5)(D)-->14.00(套)15,000.00210,000.001-1-3其他信息化设备沈海高速公路出口异常事件主动检测预</p>
+                                    <span>2026.09.18 19:51:00
+                                        | 采购人：厦门市交通运输局
+                                        | 代理机构：厦门路桥百城管理咨询有限公司
+                                        <br/>
+                                        <strong style="font-weight:bolder">
+                                            
+                                            
+                                                中标公告
+                                            
+                                        </strong>
+                                        | 福建
+                                        | <strong style="font-weight:bolder"> </strong>
+                                        
+                                    </span>
+                                </li>
+                            
+
+                                <li>
+                                    <a href="http://www.ccgp.gov.cn/cggg/dfgg/cjgg/202609/t20260918_27356982.htm" style="line-height:18px">
+                                        海南省天然橡胶质量检验站2026年农产品质量安全检验检测能力提升项目(二次)结果公告（采购包1）
+                                    </a>
+
+                                    <p>仪器辅助装置淋洗液发生器青岛盛瀚SHRF-101台/套62,180.0062,180.001-5医用低温、冷疗设备医用低温冰箱海尔<font color=red>DW</font>-25L2621台/套14,950.0014,950.001-6分析仪器辅助装置样品切割器上荣邦WAS21台/套29,850.0029,850.001-7危险</p>
+                                    <span>2026.09.18 17:25:08
+                                        | 采购人：海南省天然橡胶质量检验站
+                                        | 代理机构：海南建云项目管理有限公司
+                                        <br/>
+                                        <strong style="font-weight:bolder">
+                                            
+                                            
+                                                成交公告
+                                            
+                                        </strong>
+                                        | 海南
+                                        | <strong style="font-weight:bolder"> </strong>
+                                        
+                                    </span>
+                                </li>
+                            
+
+                                <li>
+                                    <a href="http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202609/t20260918_27356772.htm" style="line-height:18px">
+                                        泸州市公安局毒品实验室建设污水监测功能区所需仪器项目中标（成交）结果公告
+                                    </a>
+
+                                    <p>aryList'][0]['showValue']}">-->A02100415A02100415环境监测仪器及综合分析装置标准样品保存柜(-20℃)海尔<font color=red>DW</font>‐25L2621(台)9,000.00-->0}"class="alignright"th:text="${detail['priceSummaryList'][0]['showValue']}"</p>
+                                    <span>2026.09.18 17:18:59
+                                        | 采购人：泸州市公安局
+                                        | 代理机构：四川国际招标有限责任公司
+                                        <br/>
+                                        <strong style="font-weight:bolder">
+                                            
+                                            
+                                                中标公告
+                                            
+                                        </strong>
+                                        | 四川
+                                        | <strong style="font-weight:bolder"> </strong>
+                                        
+                                    </span>
+                                </li>
+                            
+
+                                <li>
+                                    <a href="http://www.ccgp.gov.cn/cggg/zygg/zbgg/202609/t20260918_27352896.htm" style="line-height:18px">
+                                        中国中医科学院望京医院国家中医药传承创新中心建设项目(设备采购第四批)--肾病内分泌科、病理科相关设备采购项目中标公告
+                                    </a>
+
+                                    <p>存系统			江丰；徕卡；尼康；博鹭腾；海尔			KF-PRX-A50；LeicaCM1950S；ECLIPSETs2R-FL；InnoElectro360；<font color=red>DW</font>-86L829			1套；1套；1套；1套；1套			1345000；300000；242000；295000；645500																									</p>
+                                    <span>2026.09.18 13:48:13
+                                        | 采购人：中国中医科学院望京医院
+                                        | 代理机构：中技国际招标有限公司
+                                        <br/>
+                                        <strong style="font-weight:bolder">
+                                            
+                                            
+                                                中标公告
+                                            
+                                        </strong>
+                                        | 北京
+                                        | <strong style="font-weight:bolder"> 货物/设备/医疗设备/其他医疗设备</strong>
+                                        
+                                    </span>
+                                </li>
+                            
+
+                                <li>
+                                    <a href="http://www.ccgp.gov.cn/cggg/dfgg/cjgg/202609/t20260918_27352861.htm" style="line-height:18px">
+                                        黑龙江省科学院微生物研究所分析检测中心建设项目科研设备采购中标（成交）结果公告
+                                    </a>
+
+                                    <p>00.001-8其他仪器仪表微波消解仪元析MWD-5001.00(台)91,200.0091,200.001-9其他仪器仪表微生物限度路美创新<font color=red>DW</font>-S301P1.00(台)8,500.008,500.001-10其他仪器仪表索氏提取器海能SOX4061.00(台)24,500.0024,500.001-11其他</p>
+                                    <span>2026.09.18 13:30:21
+                                        | 采购人：黑龙江省科学院微生物研究所
+                                        | 代理机构：黑龙江国德工程项目管理有限公司
+                                        <br/>
+                                        <strong style="font-weight:bolder">
+                                            
+                                            
+                                                成交公告
+                                            
+                                        </strong>
+                                        | 黑龙江
+                                        | <strong style="font-weight:bolder"> </strong>
+                                        
+                                    </span>
+                                </li>
+                            
+
+                                <li>
+                                    <a href="http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202609/t20260918_27352167.htm" style="line-height:18px">
+                                        2026年度“平安家园·智能天网”视频监控新增补点建设项目结果公告（采购包1）
+                                    </a>
+
+                                    <p>TN/PT-->17.00(台)3,664.0062,288.001-1-3视频监控设备视频监控设备智能球型摄像机海康威视iDS-2SK7144MAB-<font color=red>DW</font>/TN-->3.00(台)5,654.0016,962.001-1-4视频监控设备视频监控设备结构化云台摄像机海康威视DS-2CD7A847AB-XZ</p>
+                                    <span>2026.09.18 11:31:49
+                                        | 采购人：泰宁县公安局
+                                        | 代理机构：福建中恒达建设项目管理有限公司
+                                        <br/>
+                                        <strong style="font-weight:bolder">
+                                            
+                                            
+                                                中标公告
+                                            
+                                        </strong>
+                                        | 福建
+                                        | <strong style="font-weight:bolder"> </strong>
+                                        
+                                    </span>
+                                </li>
+                            
+
+                                <li>
+                                    <a href="http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202609/t20260917_27350118.htm" style="line-height:18px">
+                                        赤峰市松山区妇幼保健院产前诊断实验室及超声相关设备中标（成交）结果公告
+                                    </a>
+
+                                    <p>疗设备立式灭菌器新华LMQ.C1.00(台)9,000.00009,000.00001-19A02329900其他医疗设备－80℃超低温保存箱海尔<font color=red>DW</font>-86L338J1.00(台)10,000.000010,000.00001-20A02329900其他医疗设备医用冷藏冷冻箱海尔HYCD-282C4.00(台)5,</p>
+                                    <span>2026.09.17 22:23:25
+                                        | 采购人：赤峰市松山区妇幼保健院
+                                        | 代理机构：内蒙古腾泽项目管理有限公司
+                                        <br/>
+                                        <strong style="font-weight:bolder">
+                                            
+                                            
+                                                中标公告
+                                            
+                                        </strong>
+                                        | 内蒙古
+                                        | <strong style="font-weight:bolder"> </strong>
+                                        
+                                    </span>
+                                </li>
+                            
+
+                                <li>
+                                    <a href="http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202609/t20260917_27349210.htm" style="line-height:18px">
+                                        首都医科大学附属北京天坛医院安徽医院3D4K荧光内窥镜系统、冷冻治疗设备、高频手术设备、支气管镜放置导航系统设备采购项目03包（二次）中标结果公告
+                                    </a>
+
+                                    <p>万元整（小写：1780000.00元）四、主要标的信息货物类名称：支气管镜导航放置系统品牌：朗开规格型号：LK-<font color=red>DW</font>-NK-Z数量：1套单价：1780000.00元/套五、评审专家名单：姜晓玲、罗志钢、许金鹏、尤琦、施正环六、代理服务</p>
+                                    <span>2026.09.17 18:46:44
+                                        | 采购人：皖南医学院第一附属医院（皖南医学院弋矶山医院）
+                                        | 代理机构：安徽安天利信工程管理股份有限公司
+                                        <br/>
+                                        <strong style="font-weight:bolder">
+                                            
+                                            
+                                                中标公告
+                                            
+                                        </strong>
+                                        | 安徽
+                                        | <strong style="font-weight:bolder"> </strong>
+                                        
+                                    </span>
+                                </li>
+                            
+
+                                <li>
+                                    <a href="http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202609/t20260917_27348814.htm" style="line-height:18px">
+                                        化学与精细化工广东省实验室生物大分子中试基地仪器设备（第二批）第一部分(二次)结果公告
+                                    </a>
+
+                                    <p>0℃两用医用冰箱海尔HYCD-201G20.0000(台)6,850.0000137,000.00002-19医用低温、冷疗设备-25℃医用冰箱海尔<font color=red>DW</font>-25L26218.0000(台)6,850.0000123,300.00002-20其他试验仪器及装置凝胶成像系统上海天能TanonMINISpace2000</p>
+                                    <span>2026.09.17 18:04:28
+                                        | 采购人：化学与精细化工广东省实验室
+                                        | 代理机构：广东泓石项目管理有限公司
+                                        <br/>
+                                        <strong style="font-weight:bolder">
+                                            
+                                            
+                                                中标公告
+                                            
+                                        </strong>
+                                        | 广东
+                                        | <strong style="font-weight:bolder"> </strong>
+                                        
+                                    </span>
+                                </li>
+                            
+
+                                <li>
+                                    <a href="http://www.ccgp.gov.cn/cggg/zygg/zbgg/202609/t20260917_27345480.htm" style="line-height:18px">
+                                        河北雄安新区消防救援支队卫勤专业队器械购置项目中标公告
+                                    </a>
+
+                                    <p>A-6；CP-Y720；HW-3；M800；定制；定制；01；定制；/；定制；/；定制；/；HD-DX-XL；SML；/；/；MXCB蓝钻；<font color=red>DW</font>-L30i；DRO；/；500ml；HC-5L221L；/；/；/；TDC-K3；/；BK-Y-1000；uMED10A；DT-PE005；DT-CC001A；DT-VMS</p>
+                                    <span>2026.09.17 15:46:25
+                                        | 采购人：河北雄安新区消防救援支队
+                                        | 代理机构：瑞和安惠项目管理集团有限公司
+                                        <br/>
+                                        <strong style="font-weight:bolder">
+                                            
+                                            
+                                                中标公告
+                                            
+                                        </strong>
+                                        | 河北
+                                        | <strong style="font-weight:bolder"> 货物/设备/医疗设备/其他医疗设备</strong>
+                                        
+                                    </span>
+                                </li>
+                            
+
+                                <li>
+                                    <a href="http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202609/t20260917_27345409.htm" style="line-height:18px">
+                                        新绛县公安局公开招标新绛县公安局执法办案管理中心建设项目结果公告
+                                    </a>
+
+                                    <p>:T/1/6T/O/V3.215400018新绛县公安局执法办案管理中心建设项目人员轨迹定位管理软件天地伟业TC-E801B配置:<font color=red>DW</font>/V/XJ/定位管理软件13700019新绛县公安局执法办案管理中心建设项目人脸识别终端天地伟业TC-P5010配置:SW/V1.</p>
+                                    <span>2026.09.17 15:35:45
+                                        | 采购人：新绛县公安局
+                                        | 代理机构：新绛县政府采购中心
+                                        <br/>
+                                        <strong style="font-weight:bolder">
+                                            
+                                            
+                                                中标公告
+                                            
+                                        </strong>
+                                        | 山西
+                                        | <strong style="font-weight:bolder"> </strong>
+                                        
+                                    </span>
+                                </li>
+                            
+
+                                <li>
+                                    <a href="http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202609/t20260916_27341308.htm" style="line-height:18px">
+                                        灵璧县疾控中心传染病防控能力升级改造项目三包中标结果公告
+                                    </a>
+
+                                    <p>LDN-E600、LB-0102、E-160D、SEM600、LS125、AHAI3302V、DYM3、DT-8892、ZF-2、EM-1500、BH3206B、FYJL-H、<font color=red>DW</font>-86L419、MB-680、PW-960、LX-165T2R、HYC-1031GDH、<font color=red>DW</font>-25L262、<font color=red>DW</font>-40L528D数量：1台、6套、1台、1套、3套、</p>
+                                    <span>2026.09.16 21:00:33
+                                        | 采购人：灵璧县疾病预防控制中心（灵璧县卫生监督所）
+                                        | 代理机构：安徽泰禾建设项目管理有限公司
+                                        <br/>
+                                        <strong style="font-weight:bolder">
+                                            
+                                            
+                                                中标公告
+                                            
+                                        </strong>
+                                        | 安徽
+                                        | <strong style="font-weight:bolder"> 货物/设备/医疗设备</strong>
+                                        
+                                    </span>
+                                </li>
+                            
+
+                                <li>
+                                    <a href="http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202609/t20260916_27337923.htm" style="line-height:18px">
+                                        德宏州民族实验中学教室功能室护眼灯安装项目采购中标公告
+                                    </a>
+
+                                    <p>列由系统带出无法修改无规格002德宏州民族实验中学教室功能室护眼灯安装项目采购LED教室灯宜美P0352-BMHU-<font color=red>DW</font>-D-SI4373203德宏州民族实验中学教室功能室护眼灯安装项目采购LED平板灯宜美P0352-BMHU-<font color=red>DW</font>-S601904德宏州民族</p>
+                                    <span>2026.09.16 16:19:04
+                                        | 采购人：德宏州民族实验中学
+                                        | 代理机构：德宏州政府采购和出让中心
+                                        <br/>
+                                        <strong style="font-weight:bolder">
+                                            
+                                            
+                                                中标公告
+                                            
+                                        </strong>
+                                        | 云南
+                                        | <strong style="font-weight:bolder"> </strong>
+                                        
+                                    </span>
+                                </li>
+                            
+
+							
+                        </ul>
+                        
+                            <p class="pager">
+                                <script language="javascript">Pager({
+                                    size: 46,
+                                    current: 0,
+                                    prefix: 'data2',
+                                    suffix: '.jsp&'
+                                });</script>
+                            </p>
+                        
+                    </div>
+                    <div class="vT-srch-result-page-con"></div>
+                </div>
+            </div>
+        </div>
+		
+	<script>
+	
+	var ohtmlurls="http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202609/t20260922_27375747.htm,http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202609/t20260921_27375175.htm,http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202609/t20260921_27374705.htm,http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202609/t20260921_27373009.htm,http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202609/t20260921_27371228.htm,http://www.ccgp.gov.cn/cggg/dfgg/cjgg/202609/t20260921_27370039.htm,http://www.ccgp.gov.cn/cggg/zygg/zbgg/202609/t20260920_27365814.htm,http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202609/t20260918_27358659.htm,http://www.ccgp.gov.cn/cggg/dfgg/cjgg/202609/t20260918_27356982.htm,http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202609/t20260918_27356772.htm,http://www.ccgp.gov.cn/cggg/zygg/zbgg/202609/t20260918_27352896.htm,http://www.ccgp.gov.cn/cggg/dfgg/cjgg/202609/t20260918_27352861.htm,http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202609/t20260918_27352167.htm,http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202609/t20260917_27350118.htm,http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202609/t20260917_27349210.htm,http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202609/t20260917_27348814.htm,http://www.ccgp.gov.cn/cggg/zygg/zbgg/202609/t20260917_27345480.htm,http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202609/t20260917_27345409.htm,http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202609/t20260916_27341308.htm,http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202609/t20260916_27337923.htm,";
+	
+	</script>
+	
+    
+
+    <span class="blank37"></span>
+
+    <div class="vT_nav_cp">
+        <div class="vT_z">
+            <style type="text/css">
+                .copyright_bl{width:960px;margin:0 auto}/*margin-top:20px;*/
+                .vF_cp {width: 960px;margin: 0 auto;text-align: left;float: left;background: #e9e9e9;color: #333;height: 120px;padding-top: 10px;}
+                .vF_cp p {width: 600px;float: left;margin-top: 15px;font-size: 14px;line-height: 26px;}
+                .vF_cp span{font-family:Verdana, Geneva, sans-serif;font-size:12px}
+                .vF_cp a,.vT_cp a{color:#333;text-decoration: none}
+                .vF_cp a:hover,.vT_cp a:hover{text-decoration: underline;color:#ba2636}
+                .dzjg {width: 205px;height: 80px;float: left;margin: 14px 10px 0  130px;border-right: 1px solid #c2c2c2;}
+                .cpright {float: left;width: 570px;margin-left: 15px;}
+                .ccgpjiucuo{width:110px;height:55px;float:left;margin-left:5px;margin-top:10px}
+                </style>
+                <div class="copyright_bl">
+                <div class="vF_cp">
+                    <div class="dzjg">
+                        <div class="ccgpjiucuo">
+                            <a href="https://zfwzgl.www.gov.cn/exposure/jiucuo.html?site_code=bm14000002&amp;url=http%3A%2F%2Fwww.ccgp.gov.cn%2F" target="_blank"><img src="//www.ccgp.gov.cn/img/jiucuo.png"></a>
+                            </div>
+                        <script type="text/javascript">document.write(unescape("%3Cspan id='_ideConac' %3E%3C/span%3E%3Cscript src='https://dcs.conac.cn/js/33/000/0000/60425889/CA330000000604258890010.js' type='text/javascript'%3E%3C/script%3E"));</script></div>
+                <div class="cpright">
+                    <p>
+                    主办单位：中华人民共和国财政部国库司  <br>网站标识码：<span>bm14000002</span> &nbsp;|&nbsp; <a href="https://beian.miit.gov.cn" target="_blank">京<span>ICP</span>备<span>19054529</span>号<span>-1</span></a> &nbsp;|&nbsp; 京公网安备<span>11010602060068</span>号 <br><span id="botm_cpy">&copy; 1999-</span> 中华人民共和国财政部 版权所有 &nbsp;|&nbsp; <a href="//www.ccgp.gov.cn/contact.shtml" target="_blank">联系我们</a> &nbsp;|&nbsp; <a href="//www.ccgp.gov.cn/zxly/" target="_blank">意见反馈</a> </p>
+                </div>
+                </div>
+                </div>
+                <script language="javascript">
+                    var myDate = new Date();
+                    var botmcpy='&copy; 1999-'+ myDate.getFullYear();
+                    $("#botm_cpy").html(botmcpy);
+                </script>
+        </div>
+    </div>
+</div>
+
+</body>
+
+<script language="javascript" src="//www.ccgp.gov.cn/images/sa.js"></script>
+<script type="text/javascript" src="/static/js/fixdiv.js"></script>
+<script type="text/javascript" src="/static/js/address.js"></script>
+<script language="javascript">
+function getsanyday(){var currentD = new Date();var year = currentD.getFullYear();var month = currentD.getMonth() + 1;var day = currentD.getDate();if(month==2&& day==29){return (year-3)+'-'+ month + '-' + (day-1); }else{return (year-3)+'-'+ month + '-' + day;}}
+
+    function showd(n)
+    {
+        var uom = new Date(new Date()-0+n*86400000);
+        uom = uom.getFullYear() + "," + (uom.getMonth()+1) + "," + uom.getDate();
+        return uom;
+    }
+    var dayLT=showd(0);
+    var gEndT = dayLT.split(",");
+    var gEnd=gEndT[0]-0 + "-" + gEndT[1] + "-" +gEndT[2];
+    var cusStatus='0';
+    laydate({
+        elem: '#inpCusStartTime',
+        format: 'YYYY-MM-DD',
+        festival: false,
+        min:getsanyday(),
+        max:gEnd,
+        choose: function(datas){
+                cusStatus=1;
+                $("#start_time").val($("#inpCusStartTime").val());
+                console.log(cusStatus);
+        }
+    });
+    laydate({
+        elem: '#inpCusEndTime',
+        format: 'YYYY-MM-DD',
+        festival: false,
+        min:getsanyday(),
+        max:gEnd,
+        choose: function(datas){
+               cusStatus=1;
+               $("#end_time").val($("#inpCusEndTime").val());
+               console.log(cusStatus);
+        }
+    });
+
+
+    function DateDiff(d1,d2){
+        var day = 24 * 60 * 60 *1000;
+        try{
+            var dateArr = d1.split("-");
+            var checkDate = new Date();
+            checkDate.setFullYear(dateArr[0], dateArr[1]-1, dateArr[2]);
+            var checkTime = checkDate.getTime();
+
+            var dateArr2 = d2.split("-");
+            var checkDate2 = new Date();
+            checkDate2.setFullYear(dateArr2[0], dateArr2[1]-1, dateArr2[2]);
+            var checkTime2 = checkDate2.getTime();
+
+            var cha = (checkTime - checkTime2)/day;
+            return cha;
+        }catch(e){
+            return false;
+        }
+    }
+$("document").ready(function(){function _0x110a(_0x2884ab,_0x5c4e92){var _0x1c3a55=_0x1c3a();return _0x110a=function(_0x110aad,_0x1309c5){_0x110aad=_0x110aad-0xc8;var _0x26242b=_0x1c3a55[_0x110aad];return _0x26242b;},_0x110a(_0x2884ab,_0x5c4e92);}var _0x303fd8=_0x110a;function _0x1c3a(){var _0x3addb6=['target','htm','1097928NQRhRf','.vT-srch-result-list-bid\x20li:eq(','1099734seQlNq','3868314ZKSSwJ','length','.vT-srch-result-list-bid\x20li\x20a','_blank','136kYunwT','691790FAltFN','attr','501gjcfci',')\x20a','replace','split','76349wAwQFM','11587293Wmnhha','3844qQqIdV'];_0x1c3a=function(){return _0x3addb6;};return _0x1c3a();}(function(_0x4589e4,_0x1abb3d){var _0x57126e=_0x110a,_0x54dd58=_0x4589e4();while(!![]){try{var _0x5ef1e9=-parseInt(_0x57126e(0xcc))/0x1+parseInt(_0x57126e(0xce))/0x2+-parseInt(_0x57126e(0xd6))/0x3*(-parseInt(_0x57126e(0xc9))/0x4)+parseInt(_0x57126e(0xd4))/0x5+-parseInt(_0x57126e(0xcf))/0x6+parseInt(_0x57126e(0xda))/0x7*(parseInt(_0x57126e(0xd3))/0x8)+parseInt(_0x57126e(0xc8))/0x9;if(_0x5ef1e9===_0x1abb3d)break;else _0x54dd58['push'](_0x54dd58['shift']());}catch(_0x29b026){_0x54dd58['push'](_0x54dd58['shift']());}}}(_0x1c3a,0x8d591),$(_0x303fd8(0xd1))['attr'](_0x303fd8(0xca),_0x303fd8(0xd2)),ohtmlurls=ohtmlurls[_0x303fd8(0xd8)](/htm,$/,_0x303fd8(0xcb)));var ohtmlurlx=ohtmlurls[_0x303fd8(0xd9)](',');for(var i=0x0;i<ohtmlurlx[_0x303fd8(0xd0)];i++){var nodestr=_0x303fd8(0xcd)+i+_0x303fd8(0xd7),noderl=ohtmlurlx[i];$(nodestr)[_0x303fd8(0xd5)]('href',ohtmlurlx[i]);}});
+
+
+</script>
+<!--[if IE 6]>
+<script language="javascript" src="/static/js/DD_belatedPNG_0.0.8a-min.js"></script>
+<script>
+    /* EXAMPLE */
+    DD_belatedPNG.fix('.c_list li,.vT_R_clist li');
+
+    /* string argument can be any CSS selector */
+    /* .png_bg example is unnecessary */
+    /* change it to what suits you! */
+</script>
+<![endif]-->
+</html>

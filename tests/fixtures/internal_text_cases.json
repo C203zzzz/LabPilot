@@ -1,0 +1,96 @@
+{
+  "why": "内部话（异常类名、失败代号、聚合站代号、检索/研究分两次跑的自注句、内部编号与枚举）在盲测四份报告里都漏到了读者面前。页面上一直有人话版本（前端 frontend/src/services/publicText.js），导出报告那条路径原先没接上，于是同一个缺口在页面是人话、导出成机器腔。这份用例是两端共用的钉子：后端 backend/services/report_library.py 的 humanize_gap_text 与前端 publicText.js 各跑一遍，任何一边漏了类别，自己那端的测试先红。用例文字取自盲测真实的缺口/告警文案（域名换成 example.invalid，型号与品牌换成占位符）。",
+  "texts_from": "tmp\\e2e-blind\\report-B01.md 与 run-B01.json 的 gaps（只读）",
+  "patterns": {
+    "异常类名": "\\b[A-Za-z]+(?:Error|Exception|Timeout|Disconnected|Refused|Reset|Aborted|Failure|Warning|Interrupted)\\b",
+    "内部失败代号": "no_official_source|tender_body_unverified|provider_failed|empty_results|empty_body|empty_shell|dns_not_found|parse_incomplete|page_too_large|unsupported_source_url|tls_|gaierror|herror",
+    "第三方站点代号": "(?<![\\w.])(120shop|bidcenter|chinamae)(?![\\w.])",
+    "内部分阶段措辞": "检索阶段的判定|研究阶段已取得正文",
+    "内部编号": "\\bM\\d{2}\\b|\\bQ\\d{1,3}\\b|fact_id|evidence_id",
+    "枚举值漏出": "\\b(eligible|ineligible|no_recommendation|needs_review|conflicted|budget_max|throughput|capability)\\b"
+  },
+  "clean": [
+    {
+      "text": "tender_body_unverified: https://example.invalid/notice/1234（这是检索阶段的判定；研究阶段已取得正文并据其核价，见来源清单）",
+      "expect": "采购公告正文没读到：https://example.invalid/notice/1234"
+    },
+    {
+      "text": "采购公告正文没读到：https://example.invalid/notice/5678",
+      "expect": "采购公告正文没读到：https://example.invalid/notice/5678"
+    },
+    {
+      "text": "该来源连续两次无法读取（empty_body）",
+      "expect": "该来源连续两次无法读取（来源正文为空）"
+    },
+    {
+      "text": "官方复核接口报错（TimeoutError）",
+      "expect": "官方复核接口报错（来源读取未完成）"
+    },
+    {
+      "text": "渲染器报错（PageReadError），这一页作废",
+      "expect": "渲染器报错（来源读取未完成），这一页作废"
+    },
+    {
+      "text": "120shop 遇到人机验证，未能读取该页",
+      "expect": "医价网（120shop.cn） 遇到人机验证，未能读取该页"
+    },
+    {
+      "text": "bidcenter 返回 HTTP 403，没有读到正文",
+      "expect": "采招网（bidcenter.com.cn） 返回 HTTP 403，没有读到正文"
+    },
+    {
+      "text": "chinamae 的正文页打不开（RemoteDisconnected）",
+      "expect": "中国机电设备采购平台（chinamae.com） 的正文页打不开（连接被对方中断）"
+    },
+    {
+      "text": "检索阶段把这条线索记为 no_official_source",
+      "expect": "检索阶段把这条线索记为 这一次检索未取得官方来源"
+    },
+    {
+      "text": "provider_failed:duckduckgo: 连续两次没有结果",
+      "expect": "检索服务未完成：连续两次没有结果"
+    },
+    {
+      "text": "empty_results：这一轮一条都没搜到",
+      "expect": "这一次检索没有返回任何结果：这一轮一条都没搜到"
+    },
+    {
+      "text": "empty_results:deepseek_web",
+      "expect": "检索通道 deepseek_web 这一次查询没有返回结果（这一句只说列出的通道，不代表整轮检索没有结果）"
+    },
+    {
+      "text": "empty_results_all_channels:ccgp,baidu,deepseek_web",
+      "expect": "这一次查询实际跑过的 3 个检索通道（ccgp、baidu、deepseek_web）全部没有返回结果"
+    },
+    {
+      "text": "search_channel_failed:deepseek_web",
+      "expect": "检索通道 deepseek_web 这一次查询失败，没有取得结果；这是通道故障，不是“没有结果”"
+    },
+    {
+      "text": "dns_not_found 记录在来源清单里",
+      "expect": "域名解析失败 记录在来源清单里"
+    },
+    {
+      "text": "M07 的硬约束没有满足，fact_id/evidence_id 见来源清单",
+      "expect": "选型 的必须满足的条件没有满足，来源记录 见来源清单"
+    },
+    {
+      "text": "eligible 的候选里没有满足 unknown 条件的",
+      "expect": "符合条件 的候选里没有满足 资料未提供 条件的"
+    }
+  ],
+  "keep": [
+    {
+      "text": "HTTP Error 403: Forbidden",
+      "why": "形状与异常类名一样，但它是来源网站真实的报错原文；只按形状替换会把来源的话改掉"
+    },
+    {
+      "text": "not found in the manual",
+      "why": "正常英文里的 not found 不带下划线，不是产品生成的失败代号，不许改写"
+    },
+    {
+      "text": "本轮没有从公开来源取得本型号的厂家参数表，采招网与医价网都没有该型号的在用记录。",
+      "why": "已经是人话的句子一个字都不许动（防止替换规则啃掉半句）"
+    }
+  ]
+}

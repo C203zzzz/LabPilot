@@ -1,0 +1,48 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+node_modules/
+.vite/
+frontend/dist/
+data/*
+storage/*
+!data/.gitkeep
+!storage/.gitkeep
+.env
+.env.*
+!.env.example
+*.db
+# SQLite runtime files: ``*.sqlite`` alone misses ``.sqlite3`` databases and the
+# ``-wal`` / ``-shm`` sidecars that appear next to a database while it is open.
+*.sqlite*
+*.log
+.playwright-cli/
+.workbuddy/
+tmp/
+output/
+.tmp-tests/
+.pytest_tmp*/
+# pytest temp roots created by a plain ``pytest`` run cannot always be removed
+# afterwards: ``mkdir(mode=0o700)`` materialises a DACL this token does not own.
+.tmp-pytest*/
+
+# Local working copies left behind by editors and agents; never committed.
+*.bak
+*_backup.py
+
+.venv/
+.claude/
+.impeccable/
+AGENTS.md
+COMPLETED.md
+UI_DESIGN_PROMPT.md
+docs/
+scripts/archive/
+scripts/chain_probe/
+scripts/config_source/
+scripts/e2e_final/
+
+# Workspace cleanup ignores
+.tmp-run/
+.pytest_tmp_*/
+.probe-py-dir/

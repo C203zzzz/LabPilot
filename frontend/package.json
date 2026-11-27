@@ -1,0 +1,22 @@
+{
+  "name": "laboratory-instrument-selection-frontend",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "test:price": "node --test tests/pricePresentation.test.mjs",
+    "test:pages": "node --test tests/pageProgress.test.mjs",
+    "test": "node --test \"tests/*.test.mjs\"",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "latest",
+    "lucide-react": "^1.47.0",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-router-dom": "^7.18.4",
+    "vite": "latest"
+  }
+}

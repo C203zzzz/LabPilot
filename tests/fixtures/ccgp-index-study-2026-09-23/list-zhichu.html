@@ -1,0 +1,956 @@
+
+
+
+
+
+
+
+<!doctype html>
+<html>
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>采购公告搜索_中国政府采购网</title>
+    <link href="/static/css/style4.css" rel="stylesheet" type="text/css"/>
+
+    <link href="/static/css/data4.css" rel="stylesheet" type="text/css"/>
+    <script>
+        var path = "/";
+        var basePath = "//search.ccgp.gov.cn/";
+        var staticPath = path + "static/";
+        var dateTy = '6';
+        var bidType = '0';
+        var bidSort = '0';
+        var pinMu = '0';
+        var searchtype = '2';
+        var kw = '知楚';
+        var buyerName = '';
+        var projectId = '';
+        var zoneId = '';
+        var displayZone = '';
+        var agentName = '';
+        var pppStatus = '0';
+        var start_time = '2025:09:23';
+        var end_time = '2026:09:23';
+        var page_index=1;
+
+
+    </script>
+
+    <script type="text/javascript" src="/static/js/jquery-3.6.0.min.js"></script>
+
+    <script type="text/javascript" src="/static/js/data4.js"></script>
+    <script type="text/javascript" src="/static/js/page.js"></script>
+    <script type="text/javascript" src="/static/js/laydate/laydate.js"></script>
+</head>
+<body style="background:#fff">
+
+<link href="//www.ccgp.gov.cn/css/inc.css" rel="stylesheet" type="text/css" />
+<div class="v4incheadertop">
+    <div class="v4incheadertop_tel_block">
+        <div class="v4incheadertop_tel">
+            <p class="cl">财政部唯一指定政府采购信息网络发布媒体 国家级政府采购专业网站</p><p class="cr">服务热线：400-810-1996  &nbsp; | &nbsp; 服务投诉：010-63819289</p>
+        </div>
+    </div>
+    <div class="v4incheadertop_logosearch_block2">
+        <div class="v4incheadertop_logosearch">
+        <div class="searcharea1">
+            <div class="logo_gh" style="margin-top:20px">
+            <a href="#" class="ccgp"></a>
+            <a href="#" class="ccgp2"></a>
+            <a href="#" class="gmfw"></a>
+            <a href="#" class="ccgp3"></a>
+            </div>
+        </div>
+
+        <div class="searcharea2">
+            <div class="sangong_bl"></div>
+
+        </div></div>
+    </div>
+    <div class="v4incheadertop_nav_block">
+        <div class="v4incheadertop_nav">
+            <ul class="v4incheadertop_nav_ls">
+                <li  id="ch_index" style="width:140px"><a href="//www.ccgp.gov.cn/">首页</a></li>
+                <li id="ch_zcfg" style="width: 172px"><a href="//www.ccgp.gov.cn/zcfg/">政采法规</a></li>
+                <li id="ch_gmfw" style="width:172px"><a href="//www.ccgp.gov.cn/gpsr/">购买服务</a></li>
+                <li id="ch_jdjc" style="width:172px"><a href="//www.ccgp.gov.cn/jdjc/">监督检查</a></li>
+                <li id="ch_xxgg" style="width:172px"><a href="//www.ccgp.gov.cn/xxgg/">信息公告</a></li>
+                <li id="ch_gpa" style="width:172px"><a href="//www.ccgp.gov.cn/wtogpa/">国际专栏</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="clb"></div>
+</div>
+
+<div class="vT_z">
+    <div style="width:100%;background:#ccc">
+        <ul class="vT_search_sortby">
+            <li>
+                <a href="//search.ccgp.gov.cn/znzxsearch?searchtype=1&page_index=1&searchchannel=0&kw=知楚&timeType=0">站内资讯</a>
+            </li>
+            <li class="current2">采购公告</li>
+            <li><a href="//search.ccgp.gov.cn/zcfgsearch">政策法规</a></li>
+        </ul>
+    </div>
+</div>
+<span class="blank37"></span>
+
+<div class="vT_z">
+    <div class="vT-srch-result-top">
+        <div class="vT-srch-result-top-logo n_fl"><img
+                src="/static/images/searchplatform_bid.gif"
+                style="border:0"></div>
+        <div class="vT-srch-result-top-form n_fr">
+            <form name="searchForm" id="searchForm" action="//search.ccgp.gov.cn/bxsearch" method="get">
+                <input type="hidden" name="searchtype" id="searchtype" value="2">
+                <input type="hidden" name="page_index" id="page_index" value="1">
+                <input type="hidden" name="bidSort" id="bidSort" value="0">
+                <input type="hidden" name="buyerName" id="buyerName" value="">
+                <input type="hidden" name="projectId" id="projectId" value="">
+                <input type="hidden" name="pinMu" id="pinMu" value="0">
+                <input type="hidden" name="bidType" id="bidType" value="0">
+                <input type="hidden" name="dbselect" value="bidx">
+                <input name="kw" id="kw" type="text" style="float:left;width:260px" value="知楚"/>
+                <input type="hidden" name="start_time" id="start_time" value="2025:09:23">
+                <input type="hidden" name="end_time" id="end_time" value="2026:09:23">
+                <input type="hidden" name="timeType" id="timeType" value="6">
+                <input type="hidden" name="displayZone" id="displayZone" value="">
+                <input type="hidden" name="zoneId" id="zoneId" value="">
+                <input type="hidden" name="pppStatus" id="pppStatus" value="0">
+                <input type="hidden" name="agentName" id="agentName" value="">
+                <input type="button" value="搜标题" id="doSearch1" onclick="validateCode(1)"
+                       style="font-size:14px;font-weight:bolder;width:70px;cursor:pointer;background:#cc0000;color:#fff;float:left;height:34px" class="main"/>
+                <input type="button" value="搜全文" id="doSearch2" onclick="validateCode(2)"
+                       style="font-size:14px;font-weight:bolder;width:70px;cursor:pointer;background:#0082d4;color:#fff;float:left;height:34px" class="main"/>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+<!---->
+<span class="blank10"></span>
+
+<div class="vT_z" id="vT_bidSearch_o">
+    <div class="vT_bidSearch_outsider">
+        <!--选择内容-->
+        <div class="vT_bidSearch_addon_con" style="margin-top:20px">
+            <div class="vT_bidSearch_addon_block2" style="margin-left:0;float:left;"><p
+                    style="vertical-align:top;margin-top:0;padding-top:0">类型</p></div>
+            <div style="float:left;width:870px;height:60px">
+                <ul class="vT-srch-result-channel-list2" id="searchbidTypeSel">
+                    <li onclick="bidTypeSel(0)">所有类型</li>
+                    <li onclick="bidTypeSel(1)">公开招标</li>
+                    <li onclick="bidTypeSel(2)">询价公告</li>
+                    <li onclick="bidTypeSel(3)">竞争性谈判</li>
+                    <li onclick="bidTypeSel(4)">单一来源</li>
+                    <li onclick="bidTypeSel(5)">资格预审</li>
+                    <li onclick="bidTypeSel(6)">邀请公告</li>
+                    <li onclick="bidTypeSel(7)">中标公告</li>
+                    <li onclick="bidTypeSel(8)">更正公告</li>
+                    <li onclick="bidTypeSel(9)">其他公告</li>
+                    <li onclick="bidTypeSel(10)">竞争性磋商</li>
+                    <li onclick="bidTypeSel(11)">成交公告</li>
+                    <li onclick="bidTypeSel(12)">终止公告</li>
+                    <li onclick="isPPP()"><img src="/static/images/ppp_off.gif" title="ppp项目" id="disPPP"></li>
+                </ul>
+            </div>
+            <div style="clear:both"></div>
+        </div>
+        <!--选择内容-->
+        <div class="vT_bidSearch_addon_con">
+            <div class="vT_bidSearch_addon_block2" style="margin-left:0;float:left;"><p
+                    style="vertical-align:top;margin-top:0;padding-top:15px">类别</p></div>
+            <div style="float:left;width:870px;height:30px;margin-top:15px">
+                <ul class="vT-srch-result-channel-list3" id="searchBidSortSel">
+                    <li onclick="bidSortSel(0)">所有类别</li>
+                    <li onclick="bidSortSel(1)">中央公告</li>
+                    <li onclick="bidSortSel(2)">地方公告</li>
+                </ul>
+            </div>
+            <div style="clear:both"></div>
+        </div>
+        <!--选择内容-->
+        <div class="vT_bidSearch_addon_con">
+            <div class="vT_bidSearch_addon_block2" style="margin-left:0;float:left;"><p
+                    style="vertical-align:top;margin-top:0;padding-top:15px">品目</p></div>
+            <div style="float:left;width:870px;height:30px;margin-top:15px">
+                <ul class="vT-srch-result-channel-list3" id="searchPinMuSel">
+                    <li onclick="pinMuSel(0)">所有品目</li>
+                    <li onclick="pinMuSel(1)">货物类</li>
+                    <li onclick="pinMuSel(2)">工程类</li>
+                    <li onclick="pinMuSel(3)">服务类</li>
+                </ul>
+            </div>
+            <div style="clear:both"></div>
+        </div>
+        <!--选择内容-->
+        <div class="vT_bidSearch_addon_con">
+            <div class="vT_bidSearch_addon_block2" style="margin-left:0;float:left;"><p
+                    style="vertical-align:top;margin-top:0;padding-top:15px">时间</p></div>
+            <div style="float:left;width:870px;height:30px;margin-top:15px;position:relative">
+                <ul class="vT-srch-result-channel-list3" id="datesel">
+                    <li onclick="timeSel(0)">今日</li>
+                    <li onclick="timeSel(1)">近3日</li>
+                    <li onclick="timeSel(2)">近1周</li>
+                    <li onclick="timeSel(3)">近1月</li>
+                    <li onclick="timeSel(4)">近3月</li>
+                    <li onclick="timeSel(5)">近半年</li>
+                    <li id="cusTime">指定时间</li>
+                </ul>
+                <div class="cusTime_container">
+                    <span>指定时间</span>
+                    <input type="text" name="inpCusStartTime" id="inpCusStartTime" readonly="readonly"
+                           value="2025-09-23">
+                    <input type="text" name="inpCusEndTime" id="inpCusEndTime" readonly="readonly"
+                           value="2026-09-23">
+                    <em class="dose" title="查询">查询</em>
+                    <em class="clos" title="取消">取消</em>
+                </div>
+            </div>
+            <div style="clear:both"></div>
+        </div>
+        <!--输入内容-->
+        <div class="vT_bidSearch_addon_con">
+            <div class="vT_bidSearch_addon_block" style="margin-left:0">
+                <p>采购人</p>
+                <input value="" type="text" name="inpBuyerName" id="inpBuyerName">
+            </div>
+            <div class="vT_bidSearch_addon_block">
+                <p>项目编号</p>
+                <input value="" type="text" name="inpProjectId" id="inpProjectId">
+            </div>
+
+            <div class="vT_bidSearch_addon_block" id="zonearea">
+                <p>地区</p>
+                <input value="" type="text" name="inpDisplayZone" id="inpDisplayZone"
+                       readonly="readonly">
+                <input type="hidden" name="inpZoneId" id="inpZoneId">
+
+                <div class="zone_list_container">
+                    <ul class="zone_list" zoneId="">
+                        <li>全部</li>
+                        <li zoneId="11">北京</li>
+                        <li zoneId="12">天津</li>
+                        <li zoneId="13">河北</li>
+
+                        <li zoneId="14">山西</li>
+                        <li zoneId="15">内蒙古</li>
+                        <li zoneId="21 not 2102">辽宁</li>
+                        <li zoneId="2102">大连</li>
+                        <li zoneId="22">吉林</li>
+                        <li zoneId="23">黑龙江</li>
+                        <li zoneId="31">上海</li>
+                        <li zoneId="32">江苏</li>
+
+                        <li zoneId="33 not 3302">浙江</li>
+                        <li zoneId="3302">宁波</li>
+                        <li zoneId="34">安徽</li>
+                        <li zoneId="35 not 3502">福建</li>
+                        <li zoneId="3502">厦门</li>
+                        <li zoneId="36">江西</li>
+
+                        <li zoneId="37 not 3702">山东</li>
+                        <li zoneId="3702">青岛</li>
+                        <li zoneId="41">河南</li>
+                        <li zoneId="42">湖北</li>
+                        <li zoneId="43">湖南</li>
+                        <li zoneId="44 not 4403">广东</li>
+
+                        <li zoneId="4403">深圳</li>
+                        <li zoneId="45">广西</li>
+                        <li zoneId="46">海南</li>
+                        <li zoneId="50">重庆</li>
+                        <li zoneId="51">四川</li>
+                        <li zoneId="52">贵州</li>
+
+                        <li zoneId="53">云南</li>
+                        <li zoneId="54">西藏</li>
+                        <li zoneId="61">陕西</li>
+                        <li zoneId="62">甘肃</li>
+                        <li zoneId="63">青海</li>
+                        <li zoneId="64">宁夏</li>
+
+                        <li zoneId="65">新疆</li>
+                        <li zoneid="66" style="width:121px">新疆生产建设兵团</li>
+                        <li zoneId="71">台湾</li>
+                        <li zoneId="81">香港</li>
+                        <li zoneId="82">澳门</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="vT_bidSearch_addon_block" style="margin-left:0">
+                <p>代理机构</p>
+                <input type="text" name="inpAgentName" id="inpAgentName" value="">
+            </div>
+            <div class="vT_bidSearch_addon_block">
+                <div style="position:relative">
+                    <!--
+                    <div class="code" id="checkCode" style="float:left">
+                        <img onclick="javascript:loadimage();" title="换一张试试" name="randImage" id="randImage"
+                             src="//search.ccgp.gov.cn/ValidateImage">
+                    </div>
+                    <input style="float:left;" type="text" id="inpid" name="inpid" style="border:2px solid #ac0000"/>
+
+                    <div style="position:absolute;width:260px;height:24px;margin-left:205px;margin-top:8px;">请输入左侧验证码
+                    </div>
+                    -->
+                </div>
+            </div>
+            <div style="clear:both"></div>
+        </div>
+        <div style="clear:both"></div>
+    </div>
+</div>
+<span class="blank20"></span>
+<!---->
+<div class="vT_z">
+    <div style="width:100%;height:30px">
+        
+
+        
+            <!-- something-->
+            <div style="font-size:14px">
+                <p style="float:left">关键字：
+                    <span style="color:#c00000;font-weight:bolder">知楚</span>
+                    
+                    
+                        全文检索
+                    
+                    共找到
+                    <span style="color:#c00000">66</span>
+                    条内容 查询日期从
+                    <span style="color:#c00000">2025-09-23</span>
+                    到
+                    <span style="color:#c00000">2026-09-23</span>
+                </p>
+
+                
+                    <p class="pager">
+                        <script language="javascript">Pager({
+                            size: 4,
+                            current: 0,
+                            prefix: 'data2',
+                            suffix: '.jsp&'
+                        });</script>
+                    </p>
+                
+            </div>
+        
+
+
+    </div>
+
+    
+        <!---->
+        <span class="blank10"></span>
+
+        <div class="vT_z" style="position:relative">
+            <div class="vT-srch-result">
+                <div class="vT-srch-result-list-con2">
+                    <div class="vT-srch-result-list">
+                        <ul class="vT-srch-result-list-bid">
+                            
+
+                                <li>
+                                    <a href="http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202609/t20260922_27384237.htm" style="line-height:18px">
+                                        聊城大学医药产教融合实验实训基地设备一预采购项目结果公告（采购包1、2）
+                                    </a>
+
+                                    <p>室）设备大龙TopPette4(台)1-1-30其他机械设备医药产教融合楼-分子生物学、生物化学（公共教学实验室）设备<font color=red>知楚</font>ZQTY-502(台)1-1-31其他机械设备医药产教融合楼-分子生物学、生物化学（公共教学实验室）设备大龙D100810(台</p>
+                                    <span>2026.09.22 23:46:54
+                                        | 采购人：聊城大学
+                                        | 代理机构：山东华源招标有限公司
+                                        <br/>
+                                        <strong style="font-weight:bolder">
+                                            
+                                            
+                                                中标公告
+                                            
+                                        </strong>
+                                        | 山东
+                                        | <strong style="font-weight:bolder"> </strong>
+                                        
+                                    </span>
+                                </li>
+                            
+
+                                <li>
+                                    <a href="http://www.ccgp.gov.cn/cggg/zygg/zbgg/202609/t20260922_27377809.htm" style="line-height:18px">
+                                        ZYCGR22011901自动化高通量质粒构建筛选系统一期和高通量自动化蛋白扩大表达功能平台一期采购项目中标公告
+                                    </a>
+
+                                    <p>一期-二氧化碳摇床式培养箱阵列；高通量自动化蛋白扩大表达功能平台一期-摇床自动取放机构			镁伽；镁伽；<font color=red>知楚</font>；镁伽			Seloris-rProtein-W501；Seloris-rProtein-Q503；ZCZY-ZD8A；Seloris-rProtein-HB30			1套；1套；1</p>
+                                    <span>2026.09.22 14:32:53
+                                        | 采购人：zycgr22011901
+                                        | 代理机构：东方国际招标有限责任公司
+                                        <br/>
+                                        <strong style="font-weight:bolder">
+                                            
+                                            
+                                                中标公告
+                                            
+                                        </strong>
+                                        | 广东
+                                        | <strong style="font-weight:bolder"> 货物/设备/仪器仪表/试验仪器及装置/其他试验仪器及装置</strong>
+                                        
+                                    </span>
+                                </li>
+                            
+
+                                <li>
+                                    <a href="http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202608/t20260831_27236048.htm" style="line-height:18px">
+                                        西南林业大学2026年中央支持地方专项-林学类基础课程群实验教学中心建设中标结果公告
+                                    </a>
+
+                                    <p>10002台9000015西南林业大学2026年中央支持地方专项-林学类基础课程群实验教学中心建设（1标段）培养箱上海<font color=red>知楚</font>ZQLY-1802台2950016西南林业大学2026年中央支持地方专项-林学类基础课程群实验教学中心建设（1标段）恒温培</p>
+                                    <span>2026.08.31 16:33:42
+                                        | 采购人：西南林业大学
+                                        | 代理机构：云南冠睿咨询有限公司
+                                        <br/>
+                                        <strong style="font-weight:bolder">
+                                            
+                                            
+                                                中标公告
+                                            
+                                        </strong>
+                                        | 云南
+                                        | <strong style="font-weight:bolder"> </strong>
+                                        
+                                    </span>
+                                </li>
+                            
+
+                                <li>
+                                    <a href="http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202608/t20260831_27235651.htm" style="line-height:18px">
+                                        香港城市大学（东莞）材料科研设备采购（包1）项目结果公告
+                                    </a>
+
+                                    <p>台)59,530.0000238,120.00001-3真空泵真空泵爱德华RV125.0000(台)14,530.000072,650.00001-4制冰设备制冰机<font color=red>知楚</font>ZCBJ-3001.0000(台)11,800.000011,800.00001-5工业电热设备（电炉）烘箱菲斯福WGLL-125BE1.0000(台)3,462.0</p>
+                                    <span>2026.08.31 16:19:00
+                                        | 采购人：香港城市大学（东莞）
+                                        | 代理机构：东莞市粤隆招标有限公司
+                                        <br/>
+                                        <strong style="font-weight:bolder">
+                                            
+                                            
+                                                中标公告
+                                            
+                                        </strong>
+                                        | 广东
+                                        | <strong style="font-weight:bolder"> </strong>
+                                        
+                                    </span>
+                                </li>
+                            
+
+                                <li>
+                                    <a href="http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202608/t20260822_27187682.htm" style="line-height:18px">
+                                        烟台大学2026年科研创新平台建设项目微生物生长曲线分析仪等设备采购结果公告（采购包1）
+                                    </a>
+
+                                    <p>D-285WGHC2DES91(台)1-1-6其他分析仪器烟台大学2026年科研创新平台建设项目微生物生长曲线分析仪等设备采购<font color=red>知楚</font>ZTY-102(台)1-1-7其他分析仪器烟台大学2026年科研创新平台建设项目微生物生长曲线分析仪等设备采购<font color=red>知楚</font>ZCBJ</p>
+                                    <span>2026.08.22 23:43:34
+                                        | 采购人：烟台大学
+                                        | 代理机构：山东省国际招标有限公司
+                                        <br/>
+                                        <strong style="font-weight:bolder">
+                                            
+                                            
+                                                中标公告
+                                            
+                                        </strong>
+                                        | 山东
+                                        | <strong style="font-weight:bolder"> </strong>
+                                        
+                                    </span>
+                                </li>
+                            
+
+                                <li>
+                                    <a href="http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202608/t20260819_27162567.htm" style="line-height:18px">
+                                        五邑大学药品及化学品评价实验室建设项目（二期）中标公告
+                                    </a>
+
+                                    <p>-5教学仪器正置生物显微镜永新光学NE910FL1.0000(台)98,000.000098,000.00001-6教学仪器立式全温振荡培养箱<font color=red>知楚</font>ZQLY-1801.0000(台)34,000.000034,000.00001-7教学仪器高压灭菌锅致微JFE801.0000(台)33,000.000033,000.00</p>
+                                    <span>2026.08.19 11:44:32
+                                        | 采购人：五邑大学
+                                        | 代理机构：广东志正招标有限公司
+                                        <br/>
+                                        <strong style="font-weight:bolder">
+                                            
+                                            
+                                                中标公告
+                                            
+                                        </strong>
+                                        | 广东
+                                        | <strong style="font-weight:bolder"> </strong>
+                                        
+                                    </span>
+                                </li>
+                            
+
+                                <li>
+                                    <a href="http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202608/t20260818_27158844.htm" style="line-height:18px">
+                                        新专业背景下生物学微观实验设备更新建设结果公告
+                                    </a>
+
+                                    <p>限公司）品目号品目名称采购标的品牌规格型号数量（单位）1-1教学仪器新专业背景下生物学微观实验更新建设<font color=red>知楚</font>、君意东方、佑科、精宏、天隆、湘仪、新艺、大龙、育星、海尔、大龙、其林贝尔ZQLY-10、JY300C+JY-SCZ2++JY</p>
+                                    <span>2026.08.18 23:44:41
+                                        | 采购人：潍坊学院
+                                        | 代理机构：山东兰德工程咨询有限公司
+                                        <br/>
+                                        <strong style="font-weight:bolder">
+                                            
+                                            
+                                                中标公告
+                                            
+                                        </strong>
+                                        | 山东
+                                        | <strong style="font-weight:bolder"> </strong>
+                                        
+                                    </span>
+                                </li>
+                            
+
+                                <li>
+                                    <a href="http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202608/t20260818_27158477.htm" style="line-height:18px">
+                                        动物疫病诊断创新服务中心仪器设备采购中标(成交)结果公告
+                                    </a>
+
+                                    <p>膜喷金一体机栢鸿ZX1010/液滴体积：2.6nl-1μl148000021动物疫病诊断创新服务中心仪器设备采购双层组合摇床<font color=red>知楚</font>ZQZY-108B/温度探头：PT1017000022动物疫病诊断创新服务中心仪器设备采购高速冷冻离心机凯达KH22N/最高转速</p>
+                                    <span>2026.08.18 20:12:37
+                                        | 采购人：新疆农业职业技术大学
+                                        | 代理机构：新疆君凯杰工程项目管理有限公司
+                                        <br/>
+                                        <strong style="font-weight:bolder">
+                                            
+                                            
+                                                中标公告
+                                            
+                                        </strong>
+                                        | 新疆
+                                        | <strong style="font-weight:bolder"> </strong>
+                                        
+                                    </span>
+                                </li>
+                            
+
+                                <li>
+                                    <a href="http://www.ccgp.gov.cn/cggg/dfgg/cjgg/202608/t20260805_27072746.htm" style="line-height:18px">
+                                        齐齐哈尔大学生命科学与农林学院、食品与生物工程学院、分析测试中心数显分散均质机等教学设备采购项目(二次)成交结果公告
+                                    </a>
+
+                                    <p>子天平（万分之一）赞维ZWB2242.00(台)6,000.0012,000.001-21试验箱及气候环境试验设备台式恒温震荡培养箱<font color=red>知楚</font>ZQTY-501.00(台)20,000.0020,000.001-22食品均质机数显分散均质机艾卡T18Brushlessdigital1.00(台)31,000.00</p>
+                                    <span>2026.08.05 10:15:07
+                                        | 采购人：齐齐哈尔大学
+                                        | 代理机构：黑龙江省政府采购中心
+                                        <br/>
+                                        <strong style="font-weight:bolder">
+                                            
+                                            
+                                                成交公告
+                                            
+                                        </strong>
+                                        | 黑龙江
+                                        | <strong style="font-weight:bolder"> </strong>
+                                        
+                                    </span>
+                                </li>
+                            
+
+                                <li>
+                                    <a href="http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202607/t20260731_27045244.htm" style="line-height:18px">
+                                        山西师范大学2026年食品科学学院科研教学仪器设备以旧换新项目结果公告
+                                    </a>
+
+                                    <p>8006包1功能食品开发检测系统,大容量高速冷冻离心机湘仪CH260R12268007包1功能食品开发检测系统,全温振荡箱<font color=red>知楚</font>ZQZY-88C21495008包1功能食品开发检测系统,等温扩增仪赛默飞PowerFlexPCR2999009包1生化分析系统,全自动微生</p>
+                                    <span>2026.07.31 11:20:44
+                                        | 采购人：山西师范大学
+                                        | 代理机构：中经国际工程咨询(山西)有限公司
+                                        <br/>
+                                        <strong style="font-weight:bolder">
+                                            
+                                            
+                                                中标公告
+                                            
+                                        </strong>
+                                        | 山西
+                                        | <strong style="font-weight:bolder"> </strong>
+                                        
+                                    </span>
+                                </li>
+                            
+
+                                <li>
+                                    <a href="http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202607/t20260721_26979973.htm" style="line-height:18px">
+                                        济南市中心医院首都医科大学宣武医院济南医院（济南市中心医院二期）检验设备及东院区医学检验平台配套试剂耗材集约化采购与服务项目中标公告
+                                    </a>
+
+                                    <p>、山东博科科学仪器有限公司BJPX-C160T1套40000.0通用技术集团北京永正医药有限公司立式二氧化碳振荡培养箱<font color=red>知楚</font>上海市、上海<font color=red>知楚</font>仪器有限公司ZCZY-ANR1套75000.0通用技术集团北京永正医药有限公司测序平台检测系统华大智</p>
+                                    <span>2026.07.21 23:48:43
+                                        | 采购人：济南市中心医院
+                                        | 代理机构：海逸恒安项目管理有限公司
+                                        <br/>
+                                        <strong style="font-weight:bolder">
+                                            
+                                            
+                                                中标公告
+                                            
+                                        </strong>
+                                        | 山东
+                                        | <strong style="font-weight:bolder"> </strong>
+                                        
+                                    </span>
+                                </li>
+                            
+
+                                <li>
+                                    <a href="http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202607/t20260721_26978491.htm" style="line-height:18px">
+                                        广西北投建信建设项目管理有限公司关于农工院广西耐盐碱粮食作物种子工程研究中心建设项目（项目编号：GXZC2026-G1-002041-GXJX）中标结果公告
+                                    </a>
+
+                                    <p>9000452026年农工院广西耐盐碱粮食作物种子工程研究中心仪器设备采购项目恒温振荡培养箱（振荡培养箱）上海<font color=red>知楚</font>ZQTY-70226500462026年农工院广西耐盐碱粮食作物种子工程研究中心仪器设备采购项目恒温培养箱（智能恒温恒湿</p>
+                                    <span>2026.07.21 18:23:37
+                                        | 采购人：广西农业职业技术大学
+                                        | 代理机构：广西北投建信建设项目管理有限公司
+                                        <br/>
+                                        <strong style="font-weight:bolder">
+                                            
+                                            
+                                                中标公告
+                                            
+                                        </strong>
+                                        | 广西
+                                        | <strong style="font-weight:bolder"> </strong>
+                                        
+                                    </span>
+                                </li>
+                            
+
+                                <li>
+                                    <a href="http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202607/t20260721_26974703.htm" style="line-height:18px">
+                                        厌氧微好氧工作站、多功能微孔板检测仪、冷冻台式离心机、旋转式IVC、生物安全柜、自动细胞计数仪等结果公告（采购包1、2、3、4、5、6）
+                                    </a>
+
+                                    <p>湿箱宁波江南HWS-500-->1.00(台)14,900.0014,900.005-6试验箱及气候环境试验设备振荡培养箱振荡培养箱上海<font color=red>知楚</font>ZQTY-50-->1.00(台)21,500.0021,500.00合同包6:货物类（福州三工仪科技有限公司）品目号品目名称采购标的报价</p>
+                                    <span>2026.07.21 15:36:18
+                                        | 采购人：福建医科大学
+                                        | 代理机构：福建方兴招标代理有限公司
+                                        <br/>
+                                        <strong style="font-weight:bolder">
+                                            
+                                            
+                                                中标公告
+                                            
+                                        </strong>
+                                        | 福建
+                                        | <strong style="font-weight:bolder"> </strong>
+                                        
+                                    </span>
+                                </li>
+                            
+
+                                <li>
+                                    <a href="http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202607/t20260721_26973085.htm" style="line-height:18px">
+                                        元谋县职业高级中学现代种业产学研融合项目试验仪器设备采购中标公告
+                                    </a>
+
+                                    <p>100L/h）优普UPT-II-100L1350004元谋县职业高级中学现代种业产学研融合项目试验仪器设备采购叠加式恒温摇床<font color=red>知楚</font>三层ZQZY-108C11070005元谋县职业高级中学现代种业产学研融合项目试验仪器设备采购标准型真空冷冻干燥机净信</p>
+                                    <span>2026.07.21 12:02:52
+                                        | 采购人：元谋县职业高级中学
+                                        | 代理机构：云南璋传工程管理服务有限公司
+                                        <br/>
+                                        <strong style="font-weight:bolder">
+                                            
+                                            
+                                                中标公告
+                                            
+                                        </strong>
+                                        | 云南
+                                        | <strong style="font-weight:bolder"> </strong>
+                                        
+                                    </span>
+                                </li>
+                            
+
+                                <li>
+                                    <a href="http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202607/t20260720_26970476.htm" style="line-height:18px">
+                                        酒泉职业技术大学实训教学设备更新项目(开放型产教融合实践基地建设三标段)中标公告
+                                    </a>
+
+                                    <p>箱（组合式全温振荡培养箱）酒泉职业技术大学实训教学设备更新项目(开放型产教融合实践基地建设三标段)一包<font color=red>知楚</font>ZQZY-R31.00(台)236,500.00236,500.001冷冻离心机酒泉职业技术大学实训教学设备更新项目(开放型产教融合实践</p>
+                                    <span>2026.07.20 20:18:41
+                                        | 采购人：酒泉职业技术大学
+                                        | 代理机构：甘肃国昭项目管理有限公司
+                                        <br/>
+                                        <strong style="font-weight:bolder">
+                                            
+                                            
+                                                中标公告
+                                            
+                                        </strong>
+                                        | 甘肃
+                                        | <strong style="font-weight:bolder"> </strong>
+                                        
+                                    </span>
+                                </li>
+                            
+
+                                <li>
+                                    <a href="http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202606/t20260624_26802493.htm" style="line-height:18px">
+                                        2026年医科院科研设备购置-再生骨科与运动医学中心设备采购项目(二次)结果公告（采购包1）
+                                    </a>
+
+                                    <p>微镜倒置显微镜明美MIX60-FL3台/套79,000.00237,000.001-23生物、医学样品制备设备小型台式恒温振荡培养箱<font color=red>知楚</font>ZHTY-501台/套33,999.0033,999.00五、评审专家名单：采购人代表：罗怡琳评审专家：冯玉洁、何二霞、杨光泽、</p>
+                                    <span>2026.06.24 12:14:58
+                                        | 采购人：海南医科大学
+                                        | 代理机构：中科高盛咨询集团有限公司
+                                        <br/>
+                                        <strong style="font-weight:bolder">
+                                            
+                                            
+                                                中标公告
+                                            
+                                        </strong>
+                                        | 海南
+                                        | <strong style="font-weight:bolder"> </strong>
+                                        
+                                    </span>
+                                </li>
+                            
+
+                                <li>
+                                    <a href="http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202606/t20260623_26799516.htm" style="line-height:18px">
+                                        设施农业科学与工程实验与实践平台建设项目中标(成交)结果公告
+                                    </a>
+
+                                    <p>建设项目恒温恒湿培养箱扬辉HWS-160H4850017设施农业科学与工程实验与实践平台建设项目台式恒温振荡培养箱<font color=red>知楚</font>ZHTY-7041630018设施农业科学与工程实验与实践平台建设项目低温试验箱（-45℃）卓的ZD/GDWJS-408L15100019设</p>
+                                    <span>2026.06.23 19:38:56
+                                        | 采购人：伊犁师范大学
+                                        | 代理机构：新疆新招工程项目咨询管理有限公司
+                                        <br/>
+                                        <strong style="font-weight:bolder">
+                                            
+                                            
+                                                中标公告
+                                            
+                                        </strong>
+                                        | 新疆
+                                        | <strong style="font-weight:bolder"> </strong>
+                                        
+                                    </span>
+                                </li>
+                            
+
+                                <li>
+                                    <a href="http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202606/t20260623_26795207.htm" style="line-height:18px">
+                                        重庆市畜牧科学院2026年畜牧科技创新仪器设备购置（第三次）(CQS26A00859)中标（成交）结果公告
+                                    </a>
+
+                                    <p>二氧化碳培养箱:ThermoFisher371,9.研究级倒置显微镜:奥伟登IX73,10.低速离心机:湖南恒诺、3-5R,11.培养箱:<font color=red>知楚</font>、ZQZY-78C,12.磁力搅拌器:其林贝尔、GL-6250-6A,13.移液枪:Gilson、P10L、P200L、P1000L,14.超声波清洗仪:</p>
+                                    <span>2026.06.23 15:35:07
+                                        | 采购人：重庆市畜牧科学院
+                                        | 代理机构：重庆希维招标代理有限公司
+                                        <br/>
+                                        <strong style="font-weight:bolder">
+                                            
+                                            
+                                                中标公告
+                                            
+                                        </strong>
+                                        | 重庆
+                                        | <strong style="font-weight:bolder"> 其他试验仪器及装置</strong>
+                                        
+                                    </span>
+                                </li>
+                            
+
+                                <li>
+                                    <a href="http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202606/t20260618_26777042.htm" style="line-height:18px">
+                                        青海民族大学药学学科实验室建设项目中标(成交)结果公告
+                                    </a>
+
+                                    <p>族大学药学学科实验室建设项目千分之一天平华志PTX-JA5101064006青海民族大学药学学科实验室建设项目崩解仪<font color=red>知楚</font>ZB-3A2150007青海民族大学药学学科实验室建设项目加热磁力搅拌器艾卡RCTdigital10130008青海民族大学药学学</p>
+                                    <span>2026.06.18 15:54:01
+                                        | 采购人：青海民族大学
+                                        | 代理机构：青海正开招标代理有限公司
+                                        <br/>
+                                        <strong style="font-weight:bolder">
+                                            
+                                            
+                                                中标公告
+                                            
+                                        </strong>
+                                        | 青海
+                                        | <strong style="font-weight:bolder"> </strong>
+                                        
+                                    </span>
+                                </li>
+                            
+
+                                <li>
+                                    <a href="http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202606/t20260617_26771826.htm" style="line-height:18px">
+                                        山东省食品药品检验研究院药品检验能力建设仪器设备采购结果公告（采购包1、2、3）
+                                    </a>
+
+                                    <p>的品牌规格型号数量（单位）1-1消毒灭菌设备及器具制冰机比朗FMB1001(台)1-2消毒灭菌设备及器具恒温振荡器<font color=red>知楚</font>ZQZY-CSR82(台)1-3样品前处理及制备仪器体视显微镜徕卡SAPO1(台)合同包2:货物类（济南汇联未来贸易有限公司）</p>
+                                    <span>2026.06.17 23:45:44
+                                        | 采购人：山东省食品药品检验研究院
+                                        | 代理机构：山东久安项目管理有限公司
+                                        <br/>
+                                        <strong style="font-weight:bolder">
+                                            
+                                            
+                                                中标公告
+                                            
+                                        </strong>
+                                        | 山东
+                                        | <strong style="font-weight:bolder"> </strong>
+                                        
+                                    </span>
+                                </li>
+                            
+
+							
+                        </ul>
+                        
+                            <p class="pager">
+                                <script language="javascript">Pager({
+                                    size: 4,
+                                    current: 0,
+                                    prefix: 'data2',
+                                    suffix: '.jsp&'
+                                });</script>
+                            </p>
+                        
+                    </div>
+                    <div class="vT-srch-result-page-con"></div>
+                </div>
+            </div>
+        </div>
+		
+	<script>
+	
+	var ohtmlurls="http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202609/t20260922_27384237.htm,http://www.ccgp.gov.cn/cggg/zygg/zbgg/202609/t20260922_27377809.htm,http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202608/t20260831_27236048.htm,http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202608/t20260831_27235651.htm,http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202608/t20260822_27187682.htm,http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202608/t20260819_27162567.htm,http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202608/t20260818_27158844.htm,http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202608/t20260818_27158477.htm,http://www.ccgp.gov.cn/cggg/dfgg/cjgg/202608/t20260805_27072746.htm,http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202607/t20260731_27045244.htm,http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202607/t20260721_26979973.htm,http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202607/t20260721_26978491.htm,http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202607/t20260721_26974703.htm,http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202607/t20260721_26973085.htm,http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202607/t20260720_26970476.htm,http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202606/t20260624_26802493.htm,http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202606/t20260623_26799516.htm,http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202606/t20260623_26795207.htm,http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202606/t20260618_26777042.htm,http://www.ccgp.gov.cn/cggg/dfgg/zbgg/202606/t20260617_26771826.htm,";
+	
+	</script>
+	
+    
+
+    <span class="blank37"></span>
+
+    <div class="vT_nav_cp">
+        <div class="vT_z">
+            <style type="text/css">
+                .copyright_bl{width:960px;margin:0 auto}/*margin-top:20px;*/
+                .vF_cp {width: 960px;margin: 0 auto;text-align: left;float: left;background: #e9e9e9;color: #333;height: 120px;padding-top: 10px;}
+                .vF_cp p {width: 600px;float: left;margin-top: 15px;font-size: 14px;line-height: 26px;}
+                .vF_cp span{font-family:Verdana, Geneva, sans-serif;font-size:12px}
+                .vF_cp a,.vT_cp a{color:#333;text-decoration: none}
+                .vF_cp a:hover,.vT_cp a:hover{text-decoration: underline;color:#ba2636}
+                .dzjg {width: 205px;height: 80px;float: left;margin: 14px 10px 0  130px;border-right: 1px solid #c2c2c2;}
+                .cpright {float: left;width: 570px;margin-left: 15px;}
+                .ccgpjiucuo{width:110px;height:55px;float:left;margin-left:5px;margin-top:10px}
+                </style>
+                <div class="copyright_bl">
+                <div class="vF_cp">
+                    <div class="dzjg">
+                        <div class="ccgpjiucuo">
+                            <a href="https://zfwzgl.www.gov.cn/exposure/jiucuo.html?site_code=bm14000002&amp;url=http%3A%2F%2Fwww.ccgp.gov.cn%2F" target="_blank"><img src="//www.ccgp.gov.cn/img/jiucuo.png"></a>
+                            </div>
+                        <script type="text/javascript">document.write(unescape("%3Cspan id='_ideConac' %3E%3C/span%3E%3Cscript src='https://dcs.conac.cn/js/33/000/0000/60425889/CA330000000604258890010.js' type='text/javascript'%3E%3C/script%3E"));</script></div>
+                <div class="cpright">
+                    <p>
+                    主办单位：中华人民共和国财政部国库司  <br>网站标识码：<span>bm14000002</span> &nbsp;|&nbsp; <a href="https://beian.miit.gov.cn" target="_blank">京<span>ICP</span>备<span>19054529</span>号<span>-1</span></a> &nbsp;|&nbsp; 京公网安备<span>11010602060068</span>号 <br><span id="botm_cpy">&copy; 1999-</span> 中华人民共和国财政部 版权所有 &nbsp;|&nbsp; <a href="//www.ccgp.gov.cn/contact.shtml" target="_blank">联系我们</a> &nbsp;|&nbsp; <a href="//www.ccgp.gov.cn/zxly/" target="_blank">意见反馈</a> </p>
+                </div>
+                </div>
+                </div>
+                <script language="javascript">
+                    var myDate = new Date();
+                    var botmcpy='&copy; 1999-'+ myDate.getFullYear();
+                    $("#botm_cpy").html(botmcpy);
+                </script>
+        </div>
+    </div>
+</div>
+
+</body>
+
+<script language="javascript" src="//www.ccgp.gov.cn/images/sa.js"></script>
+<script type="text/javascript" src="/static/js/fixdiv.js"></script>
+<script type="text/javascript" src="/static/js/address.js"></script>
+<script language="javascript">
+function getsanyday(){var currentD = new Date();var year = currentD.getFullYear();var month = currentD.getMonth() + 1;var day = currentD.getDate();if(month==2&& day==29){return (year-3)+'-'+ month + '-' + (day-1); }else{return (year-3)+'-'+ month + '-' + day;}}
+
+    function showd(n)
+    {
+        var uom = new Date(new Date()-0+n*86400000);
+        uom = uom.getFullYear() + "," + (uom.getMonth()+1) + "," + uom.getDate();
+        return uom;
+    }
+    var dayLT=showd(0);
+    var gEndT = dayLT.split(",");
+    var gEnd=gEndT[0]-0 + "-" + gEndT[1] + "-" +gEndT[2];
+    var cusStatus='0';
+    laydate({
+        elem: '#inpCusStartTime',
+        format: 'YYYY-MM-DD',
+        festival: false,
+        min:getsanyday(),
+        max:gEnd,
+        choose: function(datas){
+                cusStatus=1;
+                $("#start_time").val($("#inpCusStartTime").val());
+                console.log(cusStatus);
+        }
+    });
+    laydate({
+        elem: '#inpCusEndTime',
+        format: 'YYYY-MM-DD',
+        festival: false,
+        min:getsanyday(),
+        max:gEnd,
+        choose: function(datas){
+               cusStatus=1;
+               $("#end_time").val($("#inpCusEndTime").val());
+               console.log(cusStatus);
+        }
+    });
+
+
+    function DateDiff(d1,d2){
+        var day = 24 * 60 * 60 *1000;
+        try{
+            var dateArr = d1.split("-");
+            var checkDate = new Date();
+            checkDate.setFullYear(dateArr[0], dateArr[1]-1, dateArr[2]);
+            var checkTime = checkDate.getTime();
+
+            var dateArr2 = d2.split("-");
+            var checkDate2 = new Date();
+            checkDate2.setFullYear(dateArr2[0], dateArr2[1]-1, dateArr2[2]);
+            var checkTime2 = checkDate2.getTime();
+
+            var cha = (checkTime - checkTime2)/day;
+            return cha;
+        }catch(e){
+            return false;
+        }
+    }
+$("document").ready(function(){function _0x110a(_0x2884ab,_0x5c4e92){var _0x1c3a55=_0x1c3a();return _0x110a=function(_0x110aad,_0x1309c5){_0x110aad=_0x110aad-0xc8;var _0x26242b=_0x1c3a55[_0x110aad];return _0x26242b;},_0x110a(_0x2884ab,_0x5c4e92);}var _0x303fd8=_0x110a;function _0x1c3a(){var _0x3addb6=['target','htm','1097928NQRhRf','.vT-srch-result-list-bid\x20li:eq(','1099734seQlNq','3868314ZKSSwJ','length','.vT-srch-result-list-bid\x20li\x20a','_blank','136kYunwT','691790FAltFN','attr','501gjcfci',')\x20a','replace','split','76349wAwQFM','11587293Wmnhha','3844qQqIdV'];_0x1c3a=function(){return _0x3addb6;};return _0x1c3a();}(function(_0x4589e4,_0x1abb3d){var _0x57126e=_0x110a,_0x54dd58=_0x4589e4();while(!![]){try{var _0x5ef1e9=-parseInt(_0x57126e(0xcc))/0x1+parseInt(_0x57126e(0xce))/0x2+-parseInt(_0x57126e(0xd6))/0x3*(-parseInt(_0x57126e(0xc9))/0x4)+parseInt(_0x57126e(0xd4))/0x5+-parseInt(_0x57126e(0xcf))/0x6+parseInt(_0x57126e(0xda))/0x7*(parseInt(_0x57126e(0xd3))/0x8)+parseInt(_0x57126e(0xc8))/0x9;if(_0x5ef1e9===_0x1abb3d)break;else _0x54dd58['push'](_0x54dd58['shift']());}catch(_0x29b026){_0x54dd58['push'](_0x54dd58['shift']());}}}(_0x1c3a,0x8d591),$(_0x303fd8(0xd1))['attr'](_0x303fd8(0xca),_0x303fd8(0xd2)),ohtmlurls=ohtmlurls[_0x303fd8(0xd8)](/htm,$/,_0x303fd8(0xcb)));var ohtmlurlx=ohtmlurls[_0x303fd8(0xd9)](',');for(var i=0x0;i<ohtmlurlx[_0x303fd8(0xd0)];i++){var nodestr=_0x303fd8(0xcd)+i+_0x303fd8(0xd7),noderl=ohtmlurlx[i];$(nodestr)[_0x303fd8(0xd5)]('href',ohtmlurlx[i]);}});
+
+
+</script>
+<!--[if IE 6]>
+<script language="javascript" src="/static/js/DD_belatedPNG_0.0.8a-min.js"></script>
+<script>
+    /* EXAMPLE */
+    DD_belatedPNG.fix('.c_list li,.vT_R_clist li');
+
+    /* string argument can be any CSS selector */
+    /* .png_bg example is unnecessary */
+    /* change it to what suits you! */
+</script>
+<![endif]-->
+</html>
